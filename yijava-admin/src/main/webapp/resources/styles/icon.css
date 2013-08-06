@@ -1,0 +1,132 @@
+/* CSS Document */
+
+.home32_icon {
+	background: url(../images/icons/32/home_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/32/home_icon.png",sizingMethod='crop'); 
+}
+
+.security32_icon {
+	background: url(../images/icons/32/security_icon.png);
+	
+}
+
+.templte_32icon {
+	background: url(../images/icons/32/templete_icon.png);
+	
+}
+.templte_24icon {
+	background: url(../images/icons/24/templete_icon.png);
+	
+}
+.news_32icon {
+	background: url(../images/icons/32/news_icon.png);
+	
+}
+
+.news_24icon {
+	background: url(../images/icons/24/news_icon.png);
+	
+}
+
+.chtml_32icon {
+	background: url(../images/icons/32/create_html_icon.png);
+	
+}
+
+.chtml_24icon {
+	background: url(../images/icons/24/create_html_icon.png);
+	
+}
+.channel_32icon {
+	background: url(../images/icons/32/channel_icon.png);
+	
+}
+
+.channel_24icon {
+	background: url(../images/icons/24/channel_icon.png);
+	
+}
+
+.article_24icon {
+	background: url(../images/icons/24/article_icon.png);
+	
+}
+.system32_icon {
+	background: url(../images/icons/32/system_icon.png);
+}
+
+.type_32icon {
+	background: url(../images/icons/24/type_icon.png);
+	
+}
+.type_24icon {
+	background: url(../images/icons/32/type_icon.png);
+}
+
+.user24_icon {
+	background: url(../images/icons/24/user_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/user_icon.png",sizingMethod='crop'); 
+}
+
+.group24_icon {
+	background-image: url(../images/icons/24/goup_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/goup_icon.png",sizingMethod='crop'); 
+}
+
+.resource24_icon {
+	background: url(../images/icons/24/resource_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/resource_icon.png",sizingMethod='crop'); 
+}
+
+.login24_icon {
+	background: url(../images/icons/24/login_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/login_icon.png",sizingMethod='crop'); 
+
+}
+
+.account24_icon {
+	background: url(../images/icons/24/account_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/account_icon.png",sizingMethod='crop'); 
+}
+
+.logout24_icon {
+	background: url(../images/icons/24/logout_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/logout_icon.png",sizingMethod='crop'); 
+}
+
+.dictionary24_icon {
+	background: url(../images/icons/24/dictionary_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/dictionary_icon.png",sizingMethod='crop'); 
+}
+
+.category24_icon {
+	background: url(../images/icons/24/category_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/category_icon.png",sizingMethod='crop'); 
+}
+
+.fixed24_icon {
+	background: url(../images/icons/24/fixed_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/fixed_icon.png",sizingMethod='crop'); 
+}
+
+.full24_icon {
+	background: url(../images/icons/24/full_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/24/full_icon.png",sizingMethod='crop'); 
+}
+
+.edit16_icon {
+	background: url(../images/icons/16/edit_icon.png);
+	_background: none; 
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="resources/images/icons/16/edit_icon.png",sizingMethod='crop'); 
+}
