@@ -27,14 +27,16 @@ public class AuthorityAnnotationInterceptor extends HandlerInterceptorAdapter{
 			return true;
 		}
 		
-		if(null==request.getSession().getAttribute("currentUser"))
+		return true;
+		
+		/*if(null==request.getSession().getAttribute("currentUser"))
 		{
-			//response.sendRedirect("/yijava-manage/login");
-			return true;
+			response.sendRedirect("/login");
+			return false;
 		}else
 		{
 			return true;
-		}
+		}*/
 		
 		/*User user = (User)httpServletRequest.getSession().getAttribute("currentUser");  
 		if()

@@ -34,7 +34,7 @@ public class RadioNew {
 
 	private Date last_date;
 	
-	private Integer category_id;	
+	private Long category_id;	
 	
 	private Category category;
 	
@@ -47,7 +47,7 @@ public class RadioNew {
 
 	public RadioNew(Long id, String title, String radio_file,
 			String image_file, String duration, Date create_date,
-			Date last_date, Integer category_id) {
+			Date last_date, Long category_id) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -117,11 +117,11 @@ public class RadioNew {
 		this.last_date = last_date;
 	}
 
-	public Integer getCategory_id() {
+	public Long getCategory_id() {
 		return category_id;
 	}
 
-	public void setCategory_id(Integer category_id) {
+	public void setCategory_id(Long category_id) {
 		this.category_id = category_id;
 	}
 	
