@@ -22,7 +22,9 @@ public class RadioNewService {
 		return radioNewDao.findPage(request, filters);
 	}
 	
-	
+	public List<RadioNew> searchRadioTop5() {
+		return radioNewDao.searchRadioTop5();
+	}
 	
 	
 }

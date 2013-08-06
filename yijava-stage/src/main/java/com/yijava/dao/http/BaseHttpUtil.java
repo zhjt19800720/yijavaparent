@@ -19,8 +19,10 @@ import org.springframework.stereotype.Component;
 
 import com.yijava.common.HttpConstants;
 import com.yijava.common.Model;
+import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.InResult;
+import com.yijava.web.vo.UpCloumnMessage;
 import com.yijava.web.vo.UpMessage;
 
 @Component
@@ -50,6 +52,43 @@ public class BaseHttpUtil {
 		BaseHttpUtil util=new BaseHttpUtil();
 		util.setObjectMapper(new ObjectMapper());
 		util.getAllProvince();
+	}
+	
+	/**
+	 * 根据栏目得到新闻
+	 * @return
+	 */
+	public List<CncNew> getAllNewsByChannel(UpCloumnMessage message)
+	{
+		try {			
+			InResult<Map<String, List<CncNew>>> res = post(HttpConstants.GET_NEW_BYCOLUMN_URI,message, new TypeReference<InResult<Map<String,List<CncNew>>>>() {});
+			if(res.getHead().getResp_code().equals("000"))
+			{						
+				return res.getBody().get("news_set");	
+			}			
+		} catch (IOException e) {
+			
+			
+		}
+		return null;
+	}
+	/**
+	 * 得到所有栏目
+	 * @return
+	 */
+	public List<Channel> getAllChannel()
+	{
+		try {			
+			InResult<Map<String, List<Channel>>> res = post(HttpConstants.GET_ALLCOLUMN,null, new TypeReference<InResult<Map<String,List<Channel>>>>() {});
+			if(res.getHead().getResp_code().equals("000"))
+			{						
+				return res.getBody().get("channels");	
+			}			
+		} catch (IOException e) {
+			
+			
+		}
+		return null;
 	}
 	
 	/**
@@ -95,7 +134,7 @@ public class BaseHttpUtil {
 	}
 	
 	
-	protected <T> InResult<T> post(String uri, UpMessage message, TypeReference<InResult<T>> type)
+	protected <T> InResult<T> post(String uri, Object message, TypeReference<InResult<T>> type)
 			throws IOException {
 		String targetUri = baseUri + uri;
 		StringBuilder params = new StringBuilder();

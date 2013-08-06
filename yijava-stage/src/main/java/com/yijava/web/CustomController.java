@@ -15,9 +15,13 @@ import com.yijava.entity.UserCustom;
 import com.yijava.entity.WeatherInfo;
 import com.yijava.service.UserCustomService;
 import com.yijava.service.WeatherService;
+import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.Result;
 import com.yijava.web.vo.UpBody;
+import com.yijava.web.vo.UpCloumnMessage;
+import com.yijava.web.vo.UpColumnBody;
+import com.yijava.web.vo.UpColumnHeader;
 import com.yijava.web.vo.UpHeader;
 import com.yijava.web.vo.UpMessage;
 
@@ -46,6 +50,14 @@ public class CustomController {
 		UpBody body = new UpBody("天津", "10", "1");		
 		UpMessage message = new UpMessage(header, body);		
 		List<CncNew> cncNews=httpService.getNewsByProvince(message);
+		
+		//检索所有栏目
+		List<Channel> channels=httpService.getAllChannel();
+		//根据栏目检索新闻
+		UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody("201101644","",""));
+		
+		List<CncNew> news=httpService.getAllNewsByChannel(columnmessage);
+		
 		
 		model.addAttribute("entity", weatherinfo);
 		model.addAttribute("provinces", provinces);
