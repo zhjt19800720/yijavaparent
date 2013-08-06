@@ -45,6 +45,13 @@ public class RadioNewController {
 		return result;		
 	}
 	
+	@RequestMapping("/rnew-top")
+	@ResponseBody
+	public List<RadioNew> topnew(PageRequest pageRequest,HttpServletRequest request,Model model)
+	{
+		return radioNewService.searchRadioTop5();
+	}
+	
 	
 	
 	
