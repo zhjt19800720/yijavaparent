@@ -17,6 +17,21 @@ public class News {
 	private CommonsMultipartFile[] file;
 	private String image_file;
 	
+	
+	
+	
+	public News() {
+		super();
+	}
+
+
+	public News(String title, String radio_file) {
+		super();
+		this.title = title;
+		this.radio_file = radio_file;
+	}
+	
+	
 	public Integer getCategory_id() {
 		return category_id;
 	}
