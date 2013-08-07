@@ -56,6 +56,8 @@ public class RadioNewController {
 	public String savernew(News entity ,@RequestParam MultipartFile[] file, HttpServletRequest request) {
 		
 		RadioNew radioNew=new RadioNew();
+		//radioNew.setTitle(entity.getTitle());
+		//radioNew.setCategory_id(entity.getCategory_id());
 		BeanUtils.copyProperties(entity,radioNew, new String[]{"file","radiofile"});
 		
 		if(null!=file && file.length>0)

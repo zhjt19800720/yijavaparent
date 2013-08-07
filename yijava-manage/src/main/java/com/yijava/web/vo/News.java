@@ -10,16 +10,16 @@ public class News {
 	private String title;
 	private String radio_file;
 	private String duration;
-	private Integer category_id;
+	private Long category_id;
 	private Date create_date;
 	private Date last_date;
 	private CommonsMultipartFile[] file;
 	private String image_file;
 	
-	public Integer getCategory_id() {
+	public Long getCategory_id() {
 		return category_id;
 	}
-	public void setCategory_id(Integer category_id) {
+	public void setCategory_id(Long category_id) {
 		this.category_id = category_id;
 	}
 	public Long getId() {
