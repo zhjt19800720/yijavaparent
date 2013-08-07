@@ -1,6 +1,10 @@
 <script type="text/javascript" src="resource/js/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
 <script>
+var islogin = false;
+var userId = 0;
+document.domain="cncnews.cn"
+
 
 function getCookie(name){
  var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
@@ -24,6 +28,7 @@ function delCookie(objName) {
     });
     var shortname ="";
     var username = getCookie("uid");
+    alert(username);
     if(username !='' && username != null ){
 	 	   islogin(username);
     }
@@ -95,7 +100,7 @@ function filldata(username){
  }
  </script>
 <div id="dialog" title="">
-<iframe id="cframe" src="" width="100%" height="100%" scrolling="no" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+<iframe id="cframe" src="" width="100%" height="100%" frameborder="0"  scrolling="no" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
 </div>
 <div class="pn_foot mb">
   <div class="wrap foot_list"><span>关联媒体</span><a href="#">新华网</a> <a href="#">新华08</a> <a href="#">参考消息</a> <a href="#">经济参考报</a> <a href="#">现代快报</a> <a href="#">中国证劵报</a> <a href="#">半月谈</a> <a href="#">瞭望</a> <a href="#">瞭望东方周刊</a> <a href="#">金融世界</a> <a href="#">中国记者</a> </div>

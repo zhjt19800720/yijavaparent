@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>无标题文档</title>
-<link rel="stylesheet" type="text/css" href="css/reset.css">
-<link rel="stylesheet" type="text/css" href="css/play.css">
-<script src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/player.js"></script>
+<link rel="stylesheet" type="text/css" href="resource/css/reset.css">
+<link rel="stylesheet" type="text/css" href="resource/css/play.css">
+<script src="resource/js/jquery.min.js"></script>
+<script type="text/javascript" src="resource/js/player.js"></script>
 </head>
 
 <body class="nobg">
