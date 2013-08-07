@@ -14,7 +14,7 @@ public class RadioNewDao extends HibernateSupportDao<RadioNew, Long>{
 	@SuppressWarnings("unchecked")
 	public List<RadioNew> searchRadioTop5() {
 		
-		Query query = getSession().createQuery("from RadioNew order by id asc");
+		Query query = getSession().createQuery("from RadioNew order by id desc");
 		query.setFirstResult(0);  
 		query.setMaxResults(5);
 		

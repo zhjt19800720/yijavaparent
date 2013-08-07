@@ -10,10 +10,10 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +21,8 @@ import com.yijava.common.HttpConstants;
 import com.yijava.common.Model;
 import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
+import com.yijava.web.vo.DownBody;
+import com.yijava.web.vo.DownBodyNew;
 import com.yijava.web.vo.InResult;
 import com.yijava.web.vo.UpCloumnMessage;
 import com.yijava.web.vo.UpMessage;
@@ -32,7 +34,7 @@ public class BaseHttpUtil {
 
 	private String baseUri="";
 
-	
+	private static final Logger logger = LoggerFactory.getLogger(BaseHttpUtil.class);
 	
 	@Autowired
 	private ObjectMapper jacksonObjectMapper;
@@ -47,12 +49,7 @@ public class BaseHttpUtil {
 		this.jacksonObjectMapper = jacksonObjectMapper;
 	}
 
-	public static void main(String args[]) throws JsonParseException, JsonMappingException, IOException
-	{
-		BaseHttpUtil util=new BaseHttpUtil();
-		util.setObjectMapper(new ObjectMapper());
-		util.getAllProvince();
-	}
+	
 	
 	/**
 	 * 根据栏目得到新闻
@@ -60,14 +57,15 @@ public class BaseHttpUtil {
 	 */
 	public List<CncNew> getAllNewsByChannel(UpCloumnMessage message)
 	{
+		logger.debug("getAllNewsByChannel");
 		try {			
-			InResult<Map<String, List<CncNew>>> res = post(HttpConstants.GET_NEW_BYCOLUMN_URI,message, new TypeReference<InResult<Map<String,List<CncNew>>>>() {});
-			if(res.getHead().getResp_code().equals("000"))
+			InResult<DownBodyNew> res = post(HttpConstants.GET_NEW_BYCOLUMN_URI,message, new TypeReference<InResult<DownBodyNew>>() {});
+			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
-				return res.getBody().get("news_set");	
+				return res.getBody().getNews_set();	
 			}			
 		} catch (IOException e) {
-			
+			logger.error("getAllNewsByChannel"+e.toString());
 			
 		}
 		return null;
@@ -79,14 +77,14 @@ public class BaseHttpUtil {
 	public List<Channel> getAllChannel()
 	{
 		try {			
-			InResult<Map<String, List<Channel>>> res = post(HttpConstants.GET_ALLCOLUMN,null, new TypeReference<InResult<Map<String,List<Channel>>>>() {});
-			if(res.getHead().getResp_code().equals("000"))
+			InResult<DownBody> res = post(HttpConstants.GET_ALLCOLUMN,null, new TypeReference<InResult<DownBody>>() {});
+			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
-				return res.getBody().get("channels");	
+				return res.getBody().getChannels();	
 			}			
 		} catch (IOException e) {
 			
-			
+			logger.error("getAllChannel"+e.toString());
 		}
 		return null;
 	}
@@ -98,13 +96,13 @@ public class BaseHttpUtil {
 	public List<CncNew> getNewsByProvince(UpMessage message){		
 		try {			
 			InResult<Map<String, List<CncNew>>> res = post(HttpConstants.GET_NEW_BYPROVINCE_URI,message, new TypeReference<InResult<Map<String,List<CncNew>>>>() {});
-			if(res.getHead().getResp_code().equals("000"))
+			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
 				return res.getBody().get("news_set");	
 			}			
 		} catch (IOException e) {
 			
-			
+			logger.error("getNewsByProvince"+e.toString());
 		}
 		return null;
 	}
@@ -114,10 +112,11 @@ public class BaseHttpUtil {
 	 * @return
 	 */
 	public List<String> getAllProvince(){
+		logger.debug("getAllProvince");
 		List<String> provinces=null;
 		try {			
 			InResult<Map<String, List<Map<String, String>>>> res = post(HttpConstants.GET_PROVINCE_URI,null, new TypeReference<InResult<Map<String,List<Map<String,String>>>>>() {});
-			if(res.getHead().getResp_code().equals("000"))
+			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{
 				provinces=new ArrayList<String>();
 				List<Map<String,String>> list=res.getBody().get("provinces");				
@@ -126,9 +125,8 @@ public class BaseHttpUtil {
 					provinces.add(map.get("province"));					
 				}
 			}			
-		} catch (IOException e) {
-			
-			
+		} catch (IOException e) {			
+			logger.error("getAllProvince" + e.toString());
 		}
 		return provinces;
 	}
@@ -138,24 +136,22 @@ public class BaseHttpUtil {
 			throws IOException {
 		String targetUri = baseUri + uri;
 		StringBuilder params = new StringBuilder();
-		Form form = Form.form();
+		//Form form = Form.form();
 		if (message != null) {
 			params.append(jacksonObjectMapper.writeValueAsString(message));				
-		}
-
-		
+		}		
 		InResult<T> res=null;
 		try {
 			Content con = Request.Post(targetUri).bodyString(params.toString(), ContentType.create("text/plain", "UTF-8"))
 					//.bodyForm(form.build(), Charset.forName("UTF-8"))
 					.addHeader("SESSION-ID", "").socketTimeout(requestTimeout)
 					.connectTimeout(requestTimeout).execute().returnContent();
-
 			String content = con.asString();
+			logger.debug(String.format("url=%s bodystr=%s result=%s ", targetUri,params.toString(),content));
 			res = jacksonObjectMapper.readValue(content, type);
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(String.format("url=%s error=%s", targetUri,e.toString()));
 		}
 		return res;
 	}

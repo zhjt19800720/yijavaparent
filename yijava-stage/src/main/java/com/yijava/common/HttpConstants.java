@@ -10,6 +10,6 @@ public class HttpConstants {
 	//获取所有栏目
 	public static String GET_ALLCOLUMN="http://219.237.241.77/cnc/column_list.jsp";
 	
-	public static String GET_NEW_BYCOLUMN_URI="http://219.237.241.77/cnc/localsearch.jsp";
+	public static String GET_NEW_BYCOLUMN_URI="http://219.237.241.77/cnc/column_news_list.jsp";
 
 }

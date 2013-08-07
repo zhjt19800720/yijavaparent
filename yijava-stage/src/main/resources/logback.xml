@@ -9,17 +9,21 @@
 	</appender>
 	
 	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>logs/vcs-admin.log</file>
+		<file>E:/logs/stage.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/vcs-admin-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>E:/logs/stage-%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d [%t] %-5p [%c:%L] - %m%n</pattern>
 		</encoder>
 	</appender>
 
-	<root level="DEBUG">
+	<root level="ERROR">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
 	</root>
+	
+	<logger name="org.springframework" level="ERROR"/>
+	<logger name="org.hibernate" level="ERROR"/>
+	<logger name="com.yijava" level="DEBUG"/>
 </configuration>

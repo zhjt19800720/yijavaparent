@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ import com.yijava.web.vo.UpMessage;
 @Controller
 public class CustomController {
 
+	private static final Logger logger = LoggerFactory.getLogger(CustomController.class);
+	
 	@Autowired
 	private UserCustomService userCustomService;
 	
@@ -43,7 +47,15 @@ public class CustomController {
 		
 		List<String> provinces = httpService.getAllProvince();
 		
-		WeatherInfo weatherinfo=weatherService.getWeatherInfoByCityName("北京");
+		//天气
+		WeatherInfo weatherinfo=null;
+		try{
+			weatherinfo=weatherService.getWeatherInfoByCityName("北京");
+		}catch(Exception e)
+		{
+			logger.error("get weather error"+e.toString());;
+		}
+		
 		
 		//检索地区新闻
 		UpHeader header = new UpHeader("", "", "");
@@ -54,13 +66,14 @@ public class CustomController {
 		//检索所有栏目
 		List<Channel> channels=httpService.getAllChannel();
 		//根据栏目检索新闻
-		UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody("201101644","",""));
+		UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody("124020583","10","1"));
 		
 		List<CncNew> news=httpService.getAllNewsByChannel(columnmessage);
 		
 		
 		model.addAttribute("entity", weatherinfo);
-		model.addAttribute("provinces", provinces);
+		if(provinces!=null)
+			model.addAttribute("provinces", provinces);
 		return "index";
 	}
 	@RequestMapping("/me/custom/add")
