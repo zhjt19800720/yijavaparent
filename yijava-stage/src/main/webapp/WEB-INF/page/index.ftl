@@ -18,23 +18,23 @@
     <div class="region_news clearfix mb">
       <div class="overflow">
         <div class="region_news_item">
-          <div class="weather clearfix"><img src="resource/weather/${entity.img2!""}" width="48" height="48">今天<br>
-            ${entity.temp!""}</div>
-          <div class="region">${entity.region!""} -  ${entity.city!""}</div>
+          <div class="weather clearfix" id="weatherinfo"><img id="weatherimg" src="resource/weather/" width="48" height="48">今天<br>
+            </div>
+          <div class="region" id="regionname"> -  </div>
         </div>
-        <div class="region_news_item">
+        <div class="region_news_item" id="region_new1">
           <dl>
             <dt><a href="#">善后工作组抵达旧金山</a></dt>
             <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
           </dl>
         </div>
-        <div class="region_news_item">
+        <div class="region_news_item" id="region_new2">
           <dl>
             <dt><a href="#">善后工作组抵达旧金山</a></dt>
             <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
           </dl>
         </div>
-        <div class="region_news_item">
+        <div class="region_news_item" id="region_new3">
           <dl>
             <dt><a href="#">善后工作组抵达旧金山</a></dt>
             <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
@@ -42,6 +42,7 @@
         </div>
       </div>
     </div>
+    <div id="columnnew">
     <div class="box mb clearfix">
       <div class="title"><a class="more" href="#">更多&gt;&gt;</a>
         <h2>欧洲</h2>
@@ -165,6 +166,7 @@
         </ul>
       </div>
     </div>
+    </div>
   </div>
   <div class="slide">
     <div class="search mb2 clearfix">
@@ -240,8 +242,8 @@
   <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改注册信息</a></span><h4>我的CNC</h4></div>
   <div class="followTage"><strong>我的关注：</strong><span class="tage">无标签</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
   <div class="followTage"><strong>区域新闻：</strong>
-    <select name="">
-    	 <option value="">请选择</option>
+    <select id="selRegion" name="selRegion">
+    	 
        <#list provinces as e>
 			<option value="${e!""}">${e!""}</option>
 		</#list>	
@@ -254,81 +256,22 @@
     </select-->
     &nbsp;设置您的区域，获得身边新闻。</div>
   <div class="followTage"> <strong>栏目定制：</strong></div>
-  <div class="myTageList" id="myTageList"><span class="myTage"><a href="javascript:;" class="remove" data-column="1"></a>欧洲</span><span class="myTage"><a href="javascript:;" class="remove" data-column="3"></a>亚洲</span><span class="myTage"><a href="javascript:;" data-column="5" class="remove"></a>其他地区</span><span class="myTage"><a href="javascript:;" class="remove" data-column="16"></a>国际经济</span><span class="myTage"><a href="javascript:;" class="remove" data-column="17"></a>宏观经济</span><span class="myTage"><a href="javascript:;" class="remove" data-column="18"></a>金融市场</span><span class="myTage"><a href="javascript:;" class="remove" data-column="24"></a>文娱播报</span><span class="myTage"><a href="javascript:;" class="remove" data-column="33"></a>综合赛事</span></div>
-<div id="addButton">
+  <div class="myTageList" id="myTageList"><#if customs??><#list customs as c><span class="myTage"><a href="javascript:;" class="remove" data-column="${(c.column_id)!""}"></a>${(c.column_name)!""}</span></#list></#if></div>
+	<div id="addButton">
     <table>
+     <#list channels as e>
       <tr>
-        <th>国　际：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="1" class="have">欧洲</a></li>
-            <li><a href="javascript:;" data-column="2">美洲</a></li>
-            <li><a href="javascript:;" data-column="3" class="have">亚洲</a></li>
-            <li><a href="javascript:;" data-column="4">非洲</a></li>
-            <li><a href="javascript:;" data-column="5" class="have">其他地区</a></li>
-            <li><a href="javascript:;" data-column="6">人物</a></li>
-            <li><a href="javascript:;" data-column="7">环球精选</a></li>
-            <li><a href="javascript:;" data-column="8">热点专题</a></li>
-          </ul></td>
+        <th>${(e.channel_name)!""}：</th>
+        <td>
+        <ul class="tageList">
+        	<#list e.columns as c>
+            <li><a href="javascript:;" data-column="${(c.column_id)!""}" <#if c.customed > class="have" </#if>>${(c.column_name)!""}</a></li>             
+            </#list>	            
+          </ul>
+         </td>
       </tr>
-      <tr>
-        <th>国　内：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="9">时政</a></li>
-            <li><a href="javascript:;" data-column="10">社会</a></li>
-            <li><a href="javascript:;" data-column="11">法制</a></li>
-            <li><a href="javascript:;" data-column="12">军事</a></li>
-            <li><a href="javascript:;" data-column="13">服务</a></li>
-            <li><a href="javascript:;" data-column="14">新闻现场</a></li>
-            <li><a href="javascript:;" data-column="15">中国往事</a></li>
-          </ul></td>
-      </tr>
-      <tr>
-        <th>财　经：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="16" class="have">国际经济</a></li>
-            <li><a href="javascript:;" data-column="17" class="have">宏观经济</a></li>
-            <li><a href="javascript:;" data-column="18" class="have">金融市场</a></li>
-            <li><a href="javascript:;" data-column="19">基金理财</a></li>
-            <li><a href="javascript:;" data-column="20">公司行业</a></li>
-            <li><a href="javascript:;" data-column="21">财经观察</a></li>
-            <li><a href="javascript:;" data-column="22">热点专题</a></li>
-            <li><a href="javascript:;" data-column="23">环球财经</a></li>
-          </ul></td>
-      </tr>
-      <tr>
-        <th>文　娱：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="24" class="have">文娱播报</a></li>
-            <li><a href="javascript:;" data-column="25">文化时尚</a></li>
-            <li><a href="javascript:;" data-column="26">名人明星</a></li>
-            <li><a href="javascript:;" data-column="27">影视天地</a></li>
-            <li><a href="javascript:;" data-column="28">娱乐万花筒</a></li>
-            <li><a href="javascript:;" data-column="29">人文天下</a></li>
-          </ul></td>
-      </tr>
-      <tr>
-        <th>体　育：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="30">超级足球</a></li>
-            <li><a href="javascript:;" data-column="31">火爆篮球</a></li>
-            <li><a href="javascript:;" data-column="32">缤纷体育</a></li>
-            <li><a href="javascript:;" data-column="33" class="have">综合赛事</a></li>
-            <li><a href="javascript:;" data-column="34">美丽运动</a></li>
-            <li><a href="javascript:;" data-column="35">热点专题</a></li>
-          </ul></td>
-      </tr>
-      <tr>
-        <th>纪录片：</th>
-        <td><ul class="tageList">
-            <li><a href="javascript:;" data-column="36">环球纵横</a></li>
-            <li><a href="javascript:;" data-column="37">历史人文</a></li>
-            <li><a href="javascript:;" data-column="38">领军者说</a></li>
-            <li><a href="javascript:;" data-column="39">香港香港</a></li>
-            <li><a href="javascript:;" data-column="40">教书育人楷模</a></li>
-            <li><a href="javascript:;" data-column="41">环球对话</a></li>
-            <li><a href="javascript:;" data-column="42">新华社传奇</a></li>
-          </ul></td>
-      </tr>
+     </#list>	
+      
     </table>
 </div>
 </div>

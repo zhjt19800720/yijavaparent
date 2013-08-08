@@ -1,6 +1,7 @@
 <script type="text/javascript" src="resource/js/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
 <script>
+initpage();
 var islogin = false;
 var userId = 0;
 document.domain="cncnews.cn"
@@ -107,7 +108,7 @@ function filldata(username){
 </div>
 <div class="wrap">
   <div class="pn_foot_a">
-    <p><a href="http://www.xhstv.com" target="_blank"><img src="images/logo.png" width="188" height="35"></a></p>
+    <p><a href="http://www.xhstv.com" target="_blank"><img src="resource/images/logo.png" width="188" height="35"></a></p>
     <ul>
       <li><a href="#">关于我们</a></li>
       <li><a href="#">新华通讯社</a></li>

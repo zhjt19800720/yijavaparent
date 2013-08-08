@@ -10,6 +10,7 @@
 <script type="text/javascript" src="resource/js/player.js"></script>
 <script>
 $(function(){
+	$('#shareBox').hide();
 	tabs($('#tabTitle'), $('#tabContent .tab-content'), 'current');
 	$('.media-list li').live('mouseenter',function(){
 		$('.info-box',this).stop().animate({'top':0},200);

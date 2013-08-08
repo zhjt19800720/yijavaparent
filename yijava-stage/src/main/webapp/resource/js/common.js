@@ -307,7 +307,7 @@ $(function(){
 	$('#setting .close').click(function(){
 		var colume= getColumn();
 		var channels = colume.join("-");
-		//saveUserCustom(channels);
+		saveUserCustom(channels);
 		
 		
 	});
@@ -327,7 +327,11 @@ function saveUserCustom(channels)
 {
 	var d = new Date();
 	var n = d.getTime();
-	var params = "ids="+channels;
+	
+	var region=$('#selRegion').val();
+	//alert(region);
+	
+	var params = "ids="+channels+"&region="+region;
 	$.ajax({
 		  type: 'POST',
 		  url: "me/custom/add",
@@ -341,4 +345,110 @@ function saveUserCustom(channels)
 
 function Response(msg){
 	 // alert(msg.state)
+	//
+	location.reload() ;
+}
+
+function initpage()
+{
+	getCustom();
+}
+//得到定制
+function getCustom()
+{
+	var params = "uid=11";
+	$.ajax({
+		  type: 'POST',
+		  url: "api/getcustom",
+		  data: params,		
+		  success: initcustom,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+	  		  alert(error);
+	  	  }
+	});	
+}
+function initcustom(date)
+{
+	
+	var region=date.region_name;
+	//alert(region);
+	initweather(region);
+	initregionnews(region);
+	initcloumnnews(columnid);
+	//alert(date.region_name);/api/getnewbyc
+}
+
+function initweather(region)
+{
+	//alert("initweather");
+	var params = "regionname="+region;
+	$.ajax({
+		  type: 'POST',
+		  url: "api/getweather",
+		  data: params,		
+		  success: fillweather,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+	  		  alert(error);
+	  	  }
+	});	
+}
+function fillweather(data)
+{
+	//alert("fillweather");
+	$('#regionname').html(data.region +"-"+ data.city);
+	var imagesrc="<img id=\"weatherimg\" src=\"resource/weather/"+data.img2+"\" width=\"48\" height=\"48\">";
+	imagesrc+="今天<br>";
+	imagesrc+=data.temp;
+	$('#weatherinfo').html(imagesrc);
+}
+function initregionnews(region)
+{
+	alert("initregionnews");
+	var params = "regionname="+region;
+	$.ajax({
+		  type: 'POST',
+		  url: "api/getnewbyr",
+		  data: params,		
+		  success: fillregionnews,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+	  		  alert(error);
+	  	  }
+	});	
+}
+
+function fillregionnews(news)
+{
+	var sum=0;
+	for (x in news)
+	{
+		var newinfo="<dl>";
+		newinfo+="<dt><a href=\""+news[x].url+"\">";
+		newinfo+=news[x].title;
+		newinfo+="</a></dt>";
+		newinfo+="<dd>"+news[x].abstract+"</dd></dl>";
+		
+		$('#region_new'+(sum+1)).html(newinfo);		
+		
+		sum++;		
+		if(sum>=3)
+			return;
+	}	
+}
+function initcolumnnews(cloumn)
+{
+	alert("initcloumnnews");
+	var params = "columnid="+cloumn;
+	$.ajax({
+		  type: 'POST',
+		  url: "api/getnewbyc",
+		  data: params,		
+		  success: fillcolumnnews,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+	  		  alert(error);
+	  	  }
+	});	
+}
+function fillcolumnnews(news)
+{
+	
 }

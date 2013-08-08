@@ -35,16 +35,18 @@ public class RadioNewController {
 	@ResponseBody
 	public Result<Page<RadioNew>> view(PageRequest pageRequest,HttpServletRequest request,Model model)
 	{
+		String callback = request.getParameter("callback");
+
 		String title=request.getParameter("title");
 		String category_id=request.getParameter("category_id");
 		PropertyFilter filter=null;
 		PropertyFilter filter2=null;
-		if(title!=null)
+		if(title!=null && title!="")
 		{
 			filter = PropertyFilters.build("RLIKES_title",title);
 			
 		}
-		if(category_id!=null)
+		if(category_id!=null && category_id!="")
 		{
 			filter2 = PropertyFilters.build("EQS_category_id",category_id);			
 		}	
