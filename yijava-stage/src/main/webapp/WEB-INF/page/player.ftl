@@ -2,12 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>新华网络电视-电台</title>
+<title>无标题文档</title>
 <link rel="stylesheet" type="text/css" href="resource/css/reset.css">
 <link rel="stylesheet" type="text/css" href="resource/css/play.css">
-<script src="resource/js/jquery-1.7.2.js"></script>
-<script src="resource/js/common.js"></script>
+<script src="resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="resource/js/player.js"></script>
+</head>
+
 <body class="nobg">
 <div id="cnc_player" class="cnc-jplayer"></div>
 <div id="cnc_container" class="cnc-audio">
@@ -46,21 +47,15 @@
 $(function(){
 	$("#cnc_player").jPlayer({
 		ready: function (event) {
-			$(this).jPlayer("setMedia", [{
-				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
-				
-			},
-			{
-				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
-				
-			}
-			]
-			
-			);
+			$(this).jPlayer("setMedia", {
+				//mp3:"nbszzdkl.mp3"
+				m4a:"TSP-01-Cro_magnon_man.m4a",
+				oga:"TSP-01-Cro_magnon_man.ogg"
+			});
 		},
 		swfPath: "js",
-		supplied: "mp3",
-		//supplied: "m4a,oga",
+		//supplied: "mp3",
+		supplied: "m4a,oga",
 		wmode: "window",
 		smoothPlayBar: true,
 		keyEnabled: true
