@@ -112,7 +112,7 @@ public class HibernateSupportDao<T,PK extends Serializable> extends BasicHiberna
 		}
 		setOrderToCriteria(criteria, orders);
 		return criteria;
-	}
+	};
 
 	/**
 	 * 通过{@link PropertyFilter} 创建 Criterion
