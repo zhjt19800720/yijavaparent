@@ -30,7 +30,7 @@
         <div class="cnc-no-solution"> <span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>. </div>
       </div>
     </div>
-    <a href="javascript:void(0);" class="shareBtn" onclick="javascript:share();">分享</a>
+    <a href="javascript:void(0);"class="shareBtn" id="share">分享</a>
     <a href="javascript:void(0);" class="keepBtn"  onclick="javascript:addfavorite();">收藏</a>
 </div>
 <script type="text/javascript">
@@ -366,5 +366,11 @@ $(function(){
 		initme(page);
 	}
 </script>
-
+<div class="shareBox" id="shareBox">
+	<span class="popClose"></span>
+    <div class="shareTitle">分享给站外好友</div>
+    <div class="shareLine clearfix"><label>flash地址:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+    <div class="shareLine clearfix"><label>html代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+    <div class="shareLine clearfix"><label>通用代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+</div>
 <#include "footer.ftl">	

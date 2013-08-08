@@ -147,6 +147,7 @@ public class BaseHttpUtil {
 					.addHeader("SESSION-ID", "").socketTimeout(requestTimeout)
 					.connectTimeout(requestTimeout).execute().returnContent();
 			String content = con.asString();
+			content=content.trim();
 			logger.debug(String.format("url=%s bodystr=%s result=%s ", targetUri,params.toString(),content));
 			res = jacksonObjectMapper.readValue(content, type);
 			

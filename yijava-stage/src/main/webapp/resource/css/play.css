@@ -127,12 +127,10 @@ a:hover{text-decoration: underline;}
 .nobg .keepBtn{margin:0 0 0 368px;}
 
 
-
-
-
-
-
-
-
-
-
+.shareBox{padding:15px 20px; background:#FFF; border:#d4d9dd solid 1px; position:absolute;}
+.shareTitle{color:#565656; padding-bottom:10px;}
+.popClose{position:absolute; right:9px; top:9px; width:12px; height:12px; background:url(../images/pop-close.png) no-repeat; cursor:pointer;}
+.shareLine{padding:5px 0; line-height:24px;}
+.shareLine label{float:left; width:60px; white-space:nowrap; color:#909090;}
+.shareLine input{float:left; height:16px; line-height:16px; padding:3px 5px; border:#999 solid 1px; width:246px;}
+.shareLine button{float: left; padding:0 10px; margin:0; border:#999 solid 1px; height:24px; background:url(../images/btn-x.png) repeat-x; margin:0 0 0 8px;}

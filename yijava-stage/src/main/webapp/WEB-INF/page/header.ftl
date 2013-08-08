@@ -24,7 +24,14 @@ $(function(){
 		if(!($(e.target).closest('.cnc-volume-bar').length > 0 || $(e.target).closest('.cnc-volume-button').length > 0)){
 			$('.cnc-volume-bar').removeClass('cnc-volume-show');
 		}
-	})
+	});
+	$('#share').click(function(){
+		$('#shareBox').css({left:$(this).offset().left, top:$(this).offset().top + $(this).outerHeight()}).show();
+		return false;
+	});
+	$('#shareBox .popClose').click(function(){
+		$('#shareBox').hide();
+	});
 });
 </script>
 </head>

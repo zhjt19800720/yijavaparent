@@ -7,6 +7,18 @@
 <link rel="stylesheet" type="text/css" href="resource/css/play.css">
 <script src="resource/js/jquery.min.js"></script>
 <script type="text/javascript" src="resource/js/player.js"></script>
+<script>
+$(function(){
+	$('#shareBox').hide();
+	$('#share').click(function(){
+		$('#shareBox').css({left:$(this).offset().left, top:$(this).offset().top + $(this).outerHeight()}).show();
+		return false;
+	});
+	$('#shareBox .popClose').click(function(){
+		$('#shareBox').hide();
+	});
+});
+</script>
 </head>
 
 <body class="nobg">
@@ -40,7 +52,7 @@
 	<div class="cnc-no-solution"> <span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>. </div>
   </div>
 </div>
-<a href="#" class="shareBtn">分享</a>
+<a href="javascript:void(0);" class="shareBtn" id="share">分享</a>
 <a href="#" class="keepBtn">收藏</a>
 <script type="text/javascript">
 //<![CDATA[
@@ -63,5 +75,12 @@ $(function(){
 });
 //]]>
 </script>
+<div class="shareBox" id="shareBox">
+	<span class="popClose"></span>
+    <div class="shareTitle">分享给站外好友</div>
+    <div class="shareLine clearfix"><label>flash地址:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+    <div class="shareLine clearfix"><label>html代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+    <div class="shareLine clearfix"><label>通用代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+</div>
 </body>
 </html>
