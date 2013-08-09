@@ -1,8 +1,8 @@
 <script type="text/javascript" src="resource/js/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
 <script>
-initpage();
-var islogin = false;
+//initpage();
+//var islogin = false;
 var userId = 0;
 document.domain="cncnews.cn"
 
@@ -29,7 +29,7 @@ function delCookie(objName) {
     });
     var shortname ="";
     var username = getCookie("uid");
-    alert(username);
+   
     if(username !='' && username != null ){
 	 	   islogin(username);
     }
@@ -42,8 +42,8 @@ function delCookie(objName) {
   }
   
   function showData(data){
-  	alert(data);	
-  	/*if(data.msg =="success"){
+  
+  	if(data.msg =="success"){
 	  if(data.username.length >5){
 		shortname = data.username.substring(0,5);
 		$("#loginname").html(shortname);
@@ -58,7 +58,7 @@ function delCookie(objName) {
 		delCookie("validateinfo");
 		filldata(validateinfo);      
 	  }
-	}*/
+	}
   	
  }
   

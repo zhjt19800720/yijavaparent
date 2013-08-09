@@ -452,3 +452,19 @@ function fillcolumnnews(news)
 {
 	
 }
+
+
+function getdate(datestr)
+{
+	var filter=datestr;
+	if(datestr.indexOf(".")>-1)
+	{
+		filter=datestr.substr(0,datestr.indexOf("."));
+	}	
+	var strArray=filter.split("T");   
+	var strDate=strArray[0].split("-");   
+	var strTime=strArray[1].split(":");   
+	var a=new   Date(strDate[0],(strDate[1]-parseInt(1)),strDate[2],strTime[0],strTime[1],strTime[2])   
+	return a.pattern("yyyy年M月d日  h:m:s");  
+}
+

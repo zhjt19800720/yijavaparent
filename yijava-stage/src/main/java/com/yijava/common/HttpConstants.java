@@ -12,4 +12,6 @@ public class HttpConstants {
 	
 	public static String GET_NEW_BYCOLUMN_URI="http://219.237.241.77/cnc/column_news_list.jsp";
 
+	
+	public static String SERVER_BASE_URL="http://manage.yijava.com/";
 }

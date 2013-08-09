@@ -1,8 +1,7 @@
 <script type="text/javascript" src="resource/js/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
-<script>
-var islogin = false;
-var userId = 0;
+<script language="javascript">
+
 document.domain="cncnews.cn"
 
 function getCookie(name){
@@ -18,7 +17,14 @@ function delCookie(objName) {
    document.cookie = objName + "=a;path=/;domain=cncnews.cn; expires=" + date.toGMTString();
 }
 
- $(function() {
+function islogin(username){
+ 	
+ 	
+	var url = "http://login.cncnews.cn/user/islogin.cc?login_name="+username+"&callback=showData";
+	$.getScript(url);
+  }
+
+$(document).ready(function(){
     $( "#dialog" ).dialog({
       autoOpen: false,
       height: 400,
@@ -27,21 +33,25 @@ function delCookie(objName) {
     });
     var shortname ="";
     var username = getCookie("uid");
-    alert(username);
+    
     if(username !='' && username != null ){
 	 	   islogin(username);
     }
     
+    
+    initcurrdate(0);
+	initrecommend(0);
+	
   });
 
- function islogin(username){
-	var url = "http://login.cncnews.cn/user/islogin.cc?login_name="+username+"&callback=showData";
-	$.getScript(url);
-  }
+ 
   
   function showData(data){
-  	alert(data);	
-  	/*if(data.msg =="success"){
+  	
+  	if(data.msg =="success"){
+  	  islogined=true;
+  	  userId=data.userid;
+  	  
 	  if(data.username.length >5){
 		shortname = data.username.substring(0,5);
 		$("#loginname").html(shortname);
@@ -51,12 +61,17 @@ function delCookie(objName) {
 	  $("#loginname").attr("onclick","").attr("title",shortname);
 	  $("#logout").html("退出");
 	  $("#logout").attr("onclick","logout()");
+	  
+	  //loading fav
+	  if(islogined && userId!=0)
+		initme(0);
+	  
 	  var validateinfo = getCookie("validateinfo");
 	  if(validateinfo == data.username){
 		delCookie("validateinfo");
 		filldata(validateinfo);      
 	  }
-	}*/
+	}
   	
  }
   
@@ -98,6 +113,8 @@ function filldata(username){
   return false;
  }
  </script>
+ 
+
 <div id="dialog" title="">
 <iframe id="cframe" src="" width="100%" height="100%" scrolling="no" FRAMEBORDER=0 SCROLLING=NO frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
 </div>

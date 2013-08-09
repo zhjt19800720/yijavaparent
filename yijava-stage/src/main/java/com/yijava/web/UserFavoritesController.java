@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yijava.common.HttpConstants;
 import com.yijava.entity.UserFavorites;
 import com.yijava.orm.core.Page;
 import com.yijava.orm.core.PageRequest;
@@ -54,12 +55,12 @@ public class UserFavoritesController {
 			if(StringUtils.isNotBlank(fav.getRadioNew().getDuration()))
 				news.setDuration((fav.getRadioNew().getDuration()));
 			if(StringUtils.isNotBlank(fav.getRadioNew().getImage_file()))
-				news.setImage_file((fav.getRadioNew().getImage_file()));
+				news.setImage_file(HttpConstants.SERVER_BASE_URL+fav.getRadioNew().getImage_file());
 			if(StringUtils.isNotBlank(fav.getRadioNew().getRadio_file()))
-				news.setRadio_file((fav.getRadioNew().getRadio_file()));
+				news.setRadio_file(HttpConstants.SERVER_BASE_URL+fav.getRadioNew().getRadio_file());
 			if(null!=fav.getRadioNew().getId())
 				news.setId(fav.getRadioNew().getId());
-			
+			news.setLast_date(fav.getRadioNew().getLast_date());
 			newList.add(news);
 		}
 		

@@ -7,8 +7,11 @@
 <link rel="stylesheet" type="text/css" href="resource/css/play.css">
 <script src="resource/js/jquery-1.7.2.js"></script>
 <script src="resource/js/common.js"></script>
-<script type="text/javascript" src="resource/js/player.js"></script>
+<script type="text/javascript" src="resource/js/jquery.jplayer.js"></script>
+<script type="text/javascript" src="resource/js/jplayer.playlist.js"></script>
 <script>
+var islogined = false;
+var userId = 0;
 $(function(){
 	$('#shareBox').hide();
 	tabs($('#tabTitle'), $('#tabContent .tab-content'), 'current');
@@ -43,8 +46,8 @@ $(function(){
     <div class="r"><span id="date"></span><span id="date"></span>
     <a href="javascript:;" onClick="SetHome(this,window.location);">设为首页</a>
     <a href="javascript:addBookmark(window.title,window.location);">收藏</a>
-    <a href="javascript:void(0);" onclick="javascript:login();">登陆</a>
-    <a href="javascript:void(0);" onclick="javascript:reg();">注册</a></div>
+    <a id="loginname" href="javascript:void(0);" onclick="javascript:login();">登陆</a>
+    <a id="logout" href="javascript:void(0);" onclick="javascript:reg();">注册</a></div>
     新华社 电视 CNC网络互动媒体 </div>
 </div>
 <div class="header-box">

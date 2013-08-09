@@ -17,7 +17,7 @@
   <a href="javascript:;" class="setting" id="settingBtn">个性定制</a>
   <!--span id="userName">Summer_1103</span>  
   <a href="#">退出</a-->
-  <a href="javascript:void(0);" onclick="javascript:login();">登陆</a>
+  <a id="loginname" href="javascript:void(0);" onclick="javascript:login();">登陆</a>
   <a id="logout" href="javascript:void(0);" onclick="javascript:reg();">注册</a> 
   </span>新华社电视 CNC网络互动媒体</div>
 </div>

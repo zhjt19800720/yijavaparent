@@ -1,59 +1,49 @@
 <#include "header.ftl">	
-<div class="player-box">
-    <div id="cnc_player" class="cnc-jplayer"></div>
-    <div id="cnc_container" class="cnc-audio">
-      <div class="player-title"><span class="red">CNC</span> 新华网络电视-电台</div>
-      <div class="cnc-volume-button"></div>
-      	<div class="cnc-volume-bar">
-        	<div class="cnc-volume-bar-value"><div class="cnc-volume-icon"></div></div>
+<div class="player-box" id="jp_container_N">
+    <div id="jquery_jplayer_N" class="jp-jplayer"></div>
+    <div id="jp_container" class="jp-audio">
+      <div class="player-title" id="player-title"><span class="red">CNC</span> 新华网络电视-电台</div>
+      <div class="jp-volume-button"></div>
+      <a href="javascript:;" class="jp-mute" tabindex="1" title="静音">静音</a>
+      <a href="javascript:;" class="jp-unmute" tabindex="1" title="取消静音">取消静音</a>
+      	<div class="jp-volume-bar">
+        	<div class="jp-volume-bar-value"><div class="jp-volume-icon"></div></div>
       	</div>
-      <div class="player-button"><a href="javascript:;" class="cnc-play" tabindex="1">播放</a>
-      	<a href="javascript:;" class="cnc-pause" tabindex="1">暂停</a></div>
-        <div class="cnc-title">上海现代制药股份有限公司关于重大对外投资事   <span class="gray">6月30日23:56</span></div>
-          <div class="cnc-progress">
-            <div class="cnc-seek-bar">
-              <div class="cnc-play-bar"><div class="cnc-play-icon"></div></div>
+      <div class="player-button"><a href="javascript:;" class="jp-play" tabindex="1">播放</a>
+      	<a href="javascript:;" class="jp-pause" tabindex="1">暂停</a></div>
+      		<div class="cnc-title" ><span id="cnc-title"></span> <span class="gray" id="pubtime"></span></div>
+      		
+        
+          <div class="jp-progress">
+            <div class="jp-seek-bar">
+              <div class="jp-play-bar"><div class="jp-play-icon"></div></div>
             </div>
           </div>
         
-        <div class="cnc-type-single">
+        <div class="jp-type-single">
       	
-      	<a href="javascript:;" class="cnc-stop" tabindex="1">停止</a>
-      	<a href="javascript:;" class="cnc-mute" tabindex="1" title="静音">静音</a>
-        <a href="javascript:;" class="cnc-unmute" tabindex="1" title="取消静音">取消静音</a>
-        <a href="javascript:;" class="cnc-volume-max" tabindex="1" title="最大音量">最大音量</a>
-        <div class="cnc-current-time"></div>
-        <div class="cnc-duration"></div>
-        <a href="javascript:;" class="cnc-repeat" tabindex="1" title="循环">循环</a><a href="javascript:;" class="cnc-repeat-off" tabindex="1" title="关闭循环">关闭循环</a>
+      	<a href="javascript:;" class="jp-stop" tabindex="1">停止</a>
+      	<a href="javascript:;" class="jp-mute" tabindex="1" title="静音">静音</a>
+        <a href="javascript:;" class="jp-unmute" tabindex="1" title="取消静音">取消静音</a>
+        <a href="javascript:;" class="jp-volume-max" tabindex="1" title="最大音量">最大音量</a>
+        <div class="jp-current-time"></div>
+        <div class="jp-duration"></div>
+        <a href="javascript:;" class="jp-repeat" tabindex="1" title="循环">循环</a><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="关闭循环">关闭循环</a>
         
-        
-        <div class="cnc-no-solution"> <span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>. </div>
+         <div class="jp-playlist" style="display:none">
+					<ul>
+						<!-- The method Playlist.displayPlaylist() uses this unordered list -->
+						<li></li>
+					</ul>
+				</div>
+       
+        <div class="jp-no-solution"> <span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>. </div>
       </div>
     </div>
     <a href="javascript:void(0);"class="shareBtn" id="share">分享</a>
     <a href="javascript:void(0);" class="keepBtn"  onclick="javascript:addfavorite();">收藏</a>
 </div>
-<script type="text/javascript">
-//<![CDATA[
-$(function(){
-	$("#cnc_player").jPlayer({
-		ready: function (event) {
-			$(this).jPlayer("setMedia", {
-				//mp3:"nbszzdkl.mp3"
-				m4a:"TSP-01-Cro_magnon_man.m4a",
-				oga:"TSP-01-Cro_magnon_man.ogg"
-			});
-		},
-		swfPath: "js",
-		//supplied: "mp3",
-		supplied: "m4a,oga",
-		wmode: "window",
-		smoothPlayBar: true,
-		keyEnabled: true
-	});
-});
-//]]>
-</script>
+
 <div class="main">
   <ul id="tabTitle" class="tabs-title">
     <li class="first current"><span class="tab-left"></span><span class="tab-middle">今日电台</span><span class="tab-right"></span></li>
@@ -108,9 +98,9 @@ $(function(){
 		var d = new Date();
 		var n = d.getTime();
 		if(pageNo==0)
-			var params = "pageSize=12&filter_EQI_category_id=1&time="+n;
+			var params = "pageSize=12&category_id=1&time="+n;
 		else
-			var params = "pageSize=12&filter_EQI_category_id=1&pageNo="+pageNo+"&time="+n;
+			var params = "pageSize=12&category_id=1&pageNo="+pageNo+"&time="+n;
 			
 		//alert(params);
 		
@@ -135,11 +125,15 @@ $(function(){
 		{
 			var news=msg.data.result;
 			var content="";
-			
+			var pubtime,title,audiof;
 			for (x in news)
 			{
-				content+="<li><a href=\"#\">";
-				content+="<img src=\"resource/images/default.png\">";
+				pubtime=getdate(news[x].last_date);
+				title=news[x].title;
+				audiof=news[x].radio_file;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				
+				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
 				content+="<span class=\"info-time\">";
 				content+=news[x].duration;
@@ -167,7 +161,7 @@ $(function(){
 			$("#currentpage").html(pagecontent);	
 		}else
 		{
-			alert(msg.error.msg);
+			alert("error");
 			//$("#alertinfo").html(msg.error.msg);					
 		}			
 	}	
@@ -178,11 +172,7 @@ $(function(){
 		initcurrdate(page);
 	}
 	
-	$(document).ready(function(){ 		
-		initcurrdate(0);
-		initrecommend(0);
-		initme(0);
-	}); 
+	
 	
 	function share()
 	{
@@ -202,7 +192,7 @@ $(function(){
 		  //beforeSend:requestcommand,
 		  success: responseresult,
 	  	  error: function () {//ajax请求错误的情况返回超时重试。
-            alert(error);
+           alert("error");
           }
 		});	
 	}
@@ -220,9 +210,9 @@ $(function(){
 		var d = new Date();
 		var n = d.getTime();
 		if(pageNo==0)
-			var params = "pageSize=12&filter_EQI_category_id=2&time="+n;
+			var params = "pageSize=12&category_id=2&time="+n;
 		else
-			var params = "pageSize=12&filter_EQI_category_id=2&pageNo="+pageNo+"&time="+n;
+			var params = "pageSize=12&category_id=2&pageNo="+pageNo+"&time="+n;
 			
 		//alert(params);
 		
@@ -248,11 +238,14 @@ $(function(){
 		{
 			var news=msg.data.result;
 			var content="";
-			
+			var pubtime,title,audiof;
 			for (x in news)
 			{
-				content+="<li><a href=\"#\">";
-				content+="<img src=\"resource/images/default.png\">";
+				pubtime=getdate(news[x].last_date);
+				title=news[x].title;
+				audiof=news[x].radio_file;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
 				content+="<span class=\"info-time\">";
 				content+=news[x].duration;
@@ -280,7 +273,7 @@ $(function(){
 			$("#recommendpage").html(pagecontent);	
 		}else
 		{
-			alert(msg.error.msg);
+			alert("error");
 			//$("#alertinfo").html(msg.error.msg);					
 		}			
 	}		
@@ -296,9 +289,9 @@ $(function(){
 		var d = new Date();
 		var n = d.getTime();
 		if(pageNo==0)
-			var params = "pageSize=12&filter_EQI_user_id=1&time="+n;
+			var params = "pageSize=12&filter_EQI_user_id="+userId+"&time="+n;
 		else
-			var params = "pageSize=12&filter_EQI_user_id=1&pageNo="+pageNo+"&time="+n;
+			var params = "pageSize=12&filter_EQI_user_id="+userId+"&pageNo="+pageNo+"&time="+n;
 			
 		//alert(params);
 		
@@ -324,11 +317,14 @@ $(function(){
 		{
 			var news=msg.data.result;
 			var content="";
-			
+			var pubtime,title,audiof;
 			for (x in news)
 			{
-				content+="<li><a href=\"#\">";
-				content+="<img src=\"resource/images/default.png\">";
+				pubtime=getdate(news[x].last_date);
+				title=news[x].title;
+				audiof=news[x].radio_file;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
 				content+="<span class=\"info-time\">";
 				content+=news[x].duration;
@@ -356,7 +352,7 @@ $(function(){
 			$("#mepage").html(pagecontent);	
 		}else
 		{
-			alert(msg.error.msg);
+			alert("error");
 			//$("#alertinfo").html(msg.error.msg);					
 		}			
 	}		
@@ -365,6 +361,125 @@ $(function(){
 		//alert(page);
 		initme(page);
 	}
+	
+	
+</script>
+//player
+<script type="text/javascript">
+
+	var myPlaylist = new jPlayerPlaylist({
+		jPlayer: "#jquery_jplayer_N",
+		cssSelectorAncestor: "#jp_container_N"
+	}, [], {
+		playlistOptions: {
+			enableRemoveControls: true
+		},
+		ready:function(){
+			//alert("ready!");
+		},
+		
+	
+		swfPath: "js",
+		supplied: "webmv, ogv, m4v, oga, mp3",
+		smoothPlayBar: true,
+		keyEnabled: true,
+		audioFullScreen: true
+	});
+	
+	/*默认播放*/
+	myPlaylist.setPlaylist([
+			{
+				title:"上海现代制药股份有限公司关于重大对外投资事",	
+				pubdate:"6月30日23:56",			
+				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
+			},
+				{
+				title:"北京现代制药股份有限公司关于重大对外投资事",
+				pubdate:"6月30日23:56",				
+				mp3:"http://manage.yijava.com/radiofile/2013080123/20130801233346004.mp3"
+			}
+			
+	]);
+	
+	 //监听事件开始
+	 //暂停
+	 $("#jquery_jplayer_N").bind($.jPlayer.event.pause, function(event) { 
+    	
+    	var logoinfo="<span class=\"red\">CNC</span> 新华网络电视-电台";
+    	$("#player-title").html(logoinfo); 
+  	});
+	 //暂停
+	 $("#jquery_jplayer_N").bind($.jPlayer.event.play, function(event) { 
+	 		$("#player-title").html(""); 
+    	//alert("play"); 
+    
+  	});	
+  	//搜索
+  	$("#jquery_jplayer_N").bind($.jPlayer.event.seeking, function(event) { 
+  		var logoinfo="<span class=\"red\">CNC</span> 新华网络电视-电台";
+  		logoinfo+="  loading...";
+	 		$("#player-title").html(logoinfo); 
+    	//alert("play"); 
+  	});	
+  	//搜索完毕
+  	$("#jquery_jplayer_N").bind($.jPlayer.event.seeked , function(event) { 
+  		
+  		
+	 		$("#player-title").html(""); 
+    	//alert("play"); 
+  	});	
+  	//错误
+  	$("#jquery_jplayer_N").bind($.jPlayer.event.error , function(event) { 
+  		 alert("Error Event: type = " + event.jPlayer.error.type);
+  		 switch(event.jPlayer.error.type) {
+  		 	 case $.jPlayer.error.URL:
+  		 		  getNextMedia(); // A function you might create to move on to the next media item when an error occurs.
+      			break;
+      	 case $.jPlayer.error.NO_SOLUTION:
+      	  	break;
+  		 	}
+  	});
+  	//播放完毕
+  	$("#jquery_jplayer_N").bind($.jPlayer.event.ended , function(event) { 
+  		var logoinfo="<span class=\"red\">CNC</span> 新华网络电视-电台";
+  		logoinfo+="  播放完毕...";
+	 		$("#player-title").html(logoinfo); 
+    	//alert("play"); 
+  	});
+  	
+  	//加载完毕	
+  	$("#jquery_jplayer_N").bind($.jPlayer.event.loadeddata , function(event) { 
+  		var current = myPlaylist.current;
+  		var title=myPlaylist.playlist[current].title;
+  		var pubdate=myPlaylist.playlist[current].pubdate;
+  		$("#cnc-title").html(title); 
+  		$("#pubtime").html(pubdate); 
+    	//alert("loadeddata"); 
+  	});	
+  	
+  	 //监听事件结束
+  	//得到下一首
+  	function getNextMedia()
+	{
+		alert(myPlaylist.current);
+		//alert(myPlaylist.playlist[0].mp3);
+		
+		myPlaylist.next();
+		//myPlaylist.option("autoPlay", true);
+	}
+	
+	//播放
+	function doplayer(audiof,title,pubtime)
+	{
+		myPlaylist.add({
+				title:title,
+				pubdate:pubtime,				
+				mp3:audiof
+			}, true);
+		
+	}	
+
+	
 </script>
 <div class="shareBox" id="shareBox">
 	<span class="popClose"></span>

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yijava.common.HttpConstants;
 import com.yijava.entity.RadioNew;
 import com.yijava.orm.core.Page;
 import com.yijava.orm.core.PageRequest;
@@ -64,7 +65,15 @@ public class RadioNewController {
 			pageRequest.setOrderDir(Sort.DESC);
 		}
 		Result<Page<RadioNew>> result= new Result<Page<RadioNew>> ();
+		
 		Page<RadioNew> data=radioNewService.searchRadioNewPage(pageRequest, filters);		
+		
+		List<RadioNew> newlist=data.getResult();
+		for(RadioNew news:newlist)
+		{
+			news.setImage_file(HttpConstants.SERVER_BASE_URL+news.getImage_file());
+			news.setRadio_file(HttpConstants.SERVER_BASE_URL+news.getRadio_file());
+		}
 		result.setData(data);
 		result.setState(1);
 		return result;		
@@ -78,7 +87,7 @@ public class RadioNewController {
 		List<RadioNew> news=radioNewService.searchRadioTop5();
 		for(RadioNew radioNew:news)
 		{
-			topnews.add(new News(radioNew.getTitle(),"http://manage.yijava.com/"+radioNew.getRadio_file()));
+			topnews.add(new News(radioNew.getTitle(),HttpConstants.SERVER_BASE_URL+radioNew.getRadio_file()));
 		}
 		
 		return topnews;

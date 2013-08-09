@@ -18,12 +18,12 @@
 		</encoder>
 	</appender>
 
-	<root level="ERROR">
+	<root level="DEBUG">
 		<appender-ref ref="console" />
 		<appender-ref ref="rollingFile" />
 	</root>
 	
-	<logger name="org.springframework" level="ERROR"/>
-	<logger name="org.hibernate" level="ERROR"/>
+	<logger name="org.springframework" level="DEBUG"/>
+	<logger name="org.hibernate" level="DEBUG"/>
 	<logger name="com.yijava" level="DEBUG"/>
 </configuration>
