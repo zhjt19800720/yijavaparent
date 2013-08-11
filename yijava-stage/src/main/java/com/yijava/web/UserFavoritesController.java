@@ -22,6 +22,7 @@ import com.yijava.orm.core.PageRequest.Sort;
 import com.yijava.orm.core.PropertyFilter;
 import com.yijava.orm.core.PropertyFilters;
 import com.yijava.service.UserFavoritesService;
+import com.yijava.web.vo.ErrorCode;
 import com.yijava.web.vo.News;
 import com.yijava.web.vo.Result;
 
@@ -61,6 +62,8 @@ public class UserFavoritesController {
 			if(null!=fav.getRadioNew().getId())
 				news.setId(fav.getRadioNew().getId());
 			news.setLast_date(fav.getRadioNew().getLast_date());
+			
+			news.setId(fav.getRadioNew().getId());
 			newList.add(news);
 		}
 		
@@ -76,14 +79,49 @@ public class UserFavoritesController {
 	@ResponseBody
 	public Result<Integer> view(HttpServletRequest request,UserFavorites entity )
 	{
+		boolean isunique= false;
 		Result<Integer> result= new Result<Integer> ();
-		if(entity.getState()==null)
-			entity.setState(1);
-		if(entity.getCreate_at()==null)
-			entity.setCreate_at(new Date());
-		userFavoritesService.insertRadioNew(entity);
-		result.setState(1);
-		result.setData(1);
+		try
+		{
+			isunique=userFavoritesService.isFavoritesUnique(entity.getUser_id(), entity.getRadio_id());
+		}
+		catch(Exception e)
+		{
+			result.setState(0);
+			result.setError(new ErrorCode("发生错误!"));
+			return result;
+		}
+		
+		if(isunique)
+		{
+			result.setState(0);
+			result.setError(new ErrorCode("您已经收藏该新闻!"));
+		}else
+		{
+			if(entity.getState()==null)
+				entity.setState(1);
+			if(entity.getCreate_at()==null)
+				entity.setCreate_at(new Date());
+			
+			
+			try
+			{
+				userFavoritesService.insertRadioNew(entity);
+			}
+			catch(Exception e)
+			{
+				result.setState(0);
+				result.setError(new ErrorCode("发生错误!"));
+				return result;
+			}
+			
+			
+			
+			result.setState(1);
+			result.setData(1);
+		}	
+		
+		
 		return result;
 	}
 }

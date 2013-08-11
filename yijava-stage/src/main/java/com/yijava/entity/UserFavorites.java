@@ -23,9 +23,9 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "TB_USER_FAVORITES")
 public class UserFavorites {
 
-	private Integer id;
-	private Integer user_id;
-	private Integer radio_id;
+	private Long id;
+	private Long user_id;
+	private Long radio_id;
 	private Date create_at;
 	private Integer state;
 	private RadioNew radioNew;
@@ -35,7 +35,7 @@ public class UserFavorites {
 	public UserFavorites() {
 		
 	}
-	public UserFavorites(Integer id, Integer user_id, Integer radio_id,
+	public UserFavorites(Long id, Long user_id, Long radio_id,
 			Date create_at, Integer state, RadioNew radioNew) {
 		super();
 		this.id = id;
@@ -50,24 +50,24 @@ public class UserFavorites {
 	@GenericGenerator(name = "idGenerator", strategy = "sequence",parameters = {@Parameter(name = "sequence",value="SQ_RADIO_USER_FAVORITE_SEQ")})
 	@GeneratedValue(generator = "idGenerator")	
 	@JsonIgnore
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	@JsonIgnore
-	public Integer getUser_id() {
+	public Long getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(Integer user_id) {
+	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
 	}
 	@JsonIgnore
-	public Integer getRadio_id() {
+	public Long getRadio_id() {
 		return radio_id;
 	}
-	public void setRadio_id(Integer radio_id) {
+	public void setRadio_id(Long radio_id) {
 		this.radio_id = radio_id;
 	}
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

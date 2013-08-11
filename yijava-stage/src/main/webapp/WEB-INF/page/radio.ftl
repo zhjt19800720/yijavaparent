@@ -125,13 +125,14 @@
 		{
 			var news=msg.data.result;
 			var content="";
-			var pubtime,title,audiof;
+			var pubtime,title,audiof,id;
 			for (x in news)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;
 				audiof=news[x].radio_file;
-				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				id=news[x].id;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+id+"','"+audiof+"','"+title+"','"+pubtime+"')\">";
 				
 				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
@@ -178,30 +179,45 @@
 	{
 		alert("share");
 	}
-	function addfavorite()
-	{
-		alert("addfavorite");
-		var d = new Date();
-		var n = d.getTime();
-		var params = "user_id=12&radio_id=2&time="+n;
-		
-		$.ajax({
-		  type: 'POST',
-		  url: "api/favorites/add",
-		  data: params,
-		  //beforeSend:requestcommand,
-		  success: responseresult,
-	  	  error: function () {//ajax请求错误的情况返回超时重试。
-           alert("error");
-          }
-		});	
+	function addfavorite(radioid)
+	{		
+		if(islogined && userId!=0)
+		{
+			//alert("logined");
+			var playingid=getPlayingId();
+			var d = new Date();
+			var n = d.getTime();
+			var params = "user_id="+userId+"&radio_id="+playingid+"&time="+n;
+			
+			$.ajax({
+			  type: 'POST',
+			  url: "api/favorites/add",
+			  data: params,
+			  //beforeSend:requestcommand,
+			  success: responseresult,
+		  	  error: function () {//ajax请求错误的情况返回超时重试。
+	           alert("error");
+	          }
+			});	
+		}
+		else
+		{
+			alert("请先登录");
+			login();
+		}		
 	}
 	
-	function responseresult(msg){
+	
+	
+	function responseresult(result){
 		//alert(msg);
-		if(msg.data!=1)
+		if(result.data!=1)
 		{
-			alert("error");
+			alert(result.error.msg);
+		}else
+		{
+			alert("收藏完成");
+			initme(0);
 		}
 	}
 	
@@ -238,13 +254,14 @@
 		{
 			var news=msg.data.result;
 			var content="";
-			var pubtime,title,audiof;
+			var pubtime,title,audiof,id;
 			for (x in news)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;
 				audiof=news[x].radio_file;
-				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				id=news[x].id;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+id+"','"+audiof+"','"+title+"','"+pubtime+"')\">";
 				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
 				content+="<span class=\"info-time\">";
@@ -283,15 +300,21 @@
 		initrecommend(page);
 	}
 	
+	function initmedefault()
+	{
+		
+		$('#menew').html('<center>请先登录后再操作！</center>');
+		//login();
+	}
 	
 	function initme(pageNo)
 	{
 		var d = new Date();
 		var n = d.getTime();
 		if(pageNo==0)
-			var params = "pageSize=12&filter_EQI_user_id="+userId+"&time="+n;
+			var params = "pageSize=12&filter_EQL_user_id="+userId+"&time="+n;
 		else
-			var params = "pageSize=12&filter_EQI_user_id="+userId+"&pageNo="+pageNo+"&time="+n;
+			var params = "pageSize=12&filter_EQL_user_id="+userId+"&pageNo="+pageNo+"&time="+n;
 			
 		//alert(params);
 		
@@ -317,13 +340,14 @@
 		{
 			var news=msg.data.result;
 			var content="";
-			var pubtime,title,audiof;
+			var pubtime,title,audiof,id;
 			for (x in news)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;
 				audiof=news[x].radio_file;
-				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+audiof+"','"+title+"','"+pubtime+"')\">";
+				id=news[x].id;
+				content+="<li><a href=\"javaScript:void(0)\" onclick=\"doplayer('"+id+"','"+audiof+"','"+title+"','"+pubtime+"')\">";
 				content+="<img src=\""+news[x].image_file+"\" width=144 height=144>";
 				content+="<span class=\"info-box\">";
 				content+="<span class=\"info-time\">";
@@ -364,7 +388,7 @@
 	
 	
 </script>
-//player
+
 <script type="text/javascript">
 
 	var myPlaylist = new jPlayerPlaylist({
@@ -387,19 +411,21 @@
 	});
 	
 	/*默认播放*/
-	myPlaylist.setPlaylist([
+	/*myPlaylist.setPlaylist([
 			{
+				id:"1",
 				title:"上海现代制药股份有限公司关于重大对外投资事",	
 				pubdate:"6月30日23:56",			
 				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
 			},
-				{
+			{
+				id:"2",
 				title:"北京现代制药股份有限公司关于重大对外投资事",
 				pubdate:"6月30日23:56",				
 				mp3:"http://manage.yijava.com/radiofile/2013080123/20130801233346004.mp3"
 			}
 			
-	]);
+	]);*/
 	
 	 //监听事件开始
 	 //暂停
@@ -437,6 +463,8 @@
       			break;
       	 case $.jPlayer.error.NO_SOLUTION:
       	  	break;
+      	 case $.jPlayer.error.NO_SOLUTION:
+      	  	break;
   		 	}
   	});
   	//播放完毕
@@ -469,15 +497,21 @@
 	}
 	
 	//播放
-	function doplayer(audiof,title,pubtime)
+	function doplayer(id,audiof,title,pubtime)
 	{
 		myPlaylist.add({
+				id:id,
 				title:title,
 				pubdate:pubtime,				
 				mp3:audiof
-			}, true);
-		
-	}	
+			}, true);		
+	}
+	
+	function getPlayingId()
+	{
+		var current = myPlaylist.current;
+  		return myPlaylist.playlist[current].id;
+	}
 
 	
 </script>

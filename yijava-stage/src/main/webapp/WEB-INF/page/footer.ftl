@@ -37,6 +37,10 @@ $(document).ready(function(){
     if(username !='' && username != null ){
 	 	   islogin(username);
     }
+    else
+    {
+    	initmedefault();
+    }
     
     
     initcurrdate(0);
@@ -64,7 +68,14 @@ $(document).ready(function(){
 	  
 	  //loading fav
 	  if(islogined && userId!=0)
-		initme(0);
+	  {
+	  	initme(0);
+	  }else
+	  {
+	  	
+	  	initmedefault();
+	  }
+	  	
 	  
 	  var validateinfo = getCookie("validateinfo");
 	  if(validateinfo == data.username){

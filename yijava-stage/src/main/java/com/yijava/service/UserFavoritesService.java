@@ -28,7 +28,14 @@ public class UserFavoritesService {
 		this.userFavoritesDao.insert(entity);
 	}
 	
-	public void deleteRadioNew(List<Integer> ids) {
+	public void deleteRadioNew(List<Long> ids) {
 		userFavoritesDao.deleteAll(ids);
+	}
+	
+	
+	
+	public boolean isFavoritesUnique(Long userId,Long radioId)
+	{
+		return userFavoritesDao.getUserFavoritesByUidARid( userId,radioId)!=null;
 	}
 }
