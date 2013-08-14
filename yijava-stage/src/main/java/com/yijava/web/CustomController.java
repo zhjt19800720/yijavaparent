@@ -1,7 +1,9 @@
 package com.yijava.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -44,6 +46,11 @@ public class CustomController {
 	@Autowired
 	private BaseHttpUtil httpService;
 	
+	@RequestMapping("/seting")
+	public String seting()
+	{
+		return "setting";
+	}
 	
 	@RequestMapping("/me")
 	public String index(Model model) {
@@ -52,10 +59,12 @@ public class CustomController {
 		String uid="11";
 		UserCustom userCustom=userCustomService.getUserCustomByUid(uid);
 		List<Column> columns=null; 
+		List<Column> allcolumns=null;
 		//根据用户已经收藏的id得到栏目
 		if(userCustom!=null && userCustom.getChannel_ids()!=null && userCustom.getChannel_ids()!="")
 		{
-			columns=new ArrayList<Column>();			
+			columns=new ArrayList<Column>();	
+			allcolumns=new ArrayList<Column>();	
 			for(Channel channel:channels)
 			{				
 				List<Column> tmpcolumns=channel.getColumns();			
@@ -66,11 +75,10 @@ public class CustomController {
 						columns.add(colunm);
 						colunm.setCustomed(true);
 					}
+					allcolumns.add(colunm);
 				}
 			}
 		}
-		
-		
 		
 		
 		List<String> provinces  = httpService.getAllProvince();		
@@ -82,7 +90,9 @@ public class CustomController {
 			model.addAttribute("channels", channels);
 		if(userCustom!=null)			
 			model.addAttribute("customs", columns);
-		return "index";
+		if(allcolumns!=null)			
+			model.addAttribute("allcolumns", allcolumns);
+		return "setting";
 	}
 	@RequestMapping("/me/custom/add")
 	@ResponseBody
@@ -93,7 +103,6 @@ public class CustomController {
 		
 		String channelids = request.getParameter("ids");
 		String region = request.getParameter("region");		
-		
 		
 		
 		if(userCustom==null)
@@ -115,9 +124,7 @@ public class CustomController {
 				userCustomService.updateUserCustom(userCustom,entity);
 			//}
 			
-		}
-			
-		
+		}	
 		
 		
 		Result<Integer> result=new Result<Integer>();
@@ -163,11 +170,23 @@ public class CustomController {
 	 */
 	@RequestMapping("/api/getnewbyc")
 	@ResponseBody
-	public List<CncNew> getNewByChannel(@RequestParam(value = "columnid", required = false)String columnid)
-	{		
+	public Map<String,List<CncNew>> getNewByChannel(@RequestParam(value = "columnid", required = false)String columnid)
+	{	
+		Map<String,List<CncNew>> newmap=new HashMap<String,List<CncNew>>();
+		String[] columns=columnid.split("-");
 		//根据栏目检索新闻
-		UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody(columnid,"10","1"));				
-		return httpService.getAllNewsByChannel(columnmessage);
+		List<CncNew> news;
+		for(String column:columns)
+		{
+			UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody(column,"1","1"));
+			news=httpService.getAllNewsByChannel(columnmessage);
+			if(news!=null)
+			{
+				newmap.put(column, news);
+			}
+		}
+				
+		return newmap;
 	}
 	
 	/**

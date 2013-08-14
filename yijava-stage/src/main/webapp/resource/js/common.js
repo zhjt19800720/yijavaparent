@@ -371,10 +371,13 @@ function initcustom(date)
 {
 	
 	var region=date.region_name;
+	var columnid=date.channel_ids;
 	//alert(region);
 	initweather(region);
 	initregionnews(region);
 	initcloumnnews(columnid);
+	
+	getColumnUrlById("124020581");
 	//alert(date.region_name);/api/getnewbyc
 }
 
@@ -434,7 +437,7 @@ function fillregionnews(news)
 			return;
 	}	
 }
-function initcolumnnews(cloumn)
+function initcloumnnews(cloumn)
 {
 	alert("initcloumnnews");
 	var params = "columnid="+cloumn;
@@ -450,7 +453,49 @@ function initcolumnnews(cloumn)
 }
 function fillcolumnnews(news)
 {
+	$.each(news,function(key,values){ 
+		fillnew(key,values);
+		
+	}); 
 	
+}
+
+function fillnew(columnid,news)
+{
+	try
+	{
+		var content="";
+		var columnurl=getColumnUrlById(columnid);
+		var columnname=getColumnNameById(columnid);
+		content+="<div class=\"cjing_left_gj\">";
+		content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+		content+="</div>";
+		
+		//for (x in news)
+		//{
+			
+			//content+="<div class=\"left_gj_mj\">";
+			//content+="<div class=\"gj_mj_left\">";
+			//content+="<h3><a href=\"#\"><img src=\"resource/img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
+			//content+="<h3 class=\"mi_zp\"><a href=\"#\"><img src=\"resource/img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔渔渔渔民事件</a></span></h3>";
+			//content+="</div>";
+			content+="<div class=\"gj_mj_right\">";
+			content+="<p><b><a href=\"#\">发言人15日说马英九对菲律宾政府授权不够、诚意不够</a></b><span>" +
+					"<a href=\"#\">刻采取冻结菲劳申等项</a><br />" +
+					"<a href=\"#\">采取冻结菲劳申请等项撒的刻录机的制裁措施</a><br /><a href=\"#\">即刻采取冻结菲劳申请等3项制裁措施</a><br />" +
+					"<a href=\"#\">菲劳申请等3项制裁措施制裁措施。</a></span></p>";
+			content+="</div>";
+			content+="</div>";
+			//alert(news[x].title);
+		//}
+		//alert(content);
+		$('#newscolumn').append(content);
+	}catch(e)
+	{
+		alert(e);
+	}
+	
+		
 }
 
 
@@ -466,5 +511,36 @@ function getdate(datestr)
 	var strTime=strArray[1].split(":");   
 	var a=new   Date(strDate[0],(strDate[1]-parseInt(1)),strDate[2],strTime[0],strTime[1],strTime[2])   
 	return a.pattern("yyyy年M月d日  h:m:s");  
+}
+
+//根据栏目id得到栏目url
+function getColumnUrlById(id)
+{
+	var columnUrl="";
+	for (x in allcolumns)//数组中的每一个变量
+	{
+		if(allcolumns[x][0]==id)
+		{
+			columnUrl=allcolumns[x][1];
+			break;
+		}
+			
+	}
+	return columnUrl;	
+}
+//根据栏目id得到栏目url
+function getColumnNameById(id)
+{
+	var columnName="";
+	for (x in allcolumns)//数组中的每一个变量
+	{
+		if(allcolumns[x][0]==id)
+		{
+			columnName=allcolumns[x][2];
+			break;
+		}
+			
+	}
+	return columnName;	
 }
 

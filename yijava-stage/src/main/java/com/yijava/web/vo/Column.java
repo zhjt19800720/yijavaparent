@@ -5,12 +5,15 @@ public class Column {
 	private String column_id;
 	private String column_name;
 	private boolean customed;
+	private String column_url;
 	
 	
 	
 	public Column() {
 		super();
 	}
+	
+	
 	
 	public Column(String column_id, String column_name) {
 		super();
@@ -44,6 +47,14 @@ public class Column {
 	}
 	public void setColumn_name(String column_name) {
 		this.column_name = column_name;
+	}
+
+	public String getColumn_url() {
+		return column_url;
+	}
+
+	public void setColumn_url(String column_url) {
+		this.column_url = column_url;
 	}
 
 	
