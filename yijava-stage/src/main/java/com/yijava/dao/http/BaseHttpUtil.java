@@ -62,7 +62,20 @@ public class BaseHttpUtil {
 			InResult<DownBodyNew> res = post(HttpConstants.GET_NEW_BYCOLUMN_URI,message, new TypeReference<InResult<DownBodyNew>>() {});
 			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
-				return res.getBody().getNews_set();	
+				//return res.getBody().getNews_set();	
+				List<CncNew> cncnews = res.getBody().getNews_set();
+				CncNew tmp=cncnews.get(0);
+				tmp.setTitle("1111");
+				cncnews.add(tmp);
+				tmp.setTitle("2222");
+				cncnews.add(tmp);
+				tmp.setTitle("333");
+				//cncnews.add(tmp);
+				//cncnews.add(cncnews.get(0));
+				//cncnews.add(cncnews.get(0));
+				
+				return cncnews;
+				//测试增加内容
 			}			
 		} catch (IOException e) {
 			logger.error("getAllNewsByChannel"+e.toString());

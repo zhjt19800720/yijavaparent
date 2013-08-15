@@ -184,6 +184,7 @@ public class CustomController {
 			{
 				newmap.put(column, news);
 			}
+			break;
 		}
 				
 		return newmap;

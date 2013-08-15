@@ -9,7 +9,7 @@ public class CncNew {
 	private String media;
 	private String url;
 	private String desciber;
-	
+	private NewImage image_set;
 	
 	
 	
@@ -57,5 +57,14 @@ public class CncNew {
 	public void setDesciber(String desciber) {
 		this.desciber = desciber;
 	}
+
+	public NewImage getImage_set() {
+		return image_set;
+	}
+
+	public void setImage_set(NewImage image_set) {
+		this.image_set = image_set;
+	}
+	
 	
 }

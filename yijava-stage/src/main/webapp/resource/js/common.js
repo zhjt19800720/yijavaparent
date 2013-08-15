@@ -454,8 +454,8 @@ function initcloumnnews(cloumn)
 function fillcolumnnews(news)
 {
 	$.each(news,function(key,values){ 
-		fillnew(key,values);
-		
+		//fillnew(key,values);
+		fillnewbyStyle4(key,values);
 	}); 
 	
 }
@@ -544,3 +544,323 @@ function getColumnNameById(id)
 	return columnName;	
 }
 
+function fillnewbyStyle1(columnid,news)
+{
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	content+="<div class=\"left_gj_mj\">";
+	content+="<div class=\"gj_mj_left\">";
+	
+	for(var i=0; i<news.length; i++) 
+	{
+		//先得到有图片的循环
+		content+="<h3>";
+		content+="<a href=\"#\"><img src=\"img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a>";
+		content+="<span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span>";
+		content+="</h3>";	
+	}
+	
+	
+	content+="</div>";
+	
+	content+="<div class=\"gj_mj_right\">";
+	//标题内容只有一个
+	content+="<p><b><a href=\"#\">台湾发言人15日说马英九对菲律宾政府授权不够、诚意不够</a></b>";
+	
+	content+="<span>";
+	//循环剩余的
+	content+="<a href=\"#\">刻采取冻结菲劳申等项</a><br />";
+	//循环剩余的
+	
+	
+	content+="</span>";
+	content+="</p></div></div>";	
+}
+
+function fillnewbyStyle1(columnid,news)//样式一适用：财经频道（国际经济），体育频道（缤纷体育）
+{
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	
+	content+="<div class=\"left_gj_mj\">";
+	content+="<div class=\"gj_mj_left\">";
+	content+="<h3><a href=\"#\"><img src=\"img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
+	content+="<h3 class=\"mi_zp\"><a href=\"#\"><img src=\"img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
+	
+	content+="</div>";
+	
+	content+="<div class=\"gj_mj_right\">";
+	content+="<p><b><a href=\"#\">台湾“中央社”报道，台“总统府”发言人15日说马英九对菲律宾政府授权不够、诚意不够</a></b><span>";
+	content+="<a href=\"#\">刻采取冻结菲劳申等项</a><br />";
+	
+	
+	content+="</div>";
+	content+="</div>";
+	
+}
+
+function fillnewbyStyle2(columnid,news)//样式二适用：财经频道（宏观经济）；文娱频道（文化时尚），新闻频道（文化时尚）
+{
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	<div class="left_gj_mj">
+	<div class="gj_mj_left">
+	<h2><a href="#"><img src="img/cnn_041.jpg" width="320" height="185" /></a></h2>
+	</div>
+	<div class="mj_right_hj">
+	<p><b><a href="#">取冻结菲劳申请等项撒的刻录机</a><br /><strong>发言人15日说马英九对菲律宾政府授权不够、诚意不够</strong></b><span><a href="#">刻采取冻结菲劳申等项</a><br /><a href="#">采取冻结菲劳申请等项撒的刻录机的制裁措施</a><br /><a href="#">即刻采取冻结菲劳申请等3项制裁措施</a></span></p>
+	</div>
+	</div>
+	
+	
+}
+
+function fillnewbyStyle3(columnid,news)//样式三适用：财经频道（金融市场），体育频道（火爆篮球）
+{
+	<div class="cjing_left_gj">
+	<p><b>金融市场</b><span><a href="#">更多>></a></span></p>
+	</div>
+	<div class="cjing_left_jr">
+	<ul>
+	<li><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
+	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
+	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
+	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
+	</ul>
+	</div>
+}
+
+function fillnewbyStyle4(columnid,news)//样式四适用：财经频道（基金/理财），文娱频道（文娱播报），新闻频道（国际新闻）
+{
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+		
+	var needloop=1;	
+	if(news.length>=4)
+	{
+		needloop=2;
+	}	
+	
+	for(var i=0; i<needloop; i++) 		
+	{
+		var descindex=0;
+		var startminloop=1;
+		if(needloop==2)
+		{
+			if(i==0)
+			{
+				descindex=0;
+				startminloop=1;
+			}else
+			{
+				descindex=3;
+				startminloop=4;
+			}
+		}		
+		content+="<div class=\"cjing_left_lc\">";		
+		//标题
+		content+="<h1><a href=\""+news[descindex].url+"\">"+news[descindex].title+"</a></h1>";	
+		//图片
+		content+="<div class=\"left_lc_left\"><a href=\""+news[descindex].url+"\">" +
+				"<img src=\""+news[descindex].image_set.image_url+"\" width=\"150\" height=\"90\"/></a></div>";	
+		
+		content+="<div class=\"left_lc_right\">";
+		//内容
+		content+="<p>"+news[descindex].abstract+"</p>";		
+		//再循环两个
+		content+="<ul>";
+		
+		for(var j=0;j<2;j++)
+		{
+			if(news[startminloop+j])
+			{
+				content+="<li><a href=\""+news[startminloop+j].url+"\">"+news[startminloop+j].title+"</a></li>";
+			}			
+		}		
+		content+="</ul>";
+		content+="</div>";
+		content+="</div>";		
+	}
+	$('#newscolumn').append(content);
+}
+
+
+function fillnewbyStyle5(columnid,news)//样式五适用：财经频道（公司行业），新闻频道（国内新闻），体育频道（综合赛事），纪录片频道（历史人文）
+{
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	content+="<div class=\"cjing_left_jr\">";	
+	for (x in news)
+	{
+		if(x==0)
+		{
+			content+="<div class=\"cjing_left_jr_a \">";
+		}else
+		{
+			content+="<div class=\"cjing_left_jr_a left_jrpl\">";
+		}
+		
+		content+="<p><a href=\""+news[x].url+"\"><img src=\""+news[x].image_set.image_url+"\" width=\"150\" height=\"90\" /></a>" +
+				"<i></i><b><a href=\""+news[x].url+"\">"+news[x].title+"</a></b><span><strong>"+news[x].abstract+"</strong></span></li></p>";
+		content+="</div>";		
+	}
+	content+="</div>";
+	$('#newscolumn').append(content);
+}
+
+function fillnewbyStyle6(columnid,news)//样式六适用：文娱频道（名人明星），体育频道（超级足球），纪录片频道（领进着说）
+{
+	<div class="cjing_left_gj">
+	<p><b>名人明星</b><span><a href="#">更多>></a></span></p>
+	</div>
+	<div class="guonei_jqu">
+	<div class="guonei_jqu_z">
+	<p><a href="#"><img src="img/cnn_041.jpg" width="320" height="170" /></a><i>提高扩容的背后，最大的无奈在于门票收入分成部分</i><b><a href="#">景区“涨价潮”折射式中国“门票经济”</a></b></p>
+	</div>
+	<div class="guonei_jqu_z guonei_jqu_y">
+	<p><a href="#"><img src="img/cnn_041.jpg" width="320" height="170" /></a><i>提高扩容的背后，最大的无奈在于门票收入分成部分</i><b><a href="#">景区“涨价潮”折射式中国“门票经济”</a></b></p>
+	</div>
+	<div class="clear"></div>
+	</div>
+}
+function fillnewbyStyle7(columnid,news)//样式七适用：文娱频道（影视天地），纪录片频道（环球纵横）
+{
+	<!--影视天地-->
+	<div class="cjing_left_gj">
+	<p><b>影视天地</b><span><a href="#">更多>></a></span></p>
+	</div>
+	<div class="wenyu_luh">
+	<div id="contentE" class="area">
+	<div class="cons">
+	<div class="con" style="left: 0px;"><!--调整第一个显示位置请修改"left:0px;的值"，技术教程网修改整理，转载请注明谢谢合作！-->
+	<div class="left wdA">
+
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="" src="img/wenyu_015.jpg" width="150" height="90"></a><span><strong><a href="#" target="_blank">飞一咕咕是一只咕咕是一只般爱情小说</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdC">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img src="img/wenyu_014.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">咕咕是一只咕咕是一只咕咕是一只猫</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdE">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="爱有来生" src="img/wenyu_015.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">爱有来生</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdH">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="救命" src="img/wenyu_014.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">救命</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdG">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="罗马，不设防的城市" src="img/wenyu_015.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">罗马，不设防的城市</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdD">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="可可西里" src="img/wenyu_015.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">可可西里</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdD">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="可可西里" src="img/wenyu_014.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">可可西里</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdB">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="神经侠侣" src="img/wenyu_015.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">神经侠侣</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdD">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="可可西里" src="img/wenyu_014.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">可可西里</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdD">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="可可西里" src="img/wenyu_015.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">可可西里</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+
+	<div class="left wdF">
+	<div class="tBG"></div>
+	<div class="bord">
+	<div class="pic"><a href="#" target="_blank"><img alt="刀剑笑" src="img/wenyu_014.jpg" width="150" height="85"></a><span><strong><a href="#" target="_blank">刀剑笑</a></strong></span></div>
+	<div class="line"></div>
+	</div></div>
+	</div>
+	</div>
+	<div class="btns"><a href="javascript:void(0)" class="up"></a><a href="javascript:void(0)" class="down"></a></div>
+	</div>
+
+	</div>
+}
+
+function fillnewbyStyle8(columnid,news)//样式八适用：新闻频道（精品栏目），纪录片频道（香港香港）
+{
+	<div class="cjing_left_gj">
+	<p><b>精品栏目</b><span><a href="#">更多>></a></span></p>
+	</div>
+
+	<div class="jilu_xgang">
+	<ul>
+	<li><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民向遇难台湾渔民的的家属幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
+	<li class="jilu_pli"><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难湾人民就这起不幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
+	<li><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民的不幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
+	<li class="jilu_pli"><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民的家属以及台湾人民就这起不幸</a><strong>渔民的家属以</strong></span></li>
+	</ul>
+	</div>
+}
