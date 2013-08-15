@@ -30,7 +30,12 @@ Date.prototype.pattern=function(fmt) {
 	   }       
 	}       
 	return fmt;       
-}
+};
+
+Array.prototype.in_array = function(e) {  
+    for(i=0; i<this.length && this[i]!=e; i++);  
+    return !(i==this.length);  
+} ;
 //tab切换函数
 function tabs(e1, e2, className, e3){
 	var e1 = $('li', e1);
@@ -455,10 +460,22 @@ function fillcolumnnews(news)
 {
 	$.each(news,function(key,values){ 
 		//fillnew(key,values);
-		fillnewbyStyle4(key,values);
+		var stylename=getcolumnstyle(key);
+		var funname="fillnewby"+stylename;
+		
+		var func = eval(funname);
+		func(key,values);
+		
+		//eval(funname+"();");
+		//funname(key,values);
+		//fillnewbyStyle8(key,values);
 	}); 
 	
 }
+
+function doFn(stylename){
+    eval("fillnewby"+stylename+"();");
+ }
 
 function fillnew(columnid,news)
 {
@@ -544,7 +561,7 @@ function getColumnNameById(id)
 	return columnName;	
 }
 
-function fillnewbyStyle1(columnid,news)
+/*function fillnewbyStyle1(columnid,news)
 {
 	var content="";
 	var columnurl=getColumnUrlById(columnid);
@@ -579,7 +596,7 @@ function fillnewbyStyle1(columnid,news)
 	
 	content+="</span>";
 	content+="</p></div></div>";	
-}
+}*/
 
 function fillnewbyStyle1(columnid,news)//样式一适用：财经频道（国际经济），体育频道（缤纷体育）
 {
@@ -593,21 +610,47 @@ function fillnewbyStyle1(columnid,news)//样式一适用：财经频道（国际
 	content+="</div>";
 	
 	
+	
 	content+="<div class=\"left_gj_mj\">";
 	content+="<div class=\"gj_mj_left\">";
-	content+="<h3><a href=\"#\"><img src=\"img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
-	content+="<h3 class=\"mi_zp\"><a href=\"#\"><img src=\"img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
+	
+	
+	
+	if(news.length>=2)
+	{
+		content+="<h3><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
+		"<a href=\""+news[0].url+"\">"+news[0].title+"</a></span></h3>";
+		content+="<h3 class=\"mi_zp\"><a href=\""+news[1].url+"\"><img src=\""+news[1].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
+		"<a href=\""+news[1].url+"\">"+news[1].title+"</a></span></h3>";
+	}else
+	{
+		content+="<h3><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
+		"<a href=\""+news[0].url+"\">"+news[0].title+"</a></span></h3>";
+	}
 	
 	content+="</div>";
 	
-	content+="<div class=\"gj_mj_right\">";
-	content+="<p><b><a href=\"#\">台湾“中央社”报道，台“总统府”发言人15日说马英九对菲律宾政府授权不够、诚意不够</a></b><span>";
-	content+="<a href=\"#\">刻采取冻结菲劳申等项</a><br />";
-	
-	
+	if(news.length>=3)
+	{
+		content+="<div class=\"gj_mj_right\">";
+		
+		
+		content+="<p><b><a href=\""+news[2].url+"\">"+news[2].title+"</a></b><span>";
+		
+		if(news.length>=4)
+	    {
+			for(var j=0;j<3;j++)
+			{
+				if(news[j+3])
+				{
+					content+="<a href=\""+news[j+3].url+"\">"+news[j+3].title+"</a><br />";	
+				}
+			}
+	    }		
+		content+="</div>";
+	}	
 	content+="</div>";
-	content+="</div>";
-	
+	$('#newscolumn').append(content);
 }
 
 function fillnewbyStyle2(columnid,news)//样式二适用：财经频道（宏观经济）；文娱频道（文化时尚），新闻频道（文化时尚）
@@ -621,31 +664,75 @@ function fillnewbyStyle2(columnid,news)//样式二适用：财经频道（宏观
 	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
 	content+="</div>";
 	
-	<div class="left_gj_mj">
-	<div class="gj_mj_left">
-	<h2><a href="#"><img src="img/cnn_041.jpg" width="320" height="185" /></a></h2>
-	</div>
-	<div class="mj_right_hj">
-	<p><b><a href="#">取冻结菲劳申请等项撒的刻录机</a><br /><strong>发言人15日说马英九对菲律宾政府授权不够、诚意不够</strong></b><span><a href="#">刻采取冻结菲劳申等项</a><br /><a href="#">采取冻结菲劳申请等项撒的刻录机的制裁措施</a><br /><a href="#">即刻采取冻结菲劳申请等3项制裁措施</a></span></p>
-	</div>
-	</div>
+	content+="<div class=\"left_gj_mj\">";
+	content+="<div class=\"gj_mj_left\">";
 	
+	content+="<h2><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"320\" height=\"185\" /></a></h2>";	
+	content+="</div>";
 	
+	if(news.length>=2)
+	{
+		content+="<div class=\"mj_right_hj\">";
+		content+="<p><b><a href=\""+news[1].url+"\">"+news[1].title+"</a><br /><strong>"+news[1].abstract+"</strong></b><span>";
+		
+		if(news.length>=3)
+		{
+			for(var j=0;j<3;j++)
+			{
+				if(news[j+2])
+				{
+					content+="<a href=\""+news[j+2].url+"\">"+news[j+2].title+"</a><br />";
+				}
+			}
+		}		
+
+		content+="</span>";
+		content+="</p>";
+		content+="</div>";
+	}
+	
+	content+="</div>";
+	
+	$('#newscolumn').append(content);
 }
 
 function fillnewbyStyle3(columnid,news)//样式三适用：财经频道（金融市场），体育频道（火爆篮球）
 {
-	<div class="cjing_left_gj">
-	<p><b>金融市场</b><span><a href="#">更多>></a></span></p>
-	</div>
-	<div class="cjing_left_jr">
-	<ul>
-	<li><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
-	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
-	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
-	<li class="left_jrpl"><a href="#"><img src="img/cnn_042.jpg" width="150" height="90" /></a><span><a href="#">台湾渔民事件菲律宾总统就射道歉</a><strong>菲律宾总统发言人陈显达15日下午声称菲总统阿基诺已向遇难台湾渔民的家属以及台湾人民就这起不幸的</strong></span></li>
-	</ul>
-	</div>
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	content+="<div class=\"cjing_left_jr\">";
+	content+="<ul>";
+	content+="<li><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"150\" height=\"90\" /></a>" +
+			"<span><a href=\""+news[0].url+"\">"+news[0].title+"</a><strong>"+news[0].abstract+"</strong></span></li>";
+	
+	
+	if(news.length>=2)
+	{
+		for(var j=0;j<3;j++)
+		{
+			if(news[j+1])
+			{
+				content+="<li class=\"left_jrpl\"><a href=\""+news[j+1].url+"\"><img src=\""+news[j+1].image_set.image_url+"\" width=\"150\" height=\"90\" /></a>" +
+				"<span><a href=\""+news[j+1].url+"\">"+news[j+1].title+"</a><strong>"+news[j+1].abstract+"</strong></span></li>";
+			}
+		}
+	}
+	
+	
+	
+	
+	content+="</ul>";
+	content+="</div>";
+	
+
+	$('#newscolumn').append(content);
 }
 
 function fillnewbyStyle4(columnid,news)//样式四适用：财经频道（基金/理财），文娱频道（文娱播报），新闻频道（国际新闻）
@@ -733,7 +820,12 @@ function fillnewbyStyle5(columnid,news)//样式五适用：财经频道（公司
 		
 		content+="<p><a href=\""+news[x].url+"\"><img src=\""+news[x].image_set.image_url+"\" width=\"150\" height=\"90\" /></a>" +
 				"<i></i><b><a href=\""+news[x].url+"\">"+news[x].title+"</a></b><span><strong>"+news[x].abstract+"</strong></span></li></p>";
-		content+="</div>";		
+		content+="</div>";
+		
+		if(x>4)
+		{
+			break;
+		}
 	}
 	content+="</div>";
 	$('#newscolumn').append(content);
@@ -741,22 +833,46 @@ function fillnewbyStyle5(columnid,news)//样式五适用：财经频道（公司
 
 function fillnewbyStyle6(columnid,news)//样式六适用：文娱频道（名人明星），体育频道（超级足球），纪录片频道（领进着说）
 {
-	<div class="cjing_left_gj">
-	<p><b>名人明星</b><span><a href="#">更多>></a></span></p>
-	</div>
-	<div class="guonei_jqu">
-	<div class="guonei_jqu_z">
-	<p><a href="#"><img src="img/cnn_041.jpg" width="320" height="170" /></a><i>提高扩容的背后，最大的无奈在于门票收入分成部分</i><b><a href="#">景区“涨价潮”折射式中国“门票经济”</a></b></p>
-	</div>
-	<div class="guonei_jqu_z guonei_jqu_y">
-	<p><a href="#"><img src="img/cnn_041.jpg" width="320" height="170" /></a><i>提高扩容的背后，最大的无奈在于门票收入分成部分</i><b><a href="#">景区“涨价潮”折射式中国“门票经济”</a></b></p>
-	</div>
-	<div class="clear"></div>
-	</div>
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	content+="<div class=\"guonei_jqu\">";
+	
+	content+="<div class=\"guonei_jqu_z\">";
+	
+	content+="<p><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"320\" height=\"170\" /></a>" +
+			"<i>"+news[0].title+"</i><b><a href=\"#\">"+news[0].title+"</a></b></p>";
+	
+	content+="</div>";
+	
+	if(news.length>=2)
+	{
+	
+		content+="<div class=\"guonei_jqu_z guonei_jqu_y\">";
+
+	
+		content+="<p><a href=\""+news[1].url+"\"><img src=\""+news[1].image_set.image_url+"\" width=\"320\" height=\"170\" /></a>" +
+			"<i>"+news[1].title+"</i><b><a href=\""+news[1].url+"\">"+news[1].title+"</a></b></p>";
+	
+		content+="</div>";
+	
+	}
+	content+="<div class=\"clear\"></div>";
+
+	content+="</div>";
+	
+	$('#newscolumn').append(content);
+	
 }
 function fillnewbyStyle7(columnid,news)//样式七适用：文娱频道（影视天地），纪录片频道（环球纵横）
 {
-	<!--影视天地-->
+	/*<!--影视天地-->
 	<div class="cjing_left_gj">
 	<p><b>影视天地</b><span><a href="#">更多>></a></span></p>
 	</div>
@@ -846,21 +962,116 @@ function fillnewbyStyle7(columnid,news)//样式七适用：文娱频道（影视
 	<div class="btns"><a href="javascript:void(0)" class="up"></a><a href="javascript:void(0)" class="down"></a></div>
 	</div>
 
-	</div>
+	</div>*/
 }
 
 function fillnewbyStyle8(columnid,news)//样式八适用：新闻频道（精品栏目），纪录片频道（香港香港）
 {
-	<div class="cjing_left_gj">
-	<p><b>精品栏目</b><span><a href="#">更多>></a></span></p>
-	</div>
+	var content="";
+	var columnurl=getColumnUrlById(columnid);
+	var columnname=getColumnNameById(columnid);
+	
+	
+	content+="<div class=\"cjing_left_gj\">";
+	content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
+	content+="</div>";
+	
+	content+="<div class=\"jilu_xgang\">";
+	content+="<ul>";
+	
+	for (x in news)
+	{
+		if(x%2==0)
+		{
+			content+="<li><a href=\""+news[x].url+"\"><img src=\""+news[x].image_set.image_url+"\" width=\"140\" height=\"80\" /></a><span>" +
+			"<a href=\""+news[x].url+"\">"+news[x].title+"</a><strong>"+news[x].title+"</strong></span></li>";
+		}else
+		{
+			content+="<li class=\"jilu_pli\"><a href=\""+news[x].url+"\"><img src=\""+news[x].image_set.image_url+"\" width=\"140\" height=\"80\" /></a><span>" +
+			"<a href=\""+news[x].url+"\">"+news[x].title+"</a><strong>"+news[x].title+"</strong></span></li>";
+		}		
+		
+		
+		if(x>4)
+		{
+			break;
+		}
+	}
+	
+	
+	
+	content+="</ul>";
+	content+="</div>";
+	$('#newscolumn').append(content);
+}
 
-	<div class="jilu_xgang">
-	<ul>
-	<li><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民向遇难台湾渔民的的家属幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
-	<li class="jilu_pli"><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难湾人民就这起不幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
-	<li><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民的不幸</a><strong>渔民的家属以及台湾人民就这起</strong></span></li>
-	<li class="jilu_pli"><a href="#"><img src="img/jilu_006.jpg" width="140" height="80" /></a><span><a href="#">已向遇难台湾渔民的家属以及台湾人民就这起不幸</a><strong>渔民的家属以</strong></span></li>
-	</ul>
-	</div>
+function getcolumnstyle(columnid)
+{
+	var stylename="";
+	for (x in colstyle)//数组中的每一个变量
+	{
+		if (colstyle[x][0].in_array(columnid))
+		{
+			stylename=colstyle[x][1];
+			break;
+		}
+			
+			
+	}
+	return stylename;	
+}
+
+function initcolumnstyle()
+{
+	
+	var colstyle=new Array(); 
+	colstyle[0][0] = new Array('124020580','124020650','124020731');
+	colstyle[0][1] = "style1";
+	colstyle[1][0] = new Array('124020581','124020810');
+	colstyle[1][1] = "style2";
+	colstyle[2][0] = new Array('124020582','124020730');
+	colstyle[2][1] = "style3";
+	colstyle[3][0] = new Array('124020583','124020621','124020734');
+	colstyle[3][1] = "style4";
+	colstyle[4][0] = new Array('124020584','124020733','124020732','124020825');
+	colstyle[4][1] = "style5";
+	colstyle[5][0] = new Array('124020651','124020729','124020826');
+	colstyle[5][1] = "style6";
+	colstyle[6][0] = new Array('124020652','124020824');
+	colstyle[6][1] = "style7";
+	colstyle[7][0] = new Array('124020773','124020827');
+	colstyle[7][1] = "style8";
+	
+	/* {
+                        "column_id": 124020651,
+                        "column_name": "名人明星",
+                        "column_url": "http://wenyu.cncnews.cn/shehui/index.html"
+                    },
+	 * {
+                        "column_id": 124020653,
+                        "column_name": "服务",
+                        "column_url": "http://wenyu.cncnews.cn/fuwu/index.html"
+                    }
+	 *  {
+                        "column_id": 124021172,
+                        "column_name": "名记专栏",
+                        "column_url": "http://news.cncnews.cn/reporter/index.html"
+                    }
+	 * columns": [
+                    {
+                        "column_id": 124021209,
+                        "column_name": "科技",
+                        "column_url": "http://photo.cncnews.cn/technology/index.html"
+                    },
+                    {
+                        "column_id": 124021210,
+                        "column_name": "军事",
+                        "column_url": "http://photo.cncnews.cn/military/index.html"
+                    },
+                    {
+                        "column_id": 124021204,
+                        "column_name": "视觉中国",
+                        "column_url": "http://photo.cncnews.cn/china/index.html"
+                    }
+	 * */
 }

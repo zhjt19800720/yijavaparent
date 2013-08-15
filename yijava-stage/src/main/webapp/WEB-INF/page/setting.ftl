@@ -538,6 +538,32 @@ jQuery(function(jq){
 	 		allcolumns[${c_index}][2]="${(c.column_name)!""}";	 	 	
 	 </#list>
 	 </#if>
+	 
+	var colstyle=new Array(8); 
+	colstyle[0] = new Array();
+	colstyle[0][0] = new Array('124020580','124020650','124020731');
+	colstyle[0][1] = "Style1";
+	colstyle[1] = new Array();
+	colstyle[1][0] = new Array('124020581','124020810');
+	colstyle[1][1] = "Style2";
+	colstyle[2] = new Array();
+	colstyle[2][0] = new Array('124020582','124020730');
+	colstyle[2][1] = "Style3";
+	colstyle[3] = new Array();
+	colstyle[3][0] = new Array('124020583','124020621','124020734');
+	colstyle[3][1] = "Style4";
+	colstyle[4] = new Array();
+	colstyle[4][0] = new Array('124020584','124020733','124020732','124020825');
+	colstyle[4][1] = "Style5";
+	colstyle[5] = new Array();
+	colstyle[5][0] = new Array('124020651','124020729','124020826');
+	colstyle[5][1] = "Style6";
+	colstyle[6] = new Array();
+	colstyle[6][0] = new Array('124020652','124020824');
+	colstyle[6][1] = "Style7";
+	colstyle[7] = new Array();
+	colstyle[7][0] = new Array('124020773','124020827');
+	colstyle[7][1] = "Style8";
 </script>
 </body>
 </html>
