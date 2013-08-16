@@ -21,16 +21,22 @@ import com.yijava.entity.UserCustom;
 import com.yijava.entity.WeatherInfo;
 import com.yijava.service.UserCustomService;
 import com.yijava.service.WeatherService;
+import com.yijava.web.vo.CNew;
 import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.Column;
 import com.yijava.web.vo.Result;
+import com.yijava.web.vo.ScribeNew;
 import com.yijava.web.vo.UpBody;
 import com.yijava.web.vo.UpCloumnMessage;
 import com.yijava.web.vo.UpColumnBody;
 import com.yijava.web.vo.UpColumnHeader;
 import com.yijava.web.vo.UpHeader;
 import com.yijava.web.vo.UpMessage;
+import com.yijava.web.vo.UpScribe;
+import com.yijava.web.vo.UpScribeBody;
+import com.yijava.web.vo.UpScribeNew;
+import com.yijava.web.vo.UpScribeNewBody;
 
 @Controller
 public class CustomController {
@@ -53,11 +59,25 @@ public class CustomController {
 	}
 	
 	@RequestMapping("/me")
-	public String index(Model model) {
+	public String index(Model model,HttpServletRequest request) {
+		String userId=request.getParameter("uid");
+		
+		if(userId==null)
+		{
+			throw new RuntimeException("访问此页面需要先登陆");
+		}
+		//String uid="11";
+		//订阅
+		UpScribe upScribeMessage = new UpScribe(new UpColumnHeader("","","","","","",""),new UpScribeBody(userId,"2"));		
+		//upScribeMessage.setBody(new UpColumnHeader("","","","","","",""),new UpScribeBody("10000052","1"));
+		String scribename=httpService.getAllScribe(upScribeMessage);
+		System.out.println(scribename);
+		
+		//所有栏目
 		List<Channel>  channels = httpService.getAllChannel();	
 		//用户已经收藏的栏目
-		String uid="11";
-		UserCustom userCustom=userCustomService.getUserCustomByUid(uid);
+		
+		UserCustom userCustom=userCustomService.getUserCustomByUid(userId);
 		List<Column> columns=null; 
 		List<Column> allcolumns=null;
 		//根据用户已经收藏的id得到栏目
@@ -92,14 +112,18 @@ public class CustomController {
 			model.addAttribute("customs", columns);
 		if(allcolumns!=null)			
 			model.addAttribute("allcolumns", allcolumns);
+		if(scribename!=null)			
+			model.addAttribute("scribename", scribename);
 		return "setting";
 	}
 	@RequestMapping("/me/custom/add")
 	@ResponseBody
 	public Result<Integer> addUserCustom(HttpServletRequest request)
 	{
-		String uid="11";
-		UserCustom userCustom=userCustomService.getUserCustomByUid(uid);
+		//String uid="11";
+		String userId=request.getParameter("uid");
+		
+		UserCustom userCustom=userCustomService.getUserCustomByUid(userId);
 		
 		String channelids = request.getParameter("ids");
 		String region = request.getParameter("region");		
@@ -108,7 +132,7 @@ public class CustomController {
 		if(userCustom==null)
 		{
 			UserCustom entity=new UserCustom();
-			entity.setUser_id(uid);
+			entity.setUser_id(userId);
 			entity.setChannel_ids(channelids);
 			entity.setRegion_name(region);
 			userCustomService.insertUserCustom(entity);
@@ -117,7 +141,7 @@ public class CustomController {
 			//if(channelids.equals(userCustom.getChannel_ids()) && !region.equals(userCustom.getRegion_name()))
 			//{
 				UserCustom entity=new UserCustom();
-				entity.setUser_id(uid);
+				entity.setUser_id(userId);
 				entity.setChannel_ids(channelids);
 				entity.setId(userCustom.getId());
 				entity.setRegion_name(region);
@@ -178,7 +202,7 @@ public class CustomController {
 		List<CncNew> news;
 		for(String column:columns)
 		{
-			UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody(column,"1","1"));
+			UpCloumnMessage columnmessage=new UpCloumnMessage(new UpColumnHeader("","","","","","",""),new UpColumnBody(column,"1","10"));
 			news=httpService.getAllNewsByChannel(columnmessage);
 			if(news!=null)
 			{
@@ -197,12 +221,27 @@ public class CustomController {
 	 */
 	@RequestMapping("/api/getnewbyr")
 	@ResponseBody
-	public List<CncNew> getNewByRegion(@RequestParam(value = "regionname", required = false)String regionname)
+	public List<CNew> getNewByRegion(@RequestParam(value = "regionname", required = false)String regionname)
 	{
 		UpHeader header = new UpHeader("", "", "");
-		UpBody body = new UpBody("北京", "10", "1");		
+		UpBody body = new UpBody(regionname, "10", "1");		
 		UpMessage message = new UpMessage(header, body);		
 		return httpService.getNewsByProvince(message);
+	}
+	
+	/**
+	 * 根据订阅获取新闻
+	 * @param columnid
+	 * @return
+	 */
+	@RequestMapping("/api/getnewbys")
+	@ResponseBody
+	public List<ScribeNew> getNewByScribe(@RequestParam(value = "userid", required = false)String userid)
+	{		
+		
+		UpScribeNew message=new UpScribeNew(new UpColumnHeader("","","","","","",""),new UpScribeNewBody(userid,"2","1","5"));
+		
+		return httpService.getAllScribeNews(message);
 	}
 	
 	/**

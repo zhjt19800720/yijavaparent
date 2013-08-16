@@ -7,7 +7,7 @@
 <script type="text/javascript" src="resource/js/index.js"></script>
 <script src="resource/js/jquery.min.js"></script>
 <script src="resource/js/common.js"></script>
-
+<script src="resource/js/newutils.js"></script>
 <style type="text/css">
 #gotopbtn{width:26px;height:89px;background:url(resource/img/topback.gif);position:fixed;bottom:50px;right:90px;display:none;cursor:pointer;}
 *html,*html body /* 修正IE6振动bug */{background-image:url(about:blank);background-attachment:fixed;}
@@ -57,10 +57,9 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 <div class="login">
 <a href="#">设为首页</a>
 <a href="#">收藏</a>
+<a href="javascript:;" class="setting" id="settingBtn" style="display:none">个性定制</a>
 <a id="loginname" href="javascript:void(0);" onclick="javascript:login();">登陆</a>
 <a id="logout" href="javascript:void(0);" onclick="javascript:reg();">注册</a> 
-
-<a href="javascript:;"  id="settingBtn">个性定制</a>
 </div>
 </div>
 </div>
@@ -99,17 +98,14 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 
 
  	<div class="focus_news clearfix mb">
-      <div class="focus_title"><a class="more" href="#">更多&gt;&gt;</a>
+ 	
+ 	  <#if scribename??>
+      <div class="focus_title">
         <h2>我的关注</h2>
-        <a href="#" class="focus_title_tage">美国</a></div>
-      <div class="focus_img"><a href="#"><img src="resource/images/img03.jpg"></a></div>
-      <ul class="focus_list">
-        <li><span>13:05</span><a href="#">尼罗河畔的政治龙虎斗将演变成三国</a></li>
-        <li><span>11:45</span><a href="#">法国前总理：任何政府都应尊重起码的</a></li>
-        <li><span>10:18</span><a href="#">波波卡特佩特火山预警级别升至</a></li>
-        <li><span>09:22</span><a href="#">网店出售“回心转意符”　一月卖70</a></li>
-        <li><span>09:10</span><a href="#">婴幼儿奶粉　反式脂肪酸含量符合国</a></li>
-      </ul>
+        <a href="http://search.cncnews.cn/search?${scribename!""}" class="focus_title_tage">${scribename!""}</a>
+      </div>
+      </#if>
+     <div id="scribenew"></div>
     </div>
     
     <div class="region_news clearfix mb">
@@ -190,120 +186,10 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 </table>
 </div>
 
-
-<div class="right_cnn">
-<table width="300" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td height="35" colspan="2" bgcolor="#f6f6f6"><h3>24小时新闻</h3><span><a href="#">更多>></a></span></td>
-    </tr>
-  <tr>
-    <td width="40" height="55" align="center"><strong>16:53</strong></td>
-    <td width="260" height="58" align="left" valign="middle"><p><a href="#">对于网络曝光的相关问题，张少龙介绍通过网络曝光</a></p></td>
-  </tr>
-  <tr>
-      <td width="40" height="55" align="center"><strong>15:50</strong></td>
-    <td width="260" height="58" valign="middle"><p><a href="#">对于网络曝光的相关问题，张少龙介绍通过网络曝光</a></p></td>
-  </tr>
-  <tr>
-     <td width="40" height="55" align="center"><strong>15:35</strong></td>
-    <td width="260" height="58" valign="middle"><p><a href="#">对于网络曝光的相关问题，张少</a></p></td>
-  </tr>
-</table>
-</div>
-<div class="index_blank"></div>
-
-<div class="main_right_cy">创意视频</div>
-<div class="main_right_cu">
-<ul>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">做品牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">视台做品牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">电视台做文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">华社电视做文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">新华社电视牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_029.jpg" width="70" height="70" /></a><span><a href="#">在电视台做文化宣传</a></span></li>
-</ul>
-</div>
+<#include "inc/24hour.inc">	
 
 <div class="main_right_wx"><img src="resource/img/cnn_030.jpg" width="300" height="438"></div>
-
-<!--排行榜-->
-<div class="main_right_hg">
-<div id="Tab1">
-<div class="Menubox">
-<ul>
-<li id="two1" onmouseover="setTab('two',1,2)"  class="hover">新闻1</li>
-<li id="two2" onmouseover="setTab('two',2,2)" >新闻2</li>
-</ul>
-</div>
-<div class="Contentbox">
-<div id="con_two_1" >
-<ul>
-<li  class="con_two_red"><a href="#">件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li  class="con_two_red"><a href="#">神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li  class="con_two_red"><a href="#">课件爱神的箭阿斯顿课件爱神的斯的就阿斯顿啊看来</a></li>
-<li><a href="#">阿斯顿课件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">斯顿课件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">阿斯顿课件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-</ul>
-
-</div>
-<div id="con_two_2" style="display:none">
-
-<ul>
-<li  class="con_two_red"><a href="#">神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li  class="con_two_red"><a href="#">神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li  class="con_two_red"><a href="#">课件爱神的箭阿斯顿课件爱神的斯的就阿斯顿啊看来</a></li>
-<li><a href="#">阿斯顿课件爱神的的就阿斯顿啊看来</a></li>
-<li><a href="#">件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">斯顿课件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">件爱神的箭卡拉斯的就阿斯顿啊看来</a></li>
-<li><a href="#">阿斯顿课件卡拉斯的就阿斯顿啊看来</a></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<!--排行榜结束-->
-
-<div class="main_right_cy">行情动态</div>
-<div class="main_right_if"><iframe src="http://data.stock.hexun.com/quote2012/stock_1.htm" marginWidth=0 marginHeight=0 frameBorder=0 width=300 scrolling=no height=217 ></iframe></div>
-
-<div class="main_right_cy">记录片</div>
-
-<div class="main_right_jl">
-<p><a href="#"><img src="resource/img/cnn_032.jpg" width="260" height="120" /></a><b><a href="#">环球聚焦 中国之路</a></b><span><a href="#">华尔地出面开记者会，闹出人命还笑着回答记者笑着回答记问题</a></span></p>
-<div class="main_right_gf">
-<ul>
-<li><a href="#"><img src="resource/img/cnn_033.jpg" width="120" height="70" /></a><span><a href="#">台做品牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_033.jpg" width="120" height="70" /></a><span><a href="#">视台做品牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_033.jpg" width="120" height="70" /></a><span><a href="#">电视台做品牌文化宣传</a></span></li>
-<li><a href="#"><img src="resource/img/cnn_033.jpg" width="120" height="70" /></a><span><a href="#">做品牌文化宣传</a></span></li>
-</ul>
-</div>
-
-
-<div class="main_right_sy">
-<h2><a href="#">纪录片分类索引</a></h2>
-<div class="main_right_bv">
-
-<div class="right_bv_f">
-<h5><a href="#" target="_blank">记录中国</a> | <a href="#" target="_blank">军事风云</a> | <a href="#" target="_blank">传奇人物</a> | <a href="#" target="_blank">环球纵横</a> | <a href="#" target="_blank">历史人文</a></h5>
-</div>
-<div class="index_blank4"></div>
-
-<div class="right_bv_f right_bv_t">
-<h5><a href="#" target="_blank">记录中国</a> | <a href="#" target="_blank">军事风云</a> | <a href="#" target="_blank">传奇人物</a> | <a href="#" target="_blank">环球纵横</a> | <a href="#" target="_blank">历史人文</a></h5>
-</div>
-</div>
-</div>
-<div class="clear"></div>
-</div>
+<#include "inc/toplist.inc">
 </div>
 
 
@@ -315,10 +201,10 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 <script type="text/javascript" src="resource/js/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
 <script>
-initpage();
+
 //var islogin = false;
 var userId = 0;
-//document.domain="cncnews.cn"
+document.domain="cncnews.cn"
 
 
 function getCookie(name){
@@ -364,9 +250,17 @@ function delCookie(objName) {
 	  }else{
 		$("#loginname").html(data.username);
 	  }
+	  userId=data.userid;
 	  $("#loginname").attr("onclick","").attr("title",shortname);
 	  $("#logout").html("退出");
 	  $("#logout").attr("onclick","logout()");
+	  
+	  //初始化页面信息start
+	  initpage();
+	  //显示定制
+	  showcustom();
+	  //初始化页面信息end
+	  
 	  var validateinfo = getCookie("validateinfo");
 	  if(validateinfo == data.username){
 		delCookie("validateinfo");
@@ -456,51 +350,12 @@ backTop('gotopbtn');
 
 <script type="text/javascript">
 jQuery(function(jq){
-	var rr = jq('#contentE');
-	var conr = rr.find('div.con'),
-		conr0 = conr[0],
-		btnWr = rr.find('> div.btns'),
-		btnPr = btnWr.find('a.up'),
-		btnNr = btnWr.find('a.down');
 	
-	var lisr = conr.find('.left');
-	
-	conr.find(".bord").hover(function(){
-		jq(this).addClass("bgBord");
-	},function(){
-		jq(this).removeClass("bgBord");
-	});
-	
-	var pnumr = 6, numr = lisr.length;
-	if(numr <= pnumr)return;
-	
-	var owr = lisr[1].offsetLeft - lisr[0].offsetLeft, 
-		idxArear = [0, numr - pnumr],
-		idxr = 0;
-	
-	function updateNum(n){
-		if (n > idxArear[1] || n < idxArear[0]) {return;}
-		
-		btnPr[((n == 0)?'add':'remove') + 'Class']('uN');
-		btnNr[((n == idxArear[1])?'add':'remove') + 'Class']('dN');
-		
-		idxr = n;
-		conr.stop().animate({left: -n * owr},300);
-	}
-	
-	btnPr.click(function(){
-		updateNum(idxr - 1);
-		return false;
-	});
-	btnNr.click(function(){
-		updateNum(idxr + 1);
-		return false;
-	});
 });
 </script>
 <div id="setting" class="popbox">
   <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改注册信息</a></span><h4>我的CNC</h4></div>
-  <div class="followTage"><strong>我的关注：</strong><span class="tage">无标签</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
+  <div class="followTage"><strong>我的关注：</strong><span class="tage">${scribename!""}</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
   <div class="followTage"><strong>区域新闻：</strong>
     <select id="selRegion" name="selRegion">
     	 
@@ -564,6 +419,8 @@ jQuery(function(jq){
 	colstyle[7] = new Array();
 	colstyle[7][0] = new Array('124020773','124020827');
 	colstyle[7][1] = "Style8";
+	
+	var style7sum=0;
 </script>
 </body>
 </html>

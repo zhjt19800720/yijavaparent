@@ -19,13 +19,20 @@ import org.springframework.stereotype.Component;
 
 import com.yijava.common.HttpConstants;
 import com.yijava.common.Model;
+import com.yijava.web.vo.CNew;
 import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.DownBody;
 import com.yijava.web.vo.DownBodyNew;
+import com.yijava.web.vo.DownScribe;
+import com.yijava.web.vo.DownScribeBody;
+import com.yijava.web.vo.DownScribeNew;
 import com.yijava.web.vo.InResult;
+import com.yijava.web.vo.ScribeNew;
 import com.yijava.web.vo.UpCloumnMessage;
 import com.yijava.web.vo.UpMessage;
+import com.yijava.web.vo.UpScribe;
+import com.yijava.web.vo.UpScribeNew;
 
 @Component
 public class BaseHttpUtil {
@@ -49,7 +56,63 @@ public class BaseHttpUtil {
 		this.jacksonObjectMapper = jacksonObjectMapper;
 	}
 
+	//得到订阅标签
+	public String getAllScribe(UpScribe message)
+	{
+		logger.debug("getAllScribe");
+		try {
+			InResult<DownScribe> res = post(HttpConstants.GET_SUBSCIBE_URI,message, new TypeReference<InResult<DownScribe>>() {});
+			if(null!=res && res.getHead().getResp_code().equals("000"))
+			{	
+				if(res.getBody().getSubject_set().size()>0)
+				{
+					DownScribeBody body=res.getBody().getSubject_set().get(0);
+					return body.getName();
+				}
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+	//到到订阅的新闻
+	public List<ScribeNew> getAllScribeNews(UpScribeNew message)
+	{
+		logger.debug("getAllScribe");
+		try {
+			InResult<DownScribeNew> res = post(HttpConstants.GET_SUBSCIBE_NEW_URI,message, new TypeReference<InResult<DownScribeNew>>() {});
+			if(null!=res && res.getHead().getResp_code().equals("000"))
+			{	
+				return res.getBody().getNews_set();
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	 
+	
+	//得到排行榜
+	public String getTopNew()
+	{
+		return null;
+	}
+	//得到24小时新闻
+	public String get24NewTitle()
+	{
+		return null;
+	}
+	
+	public String get24NewDesc()
+	{
+		return null;
+	}
 	
 	/**
 	 * 根据栏目得到新闻
@@ -62,19 +125,19 @@ public class BaseHttpUtil {
 			InResult<DownBodyNew> res = post(HttpConstants.GET_NEW_BYCOLUMN_URI,message, new TypeReference<InResult<DownBodyNew>>() {});
 			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
-				//return res.getBody().getNews_set();	
-				List<CncNew> cncnews = res.getBody().getNews_set();
-				CncNew tmp=cncnews.get(0);
-				tmp.setTitle("1111");
-				cncnews.add(tmp);
-				tmp.setTitle("2222");
-				cncnews.add(tmp);
-				tmp.setTitle("333");
+				return res.getBody().getNews_set();	
+				//List<CncNew> cncnews = res.getBody().getNews_set();
+				//CncNew tmp=cncnews.get(0);
+				//tmp.setTitle("1111");
+				//cncnews.add(tmp);
+				//tmp.setTitle("2222");
+				//cncnews.add(tmp);
+				//tmp.setTitle("333");
 				//cncnews.add(tmp);
 				//cncnews.add(cncnews.get(0));
 				//cncnews.add(cncnews.get(0));
 				
-				return cncnews;
+				//return cncnews;
 				//测试增加内容
 			}			
 		} catch (IOException e) {
@@ -106,9 +169,9 @@ public class BaseHttpUtil {
 	 * 根据省份得到新闻
 	 * @return
 	 */
-	public List<CncNew> getNewsByProvince(UpMessage message){		
+	public List<CNew> getNewsByProvince(UpMessage message){		
 		try {			
-			InResult<Map<String, List<CncNew>>> res = post(HttpConstants.GET_NEW_BYPROVINCE_URI,message, new TypeReference<InResult<Map<String,List<CncNew>>>>() {});
+			InResult<Map<String, List<CNew>>> res = post(HttpConstants.GET_NEW_BYPROVINCE_URI,message, new TypeReference<InResult<Map<String,List<CNew>>>>() {});
 			if(null!=res && res.getHead().getResp_code().equals("000"))
 			{						
 				return res.getBody().get("news_set");	

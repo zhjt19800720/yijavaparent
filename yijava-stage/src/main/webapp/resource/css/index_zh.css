@@ -8,6 +8,7 @@
 
 
 
+
 /*首页顶部*/
 
 .index_top{ width:100%; height:32px; border-bottom:3px solid #d90200; background-color:#333;}
@@ -16,9 +17,11 @@
 
 .top_lay p{ width:480px; color:#FFF; line-height:32px; padding-left:5px; float:left;}
 
-.top_lay h2{ width:285px; height:32px; line-height:32px; font-size:14px; float:left; text-align:right; color:#FFFFFF; font-weight:normal; }
+.top_lay h2{ width:205px; height:32px; line-height:32px; font-size:14px; float:left; text-align:right; color:#FFFFFF; font-weight:normal; }
 
-.top_lay .login{ width:205px; text-align:right; float: right;}
+.top_lay .login{ width:285px; text-align:right; float: right;}
+
+.setting{width:81px; height:32px; display:inline-block; overflow:hidden; line-height:22px; vertical-align:middle; text-align:center; background:url(../images/setting.png) no-repeat;}
 
 .top_lay .login a{ color:#FFFFFF; line-height:32px;font-size:13px; padding-left:10px;}
 
@@ -458,11 +461,11 @@ li.nodot{background:none!important;padding-left:0px!important;}/* 去掉列表前缀 *
 
 .area{width:660px;}/*总体宽度*/
 
-.menuA li,#contentE .btns a{background:url(../img/icon.gif) no-repeat}
+.menuA li,#contentE0 .btns a,#contentE1 .btns a{background:url(../img/icon.gif) no-repeat}
 
 /* E板块CSS样式 */
 
-#contentE .left .list12 li {
+#contentE0 .left .list12 li,#contentE1 .left .list12 li {
 
 background:url("bg01.gif") no-repeat 0 4px transparent;padding-left:14px;}
 
@@ -478,49 +481,49 @@ background:url("bg01.gif") no-repeat 0 4px transparent;padding-left:14px;}
 
 
 
-#contentE{width:660px; height: auto;}
+#contentE0,#contentE1{width:660px; height: auto;}
 
-#contentE .left{width:150px;height:130px; margin-left:2px;}
+#contentE0 .left,#contentE1 .left{width:150px;height:130px; margin-left:2px;}
 
-#contentE .bord{width:150px;height:130px; }
+#contentE0 .bord,#contentE1 .bord{width:150px;height:130px; }
 
-#contentE .left .info{width:127px;margin:1px auto 4px;text-align:left;line-height:20px}
+#contentE0 .left .info,#contentE1 .left .info{width:127px;margin:1px auto 4px;text-align:left;line-height:20px}
 
-#contentE .left .pic span{display:block;line-height:18px; background-color:#5d5d5d; padding-top:5px; height:37px;_height:43px;}
+#contentE0 .left .pic span,#contentE1 .left .pic span{display:block;line-height:18px; background-color:#5d5d5d; padding-top:5px; height:37px;_height:43px;}
 
-#contentE .left .pic span strong a{ color:#FFFFFF; font-weight:normal; width:130px; margin-left:10px; float:left;}
+#contentE0 .left .pic span strong a,#contentE1 .left .pic span strong a{ color:#FFFFFF; font-weight:normal; width:130px; margin-left:10px; float:left;}
 
-#contentE .left .pic span strong a:hover{ color:#C63919;}
+#contentE0 .left .pic span strong a:hover,#contentE1 .left .pic span strong a:hover{ color:#C63919;}
 
-#contentE .left .line{width:89%}
+#contentE0 .left .line,#contentE1 .left .line{width:89%}
 
-#contentE .left .pic img{ margin-top:-10px; width:150px; height:90px;}
+#contentE0 .left .pic img,#contentE1 .left .pic img{ margin-top:-10px; width:150px; height:90px;}
 
-#contentE .left .list12 ul{width:131px;margin:0px auto 0; }
+#contentE0 .left .list12 ul,#contentE1 .left .list12 ul{width:131px;margin:0px auto 0; }
 
-#contentE .left .list12 li{padding-left:12px}
+#contentE0 .left .list12 li,#contentE1 .left .list12 li{padding-left:12px}
 
-#contentE .left .more{padding-right:15px;line-height:22px}
+#contentE0 .left .more,#contentE1 .left .more{padding-right:15px;line-height:22px}
 
-#contentE .btns{position:relative;height:1px;font-size:0}
+#contentE0 .btns,#contentE1 .btns{position:relative;height:1px;font-size:0}
 
-#contentE .btns a{position:absolute;background-position:0 -220px;width:25px;height:130px;top:-161px;left:0px;}
+#contentE0 .btns a,#contentE1 .btns a{position:absolute;background-position:0 -220px;width:25px;height:130px;top:-161px;left:0px;}
 
-#contentE .btns .down{background-position:-25px -220px;left:auto;right:0px}
+#contentE0 .btns .down,#contentE1 .btns .down{background-position:-25px -220px;left:auto;right:0px}
 
-#contentE .btns a:hover.up{background-position:-40 -220px;}
+#contentE0 .btns a:hover.up,#contentE1 .btns a:hover.up{background-position:-40 -220px;}
 
-#contentE .btns a:hover.down{background-position:-25px -220px;}
+#contentE0 .btns a:hover.down,#contentE1 .btns a:hover.down{background-position:-25px -220px;}
 
-#contentE .btns .uN,#contentE .btns  a:hover.uN{cursor:none;background-position:-25px -220px}
+#contentE0 .btns .uN,#contentE1 .btns .uN,#contentE0 .btns,#contentE1 .btns,  a:hover.uN{cursor:none;background-position:-25px -220px}
 
-#contentE .btns .dN,#contentE .btns  a:hover.dN{cursor:none;background-position:-25px -220px}
+#contentE0 .btns .dN,#contentE1 .btns .dN,#contentE0 .btns,#contentE1 .btns  a:hover.dN{cursor:none;background-position:-25px -220px}
 
-#contentE .cons{width:610px;overflow:hidden;position:relative;height:160px;_height:166px; margin-left:25px;}
+#contentE0 .cons,#contentE1 .cons{width:610px;overflow:hidden;position:relative;height:160px;_height:166px; margin-left:25px;}
 
-#contentE .con{float:left;width:9999px;position:absolute;left:0;top:0;}
+#contentE0 .con,#contentE1 .con{float:left;width:9999px;position:absolute;left:0;top:0;}
 
-#contentE .tBG{height:7px;font-size:0;width:100%}
+#contentE0 .tBG,#contentE1 .tBG{height:7px;font-size:0;width:100%}
 
 
 .popbox{width:706px; position:absolute; border:#dcdada solid 1px; color:#8c8a8a; display:none; background:#FFF;}
