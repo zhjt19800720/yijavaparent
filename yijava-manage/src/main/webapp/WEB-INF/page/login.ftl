@@ -45,7 +45,8 @@
 	}); 
 
 	$(function() {
-	    $('#btnLogin').click(function() {	       
+	    $('#btnLogin').click(function() {	
+	    	
 	        uname = $("#username").val(),	         
 	        password = $("#password").val()
 	        var params = "username="+uname+"&password="+password;

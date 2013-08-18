@@ -45,7 +45,7 @@ public class CategoryController {
 			entity.setUpdate_at(new Date());
 		}
 		categoryService.insertCategory(entity);
-		return "redirect:/category-view";
+		return "redirect:category-view";
 	}
 
 	@RequestMapping("/category-add")
@@ -83,7 +83,7 @@ public class CategoryController {
 		ids.add(id);
 		
 		categoryService.deleteCategorys(ids);
-		return "redirect:/category-view";
+		return "redirect:category-view";
 	}
 	
 	

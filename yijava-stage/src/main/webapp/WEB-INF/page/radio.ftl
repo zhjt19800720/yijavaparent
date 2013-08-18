@@ -46,7 +46,7 @@
 
 <div class="main">
   <ul id="tabTitle" class="tabs-title">
-    <li class="first current"><span class="tab-left"></span><span class="tab-middle">今日电台</span><span class="tab-right"></span></li>
+    <li class="first current"><span class="tab-left"></span><span class="tab-middle">最新播报</span><span class="tab-right"></span></li>
     <li><span class="tab-left"></span><span class="tab-middle">精彩推荐</span><span class="tab-right"></span></li>
     <li class="last"><span class="tab-left"></span><span class="tab-middle">我的收藏</span><span class="tab-right"></span></li>
   </ul>
@@ -126,7 +126,7 @@
 			var news=msg.data.result;
 			var content="";
 			var pubtime,title,audiof,id;
-			for (x in news)
+			for(var x=0;x<news.length;x++)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;
@@ -255,7 +255,7 @@
 			var news=msg.data.result;
 			var content="";
 			var pubtime,title,audiof,id;
-			for (x in news)
+			for(var x=0;x<news.length;x++)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;
@@ -341,7 +341,7 @@
 			var news=msg.data.result;
 			var content="";
 			var pubtime,title,audiof,id;
-			for (x in news)
+			for(var x=0;x<news.length;x++)
 			{
 				pubtime=getdate(news[x].last_date);
 				title=news[x].title;

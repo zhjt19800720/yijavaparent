@@ -1,15 +1,20 @@
 package com.yijava.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -18,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "tb_category")
 @JsonAutoDetect
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}) 
+//@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}) 
 public class Category {
 
 	protected Long id;
@@ -28,7 +33,8 @@ public class Category {
 	private Date create_at;
 	
 	private Date update_at;
-
+	
+	private Set<RadioNew> news = new HashSet<RadioNew>(0);
 	
 	
 	public Category() {
@@ -78,6 +84,16 @@ public class Category {
 
 	public void setUpdate_at(Date update_at) {
 		this.update_at = update_at;
+	}
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorys")
+	/*@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name = "TB_RADIO_NEWS", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = { @JoinColumn(name = "new_id") })*/
+	public Set<RadioNew> getNews() {
+		return news;
+	}
+
+	public void setNews(Set<RadioNew> news) {
+		this.news = news;
 	}
 	
 	

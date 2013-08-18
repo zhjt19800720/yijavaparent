@@ -1,28 +1,31 @@
 package com.yijava.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.Parameter;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
 @Entity
 @Table(name = "TB_RADIO_NEWS")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}) 
+/*@NamedQuery(name=Category.news,
+query="select gl from RadioNew u left join u.categorys gl  where gl.id=?1")*/
 public class RadioNew {
 
 	private Long id;
@@ -39,9 +42,14 @@ public class RadioNew {
 
 	private Date last_date;
 	
-	private String category_id;	
+	//private String category_id;	
 	
-	private Category category;
+	//private Category category;
+	
+	private String seq_num;
+
+	
+	private List<Category> categorys= new ArrayList<Category>(0);
 	
 	public RadioNew() {
 		
@@ -61,7 +69,7 @@ public class RadioNew {
 		this.duration = duration;
 		this.create_date = create_date;
 		this.last_date = last_date;
-		this.category_id = category_id;
+		//this.category_id = category_id;
 	}
 
 
@@ -122,13 +130,13 @@ public class RadioNew {
 		this.last_date = last_date;
 	}
 
-	public String getCategory_id() {
+	/*public String getCategory_id() {
 		return category_id;
 	}
 
 	public void setCategory_id(String category_id) {
 		this.category_id = category_id;
-	}
+	}*/
 	
 	public String getImage_file() {
 		return image_file;
@@ -137,17 +145,35 @@ public class RadioNew {
 		this.image_file = image_file;
 	}
 	
-	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	/*@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id", insertable = false, updatable = false)
 	public Category getCategory() {
 		return category;
-	}
+	}*/
 
 
 
 
-	public void setCategory(Category category) {
+	/*public void setCategory(Category category) {
 		this.category = category;
+	}*/
+
+	public String getSeq_num() {
+		return seq_num;
+	}
+	public void setSeq_num(String seq_num) {
+		this.seq_num = seq_num;
+	}
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "tb_new_category",  joinColumns = {@JoinColumn(name = "new_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
+	/*@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "tb_new_category", joinColumns = { @JoinColumn(name = "new_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })*/
+	public List<Category> getCategorys() {
+		return categorys;
+	}
+	public void setCategorys(List<Category> categorys) {
+		this.categorys = categorys;
 	}
 	
 	

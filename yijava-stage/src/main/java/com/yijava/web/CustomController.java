@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ import com.yijava.web.vo.CNew;
 import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.Column;
+import com.yijava.web.vo.DownLogin;
+import com.yijava.web.vo.LogedUser;
 import com.yijava.web.vo.Result;
 import com.yijava.web.vo.ScribeNew;
 import com.yijava.web.vo.UpBody;
@@ -59,61 +62,79 @@ public class CustomController {
 	}
 	
 	@RequestMapping("/me")
-	public String index(Model model,HttpServletRequest request) {
-		String userId=request.getParameter("uid");
+	public String index(Model model,HttpServletRequest request) {		
 		
-		if(userId==null)
-		{
-			throw new RuntimeException("访问此页面需要先登陆");
-		}
-		//String uid="11";
-		//订阅
-		UpScribe upScribeMessage = new UpScribe(new UpColumnHeader("","","","","","",""),new UpScribeBody(userId,"2"));		
-		//upScribeMessage.setBody(new UpColumnHeader("","","","","","",""),new UpScribeBody("10000052","1"));
-		String scribename=httpService.getAllScribe(upScribeMessage);
-		System.out.println(scribename);
-		
+		LogedUser user=getUserIdFromCookie(request);
+		logger.debug("cookieuser"+user.toString());
+		//user.setUid("b42752e55a1397348588d015a60eb8ee");
 		//所有栏目
-		List<Channel>  channels = httpService.getAllChannel();	
-		//用户已经收藏的栏目
-		
-		UserCustom userCustom=userCustomService.getUserCustomByUid(userId);
-		List<Column> columns=null; 
-		List<Column> allcolumns=null;
-		//根据用户已经收藏的id得到栏目
-		if(userCustom!=null && userCustom.getChannel_ids()!=null && userCustom.getChannel_ids()!="")
-		{
-			columns=new ArrayList<Column>();	
-			allcolumns=new ArrayList<Column>();	
-			for(Channel channel:channels)
-			{				
-				List<Column> tmpcolumns=channel.getColumns();			
-				for(Column colunm:tmpcolumns)
-				{
-					if(userCustom.getChannel_ids().indexOf(colunm.getColumn_id())>-1)
-					{						
-						columns.add(colunm);
-						colunm.setCustomed(true);
-					}
-					allcolumns.add(colunm);
-				}
+		List<Channel>  channels = httpService.getAllChannel();					
+		List<Column> nosetAllcolumns=new ArrayList<Column>();	
+		for(Channel channel:channels)
+		{				
+			List<Column> tmpcolumns1=channel.getColumns();			
+			for(Column c:tmpcolumns1)
+			{
+				nosetAllcolumns.add(c);
 			}
 		}
-		
-		
+		//所有地区
 		List<String> provinces  = httpService.getAllProvince();		
 		
-		//检索地区新闻		
+		logger.debug(user.toString());
+		if(user.getUid()!=null)
+		{
+			//换取uid
+			DownLogin loged=httpService.isLogin(user.getUid());
+			if(loged!=null)
+			{
+				user.setUid(loged.getUserid().toString());
+				logger.debug("cookieuser"+user.toString());
+				if(loged.getUserid()!=null)
+				{
+					//throw new RuntimeException("访问此页面需要先登陆");		
+					//用户已经收藏的栏目
+					UserCustom userCustom=userCustomService.getUserCustomByUid(user.getUid());
+					List<Column> columns=null; 
+					List<Column> allcolumns=null;
+					
+					//根据用户已经收藏的id得到栏目
+					if(userCustom!=null && userCustom.getChannel_ids()!=null && userCustom.getChannel_ids()!="")
+					{
+						columns=new ArrayList<Column>();	
+						allcolumns=new ArrayList<Column>();	
+						for(Channel channel:channels)
+						{				
+							List<Column> tmpcolumns=channel.getColumns();			
+							for(Column colunm:tmpcolumns)
+							{
+								if(userCustom.getChannel_ids().indexOf(colunm.getColumn_id())>-1)
+								{						
+									columns.add(colunm);
+									colunm.setCustomed(true);
+								}
+								allcolumns.add(colunm);
+								
+							}
+						}
+					}
+					
+					if(userCustom!=null)			
+						model.addAttribute("customs", columns);
+					if(allcolumns!=null)			
+						model.addAttribute("allcolumns", allcolumns);
+				}
+			}		
+		}
+		//String uid="11";
+		//订阅		
+		if(nosetAllcolumns!=null)
+			model.addAttribute("allnosetcolumns", nosetAllcolumns);	
 		if(provinces!=null)
 			model.addAttribute("provinces", provinces);
 		if(channels!=null)
 			model.addAttribute("channels", channels);
-		if(userCustom!=null)			
-			model.addAttribute("customs", columns);
-		if(allcolumns!=null)			
-			model.addAttribute("allcolumns", allcolumns);
-		if(scribename!=null)			
-			model.addAttribute("scribename", scribename);
+		
 		return "setting";
 	}
 	@RequestMapping("/me/custom/add")
@@ -131,21 +152,21 @@ public class CustomController {
 		
 		if(userCustom==null)
 		{
-			UserCustom entity=new UserCustom();
-			entity.setUser_id(userId);
-			entity.setChannel_ids(channelids);
-			entity.setRegion_name(region);
-			userCustomService.insertUserCustom(entity);
-		}
+			userCustom=new UserCustom();
+			userCustom.setUser_id(userId);
+			userCustom.setChannel_ids(channelids);
+			userCustom.setRegion_name(region);
+			userCustomService.insertUserCustom(userCustom);
+		}else
 		{
 			//if(channelids.equals(userCustom.getChannel_ids()) && !region.equals(userCustom.getRegion_name()))
 			//{
-				UserCustom entity=new UserCustom();
-				entity.setUser_id(userId);
-				entity.setChannel_ids(channelids);
-				entity.setId(userCustom.getId());
-				entity.setRegion_name(region);
-				userCustomService.updateUserCustom(userCustom,entity);
+				//UserCustom entity=new UserCustom();
+				userCustom.setUser_id(userId);
+				userCustom.setChannel_ids(channelids);
+				userCustom.setId(userCustom.getId());
+				userCustom.setRegion_name(region);
+				userCustomService.updateUserCustom(userCustom);
 			//}
 			
 		}	
@@ -264,6 +285,40 @@ public class CustomController {
 		return weatherinfo;
 	}
 	
+	/**
+	 * 用户已经收藏的关键字
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/api/getscribename")
+	@ResponseBody
+	public String getUserScribeName(@RequestParam(value = "uid", required = false)String userId)
+	{
+		UpScribe upScribeMessage = new UpScribe(new UpColumnHeader("","","","","","",""),new UpScribeBody(userId,"2"));		
+		//upScribeMessage.setBody(new UpColumnHeader("","","","","","",""),new UpScribeBody("10000052","1"));
+		String scribename=httpService.getAllScribe(upScribeMessage);
+		return scribename;
+	}
 	
 	
+	private LogedUser getUserIdFromCookie(HttpServletRequest request)
+	{
+		LogedUser user=new LogedUser(); 
+		Cookie cookies[] = request.getCookies() ;
+        Cookie c1 = null ;
+        if(cookies != null){
+            for(int i=0;i<cookies.length;i++){
+               c1 = cookies[i] ;
+               if(c1.getName().equals("uid") && c1.getValue()!=null)
+               {
+            	   user.setUid(c1.getValue());
+               }else if(c1.getName().equals("uname") && c1.getValue()!=null)
+               {
+            	   user.setUname(c1.getValue());
+               }
+               
+            }
+        }
+        return user;
+	}	
 }

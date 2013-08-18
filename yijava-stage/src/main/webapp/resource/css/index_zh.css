@@ -98,7 +98,7 @@
 
 /*¹Ø×¢ÐÂÎÅ*/
 .more{float:right; line-height:inherit;}
-.focus_news{ width:660px; height: auto; margin-top:13px;float:left; border:#e6e3e3 solid 1px;}
+.focus_news{ width:660px; height: auto; margin-top:35px;float:left; border:#e6e3e3 solid 1px;}
 .focus_title{height:36px; background:#f2f0f0; overflow:hidden; padding:0 10px; line-height:36px;}
 .focus_title h2{display:inline;color:#000; font-size:14px; font-weight:bold;}
 .focus_title_tage{display:inline-block; height:22px; line-height:22px; font-size:12px; font-weight:bold; color:#FFF; background:url(../images/title-tage.png) no-repeat 0 0 #32987d; padding:0 23px 0 27px; margin:0 0 0 10px;}

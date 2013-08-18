@@ -3,7 +3,7 @@
 <div id="Tab1">
 <div class="Menubox">
 <ul>
-<li id="two1" onmouseover="setTab('two',1,2)"  class="hover">每日排行1</li>
+<li id="two1" onmouseover="setTab('two',1,2)"  class="hover">每日排行</li>
 <li id="two2" onmouseover="setTab('two',2,2)" >本周排行</li>
 </ul>
 </div>

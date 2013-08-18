@@ -6,7 +6,7 @@
 						<a href="#">首页</a> <span class="divider">/</span>
 					</li>
 					<li>
-						<a href="#">新闻分类管理</a>
+						<a href="#">新闻标签管理</a>
 					</li>
 				</ul>
 			</div>
@@ -14,7 +14,7 @@
 			<div class="row-fluid sortable">		
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
-						<h2><i class="icon-user"></i> 新闻分类</h2>
+						<h2><i class="icon-user"></i> 新闻标签</h2>
 						<div class="box-icon">
 							
 							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
@@ -31,7 +31,7 @@
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
-								  <th>分类名称</th>
+								  <th>标签名称</th>
 								  <th>创建时间</th>
 								  <th>最后修改时间</th>								  
 								  <th>Actions</th>

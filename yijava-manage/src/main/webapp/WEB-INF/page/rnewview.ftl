@@ -29,12 +29,13 @@
 						  <thead>
 							  <tr>
 								  <th>新闻标题</th>
-								  <th>所述分类</th>
+								  <th>所述标签</th>
 								  <th>时长</th>
 								  <th>图片文件名称</th>
 								  <th>新闻文件名称</th>
 								  <th>创建时间</th>
-								  <th>最后修改时间</th>								  
+								  <th>最后修改时间</th>
+								  <th>排序号11</th>								  
 								  <th>Actions</th>
 							  </tr>
 						  </thead>   
@@ -43,12 +44,18 @@
 						  
 							<tr>
 								<td>${e.title!""}</td>
-								<td class="center">${e.category.category!""}</td>
+								<td class="center">
+								 <#list e.categorys as value>  
+							        ${value.category}|  
+							    </#list>  
+									
+								</td>
 								<td class="center">${e.duration!""}</td>
 								<td class="center">${e.image_file!""}</td>
 								<td class="center">${e.radio_file!""}</td>
 								<td class="center">${e.create_date!""}</td>
 								<td class="center">${e.last_date!""}</td>
+								<td class="center">${e.seq_num!""}</td>
 								<td class="center">									
 									<a class="btn btn-info" href="rnew-read?id=${e.id!""}">
 										<i class="icon-edit icon-white"></i>  

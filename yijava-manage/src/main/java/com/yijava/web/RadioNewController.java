@@ -7,12 +7,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yijava.common.utils.CollectionUtils;
+import com.yijava.entity.Category;
 import com.yijava.entity.RadioNew;
 import com.yijava.orm.core.PageRequest;
 import com.yijava.orm.core.PropertyFilter;
@@ -58,7 +60,32 @@ public class RadioNewController {
 		RadioNew radioNew=new RadioNew();
 		//radioNew.setTitle(entity.getTitle());
 		//radioNew.setCategory_id(entity.getCategory_id());
-		BeanUtils.copyProperties(entity,radioNew, new String[]{"file","radiofile"});
+		BeanUtils.copyProperties(entity,radioNew, new String[]{"file","radiofile","categorys"});
+		
+		String[] categoryids=entity.getCategorys();		
+		Long[] ids = new Long[categoryids.length];		
+	    for (int idx = 0; idx < categoryids.length; idx++) {
+	    	ids[idx] = Long.parseLong(categoryids[idx]);
+	     }		
+		
+		List<Category> categorys=categoryService.getCategorys(ids);		
+		Set<Category> strSet = new HashSet<Category>(categorys); 		
+		radioNew.setCategorys(strSet);
+		
+		
+		//是否已经设置过音频文件吗，不用上传了
+		
+		boolean issetrf=false,issetri=false;
+		
+		if(!entity.getAudiofilename().equals("") )
+		{
+			issetrf=true;
+		}
+		
+		if(!entity.getImgfilename().equals(""))
+		{
+			issetri=true;
+		}
 		
 		if(null!=file && file.length>0)
 		{
@@ -90,7 +117,19 @@ public class RadioNewController {
 				 }
 				 i++;				 
 			 }			
-		}		
+		}
+		
+		if(issetrf)
+		{
+			radioNew.setRadio_file(entity.getAudiofilename());
+		}
+		
+		if(issetri)
+		{
+			radioNew.setImage_file(entity.getImgfilename());
+		}
+		
+		
 		if(radioNew.getCreate_date()==null)
 		{
 			radioNew.setCreate_date(new Date());
@@ -119,8 +158,33 @@ public class RadioNewController {
 	@RequestMapping("/rnew-update")
 	public String update(News entity, @RequestParam MultipartFile[] file, HttpServletRequest request) {		
 		RadioNew radioNew=new RadioNew();
-		BeanUtils.copyProperties(entity,radioNew, new String[]{"file","radiofile"});					
+		BeanUtils.copyProperties(entity,radioNew, new String[]{"file","radiofile","categorys","audiofilename","imgfilename"});					
 		RadioNew oldradioNew= radioNewService.getRadioNew(radioNew.getId());		
+		
+		String[] categoryids=entity.getCategorys();		
+		Long[] ids = new Long[categoryids.length];		
+	    for (int idx = 0; idx < categoryids.length; idx++) {
+	    	ids[idx] = Long.parseLong(categoryids[idx]);
+	     }		
+		
+		List<Category> categorys=categoryService.getCategorys(ids);		
+		Set<Category> strSet = new HashSet<Category>(categorys); 		
+		radioNew.setCategorys(strSet);
+		
+		//是否已经设置过音频文件吗，不用上传了
+		
+		boolean issetrf=false,issetri=false;
+		
+		if(!entity.getAudiofilename().equals("") )
+		{
+			issetrf=true;
+		}
+		
+		if(!entity.getImgfilename().equals(""))
+		{
+			issetri=true;
+		}
+		
 		if(null!=file && file.length>0)
 		{
 			 int i=0;
@@ -164,7 +228,18 @@ public class RadioNewController {
 				 }
 				 i++;				 
 			 }			
-		}		
+		}
+		
+		if(issetrf)
+		{
+			radioNew.setRadio_file(entity.getAudiofilename());
+		}
+		
+		if(issetri)
+		{
+			radioNew.setImage_file(entity.getImgfilename());
+		}
+		
 		
 		if(radioNew.getLast_date()==null)
 		{
@@ -206,6 +281,7 @@ public class RadioNewController {
 		if (null!=id) {			
 			try {
 				radioNew = radioNewService.getRadioNew(id);
+				System.out.println(radioNew.getCategorys().size());
 				//System.out.println(radioNew.getCategory().getCategory());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

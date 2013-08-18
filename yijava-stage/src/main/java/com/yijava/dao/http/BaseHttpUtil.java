@@ -24,6 +24,7 @@ import com.yijava.web.vo.Channel;
 import com.yijava.web.vo.CncNew;
 import com.yijava.web.vo.DownBody;
 import com.yijava.web.vo.DownBodyNew;
+import com.yijava.web.vo.DownLogin;
 import com.yijava.web.vo.DownScribe;
 import com.yijava.web.vo.DownScribeBody;
 import com.yijava.web.vo.DownScribeNew;
@@ -54,6 +55,20 @@ public class BaseHttpUtil {
 
 	public void setObjectMapper(ObjectMapper jacksonObjectMapper) {
 		this.jacksonObjectMapper = jacksonObjectMapper;
+	}
+	
+	public DownLogin isLogin(String cookieid)
+	{
+		Model model=new Model();
+		model.setProperty("login_name", cookieid);
+		String userId=null;
+		try {
+			return islogin(HttpConstants.GET_ISLOGIN_URI,cookieid);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.error("isLoginerr"+e.toString());
+		}
+		return null;
 	}
 
 	//得到订阅标签
@@ -256,5 +271,43 @@ public class BaseHttpUtil {
 		String content = con.asString();
 		InResult<T> res = jacksonObjectMapper.readValue(content, type);
 		return res;
+	}
+	
+	protected DownLogin islogin(String uri, String cookieuid)
+			throws IOException {		
+		/*StringBuilder params = new StringBuilder();
+		Form form = Form.form();
+		if (model != null) {
+			for (Map.Entry<String, Object> entry : model.getData().entrySet()) {
+				if (entry.getValue() != null) {
+					form.add(entry.getKey(), entry.getValue().toString());
+					params.append(entry.getKey()).append('=')
+							.append(entry.getValue().toString()).append('&');
+				}
+			}
+		}*/
+		uri+="?login_name="+cookieuid;
+		Content con = Request.Get(uri)
+				.socketTimeout(requestTimeout)
+				.connectTimeout(requestTimeout).execute().returnContent();
+
+		String content = con.asString();
+		content=content.trim();
+		content=content.replace("(", "");
+		content=content.replace(")", "");
+		logger.debug(String.format("url=%s result=%s ", uri,content));
+		DownLogin res=jacksonObjectMapper.readValue(content, new TypeReference<DownLogin>() {});
+		if(res!=null)
+		{
+			return res;
+			/*if(res.get("msg").equals("success"))
+			{
+				//return res.get("userid");
+			}else
+			{
+				return null;
+			}*/
+		}
+		return null;		
 	}
 }

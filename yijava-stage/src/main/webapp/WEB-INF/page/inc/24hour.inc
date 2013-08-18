@@ -1,7 +1,7 @@
 ﻿<div class="right_cnn">
 <table width="300" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td height="35" colspan="2" bgcolor="#f6f6f6"><h3>24小时新闻11</h3><span><a href="#">更多>></a></span></td>
+    <td height="35" colspan="2" bgcolor="#f6f6f6"><h3>24小时新闻</h3><span><a href="#">更多>></a></span></td>
     </tr>
   <tr>
     <td width="40" height="55" align="center"><strong>16:53</strong></td>

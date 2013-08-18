@@ -11,10 +11,16 @@ public class News {
 	private String radio_file;
 	private String duration;
 	private Long category_id;
+	private String [] categorys;
 	private Date create_date;
 	private Date last_date;
 	private CommonsMultipartFile[] file;
 	private String image_file;
+	
+	private String audiofilename;
+	private String imgfilename;
+	
+	private String seq_num;
 	
 	public Long getCategory_id() {
 		return category_id;
@@ -71,6 +77,31 @@ public class News {
 	public void setImage_file(String image_file) {
 		this.image_file = image_file;
 	}
+	public String[] getCategorys() {
+		return categorys;
+	}
+	public void setCategorys(String[] categorys) {
+		this.categorys = categorys;
+	}
+	public String getAudiofilename() {
+		return audiofilename;
+	}
+	public void setAudiofilename(String audiofilename) {
+		this.audiofilename = audiofilename;
+	}
+	public String getImgfilename() {
+		return imgfilename;
+	}
+	public void setImgfilename(String imgfilename) {
+		this.imgfilename = imgfilename;
+	}
+	public String getSeq_num() {
+		return seq_num;
+	}
+	public void setSeq_num(String seq_num) {
+		this.seq_num = seq_num;
+	}
 
+	
 	
 }

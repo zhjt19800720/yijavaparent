@@ -20,5 +20,7 @@ public class HttpConstants {
 	//根据订阅查找新闻
 	public static String GET_SUBSCIBE_NEW_URI="http://login.cncnews.cn/subscibe/newslist.cc";
 	
+	public static String GET_ISLOGIN_URI="http://login.cncnews.cn/user/islogin.cc";
+	
 	public static String SERVER_BASE_URL="http://manage.yijava.com/";
 }

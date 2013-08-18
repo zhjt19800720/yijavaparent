@@ -1,5 +1,13 @@
+function showcustom()
+{	
+	$("#settingBtn").css('display','block'); 	
+}
 
-
+function changecustomtxt(content)
+{
+	$("#settingBtn").html(content);
+}
+//保存用户定制
 function saveUserCustom(channels)
 {
 	var d = new Date();
@@ -8,7 +16,7 @@ function saveUserCustom(channels)
 	var region=$('#selRegion').val();
 	//alert(region);
 	
-	if(userId)
+	if(userId==0)
 	{
 		var params = "ids="+channels+"&region="+region+"&uid="+userId;
 		$.ajax({
@@ -17,7 +25,7 @@ function saveUserCustom(channels)
 			  data: params,		
 			  success: Response,
 		  	  error: function () {//ajax请求错误的情况返回超时重试。
-		  		  alert(error);
+		  		  alert("error");
 		  	  }
 		});	
 	}else
@@ -33,13 +41,22 @@ function Response(msg){
 	//
 	location.reload() ;
 }
-
+//初始化页面
 function initpage()
 {
-	getCustom();
-	getScribe();
+	if(userId==0)
+	{
+		alert("请先登录");
+		login();
+		return;
+	}else
+	{
+		getCustom();
+		getScribe();
+		getScribeName();
+	}	
 }
-//得到订阅
+//得到订阅的新闻
 function getScribe()
 {
 	var params = "userid="+userId;
@@ -60,20 +77,49 @@ function initScribe(data)
 	
 	if(data.length>=1)
 	{
-		content+="<div class=\"focus_img\"><a href=\""+data[0].url+"\"><img src=\""+data[0].picurl+"\"></a></div>";
+		content+="<div class=\"focus_title\">";
+		content+="<h2>我的关注</h2>";
+		content+="<a href=\"http://search.cncnews.cn/search?\" class=\"focus_title_tage\">ddddd</a>";
+		content+="</div>";
+		
+		content+="<div class=\"focus_img\"><a href=\""+data[0].url+"\"><img src=\""+data[0].picurl+"\" width=\"310\" height=\"170\"></a></div>";
 	}
 	
 	if(data.length>1)
 	{
 		content+="<ul class=\"focus_list\">";
-		for(x in data)
+		for(var j=1;j<data.length;j++)
 		{
-			content+="<li><span>"+data[x+1].date+"</span><a href=\""+data[x+1].url+"\">"+data[x+1].desc+"</a></li>";
+			content+="<li><span>"+gettime(data[j].date)+"</span><a href=\""+data[j].url+"\">"+data[j].desc+"</a></li>";
 		}
 		content+="</ul>";
 	}	
-	$('#scribenew').html(content);	
+	
+	$('#scribenew').append(content);	
+	
+	//设置定制标签内容
+	//$('#scribename').append(content);	
+	
 }
+//得到订阅的新闻
+function getScribeName()
+{
+	var params = "uid="+userId;
+	$.ajax({
+		  type: 'POST',
+		  url: "api/getscribename",
+		  data: params,		
+		  success: initScribeName,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+	  		  alert(error);
+	  	  }
+	});	
+}
+function initScribeName(data)
+{
+	$('#scribename').html("<strong>我的关注：</strong><span class=\"tage\" >"+data+"</span>");	
+}
+
 //得到定制
 function getCustom()
 {
@@ -90,16 +136,27 @@ function getCustom()
 }
 function initcustom(date)
 {
-	
-	var region=date.region_name;
-	var columnid=date.channel_ids;
-	//alert(region);
-	initweather(region);
-	initregionnews(region);
-	initcloumnnews(columnid);
-	
-	getColumnUrlById("124020581");
-	//alert(date.region_name);/api/getnewbyc
+	if(date=="")
+	{
+		//用户没有定制内容的设置
+		changecustomtxt("个性定制");
+	}else
+	{
+		changecustomtxt("我的CNC");
+		
+		var region=date.region_name;
+		var columnid=date.channel_ids;
+		//alert(region);
+		if(region)
+		{
+			initweather(region);
+			initregionnews(region);
+		}
+		if(columnid)
+		{
+			initcloumnnews(columnid);
+		}
+	}	
 }
 
 function initweather(region)
@@ -119,12 +176,19 @@ function initweather(region)
 function fillweather(data)
 {
 	//alert("fillweather");
-	$('#regionname').html(data.region +"-"+ data.city);
-	var imagesrc="<img id=\"weatherimg\" src=\"resource/weather/"+data.img2+"\" width=\"48\" height=\"48\">";
-	imagesrc+="今天<br>";
-	imagesrc+=data.temp;
-	$('#weatherinfo').html(imagesrc);
+	
+	var content="";
+	content+="<div class=\"region_news_item\">";
+	content+="<div class=\"weather clearfix\" id=\"weatherinfo\">";
+	content+="<img id=\"weatherimg\" src=\"resource/weather/"+data.img2+"\" width=\"48\" height=\"48\">今天<br>";
+	content+=data.temp;
+	content+="</div>";
+	content+="<div class=\"region\" id=\"regionname\">"+data.region +"-"+ data.city+"</div>";
+	content+="</div>";	
+	
+	$('#weathinfo').html(content);
 }
+
 function initregionnews(region)
 {
 	//alert("initregionnews");
@@ -142,21 +206,23 @@ function initregionnews(region)
 
 function fillregionnews(news)
 {
+	var content="";
 	var sum=0;
 	for (x in news)
 	{
-		var newinfo="<dl>";
-		newinfo+="<dt><a href=\""+news[x].url+"\">";
-		newinfo+=news[x].title;
-		newinfo+="</a></dt>";
-		newinfo+="<dd>"+news[x].abstract+"</dd></dl>";
-		
-		$('#region_new'+(sum+1)).html(newinfo);		
+		content+="<div class=\"region_news_item\">";
+		content+="<dl>";
+		content+="<dt><a href=\""+news[x].url+"\">"+news[x].title+"</a></dt>";
+		content+="<dd>"+news[x].abstract+"</dd>";
+		content+="</dl>";
+		content+="</div>";
 		
 		sum++;		
 		if(sum>=3)
-			return;
-	}	
+			break;
+	}
+	$('#regioninfo').html(content);
+	
 }
 function initcloumnnews(cloumn)
 {
@@ -175,73 +241,32 @@ function initcloumnnews(cloumn)
 function fillcolumnnews(news)
 {
 	$.each(news,function(key,values){ 
-		//fillnew(key,values);
+		
 		var stylename=getcolumnstyle(key);
 		var funname="fillnewby"+stylename;
 		
 		var func = eval(funname);
 		func(key,values);
-		
-		//eval(funname+"();");
-		//funname(key,values);
-		//fillnewbyStyle8(key,values);
+			
 	}); 
 	
 }
 
 
 
-function fillnew(columnid,news)
-{
-	try
-	{
-		var content="";
-		var columnurl=getColumnUrlById(columnid);
-		var columnname=getColumnNameById(columnid);
-		content+="<div class=\"cjing_left_gj\">";
-		content+="<p><b>"+columnname+"</b><span><a href=\""+columnurl+"\">更多>></a></span></p>";
-		content+="</div>";
-		
-		//for (x in news)
-		//{
-			
-			//content+="<div class=\"left_gj_mj\">";
-			//content+="<div class=\"gj_mj_left\">";
-			//content+="<h3><a href=\"#\"><img src=\"resource/img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔民事件</a></span></h3>";
-			//content+="<h3 class=\"mi_zp\"><a href=\"#\"><img src=\"resource/img/cnn_040.jpg\" width=\"150\" height=\"90\" /></a><span><a href=\"#\">菲总:统府记者会拒绝回应枪杀台湾渔渔渔渔民事件</a></span></h3>";
-			//content+="</div>";
-			content+="<div class=\"gj_mj_right\">";
-			content+="<p><b><a href=\"#\">发言人15日说马英九对菲律宾政府授权不够、诚意不够</a></b><span>" +
-					"<a href=\"#\">刻采取冻结菲劳申等项</a><br />" +
-					"<a href=\"#\">采取冻结菲劳申请等项撒的刻录机的制裁措施</a><br /><a href=\"#\">即刻采取冻结菲劳申请等3项制裁措施</a><br />" +
-					"<a href=\"#\">菲劳申请等3项制裁措施制裁措施。</a></span></p>";
-			content+="</div>";
-			content+="</div>";
-			//alert(news[x].title);
-		//}
-		//alert(content);
-		$('#newscolumn').append(content);
-	}catch(e)
-	{
-		alert(e);
-	}
-	
-		
-}
 
-
-function getdate(datestr)
+function gettime(datestr)
 {
 	var filter=datestr;
 	if(datestr.indexOf(".")>-1)
 	{
 		filter=datestr.substr(0,datestr.indexOf("."));
 	}	
-	var strArray=filter.split("T");   
+	var strArray=filter.split(" ");   
 	var strDate=strArray[0].split("-");   
 	var strTime=strArray[1].split(":");   
 	var a=new   Date(strDate[0],(strDate[1]-parseInt(1)),strDate[2],strTime[0],strTime[1],strTime[2])   
-	return a.pattern("yyyy年M月d日  h:m:s");  
+	return a.pattern("hh:mm");  
 }
 
 //根据栏目id得到栏目url
@@ -768,3 +793,5 @@ function initcolumnstyle()
                     }
 	 * */
 }
+
+

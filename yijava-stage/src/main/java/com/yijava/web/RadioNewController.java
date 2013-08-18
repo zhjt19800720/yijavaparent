@@ -1,10 +1,14 @@
 package com.yijava.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,13 +64,13 @@ public class RadioNewController {
 		if(filter2!=null)
 			filters.add(filter2);
 		
-		if (!pageRequest.isOrderBySetted()) {
+		/*if (!pageRequest.isOrderBySetted()) {
 			pageRequest.setOrderBy("id");
 			pageRequest.setOrderDir(Sort.DESC);
-		}
+		}*/
 		Result<Page<RadioNew>> result= new Result<Page<RadioNew>> ();
 		
-		Page<RadioNew> data=radioNewService.searchRadioNewPage(pageRequest, filters);		
+		Page<RadioNew> data=radioNewService.searchRadioNewPage(pageRequest, filters,category_id,title);		
 		
 		List<RadioNew> newlist=data.getResult();
 		for(RadioNew news:newlist)
@@ -76,6 +80,25 @@ public class RadioNewController {
 		}
 		result.setData(data);
 		result.setState(1);
+		
+		
+		 ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+		
+		 try {
+			mapper.writeValueAsString(result);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		 
+		
 		return result;		
 	}
 	
@@ -92,6 +115,8 @@ public class RadioNewController {
 		
 		return topnews;
 	}
+	
+	
 	
 	
 	

@@ -31,8 +31,14 @@ public class CategoryService {
 	
 
 	public Category getCategory(Long id) {
+		
 		return categoryDao.load(id);
 	}
+	public List<Category> getCategorys(Long[] ids) {
+		return categoryDao.get(ids);
+		
+	}
+	
 
 	public Page<Category> searchCategoryPage(PageRequest request,
 			List<PropertyFilter> filters) {

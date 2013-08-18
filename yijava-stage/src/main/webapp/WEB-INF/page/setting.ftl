@@ -57,7 +57,7 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 <div class="login">
 <a href="#">设为首页</a>
 <a href="#">收藏</a>
-<a href="javascript:;" class="setting" id="settingBtn" style="display:none">个性定制</a>
+<a href="javascript:;" class="setting" id="settingBtn" style="display:block">个性定制</a>
 <a id="loginname" href="javascript:void(0);" onclick="javascript:login();">登陆</a>
 <a id="logout" href="javascript:void(0);" onclick="javascript:reg();">注册</a> 
 </div>
@@ -98,41 +98,16 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 
 
  	<div class="focus_news clearfix mb">
- 	
- 	  <#if scribename??>
-      <div class="focus_title">
-        <h2>我的关注</h2>
-        <a href="http://search.cncnews.cn/search?${scribename!""}" class="focus_title_tage">${scribename!""}</a>
-      </div>
-      </#if>
-     <div id="scribenew"></div>
+ 		<div id="scribenew">
+     	</div>
     </div>
     
     <div class="region_news clearfix mb">
-      <div class="overflow">
-       <div class="region_news_item">
-          <div class="weather clearfix" id="weatherinfo"><img id="weatherimg" src="resource/weather/" width="48" height="48">今天<br>
-            </div>
-          <div class="region" id="regionname"> -  </div>
-        </div>
-        <div class="region_news_item" id="region_new1">
-          <dl>
-            <dt><a href="#">善后工作组抵达旧金山</a></dt>
-            <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
-          </dl>
-        </div>
-        <div class="region_news_item" id="region_new2">
-          <dl>
-            <dt><a href="#">善后工作组抵达旧金山</a></dt>
-            <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
-          </dl>
-        </div>
-        <div class="region_news_item" id="region_new3">
-          <dl>
-            <dt><a href="#">善后工作组抵达旧金山</a></dt>
-            <dd>外交部：韩亚航空坠机事故135名中国公民确认安全</dd>
-          </dl>
-        </div>
+    	
+      <div class="overflow" >
+       
+       		<div id="weathinfo"></div>
+       		<div id="regioninfo"></div>
       </div>
     </div>
 
@@ -161,39 +136,19 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 <h5><input type="text" name="movieAlias"  value="新闻搜索"  class="inpsty2"  /><span><input name="" type="button" class="button2" value="搜索" /></span></h5>
 </div>
 
-
+<!--广告1 start-->
 <p><img src="resource/img/cnn_016.jpg" width="300" height="220" /></p>
-
-
-
-<div class="right_cnn">
-<table width="300" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td height="35" colspan="2" background="resource/img/cnn_017.jpg"><b>CNC</b></td>
-    </tr>
-  <tr>
-    <td width="60" height="31" align="center" bgcolor="#f7f7f7">电台</td>
-    <td width="240" height="31"><a href="#">全球通金石财金</a><span>09:00-10:30</span></td>
-  </tr>
-  <tr>
-      <td width="60" height="31" align="center" bgcolor="#f7f7f7">中文台</td>
-    <td width="240" height="31"><a href="#">全球通金石财金</a><span>09:00-10:30</span></td>
-  </tr>
-  <tr>
-     <td width="60" height="31" align="center" bgcolor="#f7f7f7"> 英文台</td>
-    <td width="240" height="31"><a href="#">凤凰大视野:民国司法十案</a><span>09:00-10:30</span></td>
-  </tr>
-</table>
-</div>
-
+<!--广告1 end-->
+<!--24小时新闻 start-->
 <#include "inc/24hour.inc">	
-
-<div class="main_right_wx"><img src="resource/img/cnn_030.jpg" width="300" height="438"></div>
+<!--24小时新闻 end-->
+<!--广告2 start-->
+<!--div class="main_right_wx"><img src="resource/img/cnn_030.jpg" width="300" height="438"></div-->
+<!--广告2 end-->
+<!--排行-->
 <#include "inc/toplist.inc">
-</div>
-
-
-
+<!--行情动态-->
+<#include "inc/trends.inc">
 </div>
 <!--主题内容结束-->
 
@@ -232,6 +187,9 @@ function delCookie(objName) {
    
     if(username !='' && username != null ){
 	 	   islogin(username);
+    }else
+    {
+    	login();
     }
     
   });
@@ -348,14 +306,10 @@ backTop('gotopbtn');
 
 
 
-<script type="text/javascript">
-jQuery(function(jq){
-	
-});
-</script>
+<!--setting start-->
 <div id="setting" class="popbox">
   <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改注册信息</a></span><h4>我的CNC</h4></div>
-  <div class="followTage"><strong>我的关注：</strong><span class="tage">${scribename!""}</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
+  <div class="followTage" id="scribename"><strong>我的关注：</strong><span class="tage" >${scribename!""}</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
   <div class="followTage"><strong>区域新闻：</strong>
     <select id="selRegion" name="selRegion">
     	 
@@ -383,10 +337,11 @@ jQuery(function(jq){
     </table>
 </div>
 </div>
+<!--setting end-->
 <script>
-	 var allcolumns=new Array(${allcolumns?size});
-	 <#if allcolumns??>
-	 <#list allcolumns as c>
+	 <#if allnosetcolumns??>
+	 var allcolumns=new Array(${allnosetcolumns?size});	
+	 <#list allnosetcolumns as c>
 	 		allcolumns[${c_index}]=new Array(3);
 	 		allcolumns[${c_index}][0]="${(c.column_id)!""}";
 	 		allcolumns[${c_index}][1]="${(c.column_url)!""}";
@@ -421,6 +376,9 @@ jQuery(function(jq){
 	colstyle[7][1] = "Style8";
 	
 	var style7sum=0;
+	
+	
+	
 </script>
 </body>
 </html>
