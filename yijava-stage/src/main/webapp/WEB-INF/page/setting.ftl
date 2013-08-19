@@ -376,7 +376,7 @@ backTop('gotopbtn');
 	colstyle[7][1] = "Style8";
 	
 	var style7sum=0;
-	
+	var varscribename="";
 	
 	
 </script>

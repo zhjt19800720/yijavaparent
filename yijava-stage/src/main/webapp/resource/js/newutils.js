@@ -1,3 +1,4 @@
+
 function showcustom()
 {	
 	$("#settingBtn").css('display','block'); 	
@@ -16,7 +17,7 @@ function saveUserCustom(channels)
 	var region=$('#selRegion').val();
 	//alert(region);
 	
-	if(userId==0)
+	if(userId!=0)
 	{
 		var params = "ids="+channels+"&region="+region+"&uid="+userId;
 		$.ajax({
@@ -79,7 +80,7 @@ function initScribe(data)
 	{
 		content+="<div class=\"focus_title\">";
 		content+="<h2>我的关注</h2>";
-		content+="<a href=\"http://search.cncnews.cn/search?\" class=\"focus_title_tage\">ddddd</a>";
+		content+="<a href=\"http://search.cncnews.cn/search?\" class=\"focus_title_tage\">"+varscribename+"</a>";
 		content+="</div>";
 		
 		content+="<div class=\"focus_img\"><a href=\""+data[0].url+"\"><img src=\""+data[0].picurl+"\" width=\"310\" height=\"170\"></a></div>";
@@ -117,6 +118,7 @@ function getScribeName()
 }
 function initScribeName(data)
 {
+	varscribename=data;
 	$('#scribename').html("<strong>我的关注：</strong><span class=\"tage\" >"+data+"</span>");	
 }
 
@@ -180,7 +182,7 @@ function fillweather(data)
 	var content="";
 	content+="<div class=\"region_news_item\">";
 	content+="<div class=\"weather clearfix\" id=\"weatherinfo\">";
-	content+="<img id=\"weatherimg\" src=\"resource/weather/"+data.img2+"\" width=\"48\" height=\"48\">今天<br>";
+	content+="<img id=\"weatherimg\" src=\"resource/weather/a_"+data.img2+"\" width=\"48\" height=\"48\">今天<br>";
 	content+=data.temp;
 	content+="</div>";
 	content+="<div class=\"region\" id=\"regionname\">"+data.region +"-"+ data.city+"</div>";
@@ -377,7 +379,7 @@ function fillnewbyStyle2(columnid,news)//样式二适用：财经频道（宏观
 	if(news.length>=2)
 	{
 		content+="<div class=\"mj_right_hj\">";
-		content+="<p><b><a href=\""+news[1].url+"\">"+news[1].title+"</a><br /><strong>"+news[1].abstract+"</strong></b><span>";
+		content+="<p><b><a href=\""+news[1].url+"\">"+safesubstr(news[1].title,18)+"</a><br /><strong>"+safesubstr(news[1].abstract,46)+"</strong></b><span>";
 		
 		if(news.length>=3)
 		{
@@ -794,4 +796,11 @@ function initcolumnstyle()
 	 * */
 }
 
+function safesubstr(str,length)
+{
+	 if(str.length >length){
+		 str = str.substring(0,length);
+	 }	
+	return str;
+}
 

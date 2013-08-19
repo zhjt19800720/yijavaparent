@@ -17,15 +17,15 @@
 
 .top_lay p{ width:480px; color:#FFF; line-height:32px; padding-left:5px; float:left;}
 
-.top_lay h2{ width:205px; height:32px; line-height:32px; font-size:14px; float:left; text-align:right; color:#FFFFFF; font-weight:normal; }
+.top_lay h2{ width:155px;line-height:33px; font-size:14px; float:left; text-align:right; color:#FFFFFF; font-weight:normal; }
 
-.top_lay .login{ width:285px; text-align:right; float: right;}
+.top_lay .login{ width:335px; text-align:right; float: right;padding-top:5px;}
 
-.setting{width:81px; height:32px; display:inline-block; overflow:hidden; line-height:22px; vertical-align:middle; text-align:center; background:url(../images/setting.png) no-repeat;}
+.setting{width:63px;display:inline-block; overflow:hidden;text-align:center; background:url(../images/setting.png) no-repeat;}
 
-.top_lay .login a{ color:#FFFFFF; line-height:32px;font-size:13px; padding-left:10px;}
+.top_lay .login a{ color:#FFFFFF; line-height:25px;font-size:13px; float: left;padding-bottom:5px; padding-left:10px;padding-right:15px;}
 
-.top_lay .login a:hover{font-size:13px; text-decoration:none;color:#C63919;}
+.top_lay .login a:hover{font-size:13px; float: left; text-decoration:none;color:#C63919;}
 
 /*Ê×Ò³¶¥²¿½áÊø*/
 
