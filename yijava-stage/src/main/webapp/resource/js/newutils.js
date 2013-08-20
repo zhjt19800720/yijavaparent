@@ -54,7 +54,7 @@ function initpage()
 	{
 		getCustom();
 		getScribe();
-		getScribeName();
+		//getScribeName();
 	}	
 }
 //得到订阅的新闻
@@ -74,32 +74,42 @@ function getScribe()
 
 function initScribe(data)
 {
-	var content="";
-	
-	if(data.length>=1)
+	if(data)
 	{
-		content+="<div class=\"focus_title\">";
-		content+="<h2>我的关注</h2>";
-		content+="<a href=\"http://search.cncnews.cn/search?\" class=\"focus_title_tage\">"+varscribename+"</a>";
-		content+="</div>";
+		var content="";
 		
-		content+="<div class=\"focus_img\"><a href=\""+data[0].url+"\"><img src=\""+data[0].picurl+"\" width=\"310\" height=\"170\"></a></div>";
-	}
-	
-	if(data.length>1)
-	{
-		content+="<ul class=\"focus_list\">";
-		for(var j=1;j<data.length;j++)
-		{
-			content+="<li><span>"+gettime(data[j].date)+"</span><a href=\""+data[j].url+"\">"+data[j].desc+"</a></li>";
+		if(data.length>=1)
+		{	
+			showScribeName();
+			
+			content+="<div class=\"focus_img\"><a href=\""+data[0].url+"\"><img src=\""+data[0].picurl+"\" width=\"310\" height=\"170\"></a></div>";
 		}
-		content+="</ul>";
-	}	
-	
-	$('#scribenew').append(content);	
+		
+		if(data.length>1)
+		{
+			content+="<ul class=\"focus_list\">";
+			for(var j=1;j<data.length;j++)
+			{
+				content+="<li><span>"+gettime(data[j].date)+"</span><a href=\""+data[j].url+"\">"+data[j].desc+"</a></li>";
+			}
+			content+="</ul>";
+		}	
+		
+		$('#scribenew').append(content);	
+	}else
+	{
+		alert("用户未订阅新闻");
+	}
+
 	
 	//设置定制标签内容
 	//$('#scribename').append(content);	
+	
+}
+
+function showScribeName()
+{
+	$("#focus_title").css('display','block'); 	
 	
 }
 //得到订阅的新闻
@@ -179,16 +189,25 @@ function fillweather(data)
 {
 	//alert("fillweather");
 	
-	var content="";
-	content+="<div class=\"region_news_item\">";
-	content+="<div class=\"weather clearfix\" id=\"weatherinfo\">";
-	content+="<img id=\"weatherimg\" src=\"resource/weather/a_"+data.img2+"\" width=\"48\" height=\"48\">今天<br>";
-	content+=data.temp;
-	content+="</div>";
-	content+="<div class=\"region\" id=\"regionname\">"+data.region +"-"+ data.city+"</div>";
-	content+="</div>";	
+	if(data)
+	{
+		var content="";
+		content+="<div class=\"region_news_item\">";
+		content+="<div class=\"weather clearfix\" id=\"weatherinfo\">";
+		content+="<img id=\"weatherimg\" src=\"resource/weather/a_"+data.img2+"\" width=\"48\" height=\"48\">今天<br>";
+		content+=data.temp;
+		content+="</div>";
+		content+="<div class=\"region\" id=\"regionname\">"+data.region +"-"+ data.city+"</div>";
+		content+="</div>";	
+		
+		$('#weathinfo').html(content);
+	}
+	else
+	{
+		alert("加载用户区域天气预报失败");
+	}
 	
-	$('#weathinfo').html(content);
+	
 }
 
 function initregionnews(region)
@@ -210,31 +229,36 @@ function fillregionnews(news)
 {
 	var content="";
 	var sum=0;
-	for (x in news)
+	if(news.length>0)
 	{
-		content+="<div class=\"region_news_item\">";
-		content+="<dl>";
-		content+="<dt><a href=\""+news[x].url+"\">"+news[x].title+"</a></dt>";
-		content+="<dd>"+news[x].abstract+"</dd>";
-		content+="</dl>";
-		content+="</div>";
-		
-		sum++;		
-		if(sum>=3)
-			break;
+		for (x in news)
+		{
+			content+="<div class=\"region_news_item\">";
+			content+="<dl>";
+			content+="<dt><a href=\""+news[x].url+"\">"+news[x].title+"</a></dt>";
+			content+="<dd>"+news[x].abstract+"</dd>";
+			content+="</dl>";
+			content+="</div>";
+			
+			sum++;		
+			if(sum>=3)
+				break;
+		}
+		$('#regioninfo').html(content);
 	}
-	$('#regioninfo').html(content);
+		
 	
 }
 function initcloumnnews(cloumn)
 {
 	//alert("initcloumnnews");
+	usersetcolumns=cloumn;
 	var params = "columnid="+cloumn;
 	$.ajax({
 		  type: 'POST',
 		  url: "api/getnewbyc",
 		  data: params,		
-		  success: fillcolumnnews,
+		  success: covernewsarray,
 	  	  error: function () {//ajax请求错误的情况返回超时重试。
 	  		  alert(error);
 	  	  }
@@ -242,6 +266,8 @@ function initcloumnnews(cloumn)
 }
 function fillcolumnnews(news)
 {
+	
+	
 	$.each(news,function(key,values){ 
 		
 		var stylename=getcolumnstyle(key);
@@ -254,6 +280,58 @@ function fillcolumnnews(news)
 	
 }
 
+function covernewsarray(news)
+{
+	alert(usersetcolumns);
+	var j=0;
+	var newsarray=new Array();
+	var columnidarray=usersetcolumns.split("-");
+	$.each(news,function(key,values)
+	{
+		newsarray[j]=new Array(2);
+		newsarray[j][0] = key;
+		for(var i=0;i<columnidarray.length;i++)
+		{
+			if(key==columnidarray[i])
+			{
+				newsarray[j][1] = values.slice(0);
+				  
+				break;
+			}
+		}
+		j++;
+	}); 
+	
+	
+	fillcolumnnewsbyarray( newsarray);
+}
+
+
+function fillcolumnnewsbyarray(news)
+{
+	var columnid="";
+	for(var i=0;i<news.length;i++)
+	{
+		columnid=news[i][0];
+		values=news[i][1] ;
+		var stylename=getcolumnstyle(columnid);
+		var funname="fillnewby"+stylename;
+		var func = eval(funname);
+		func(columnid,values);
+	}
+	
+	
+	/*$.each(news,function(key,values){ 
+		
+		var stylename=getcolumnstyle(key);
+		var funname="fillnewby"+stylename;
+		
+		var func = eval(funname);
+		func(key,values);
+			
+	});*/ 
+	
+}
 
 
 
@@ -798,9 +876,27 @@ function initcolumnstyle()
 
 function safesubstr(str,length)
 {
-	 if(str.length >length){
-		 str = str.substring(0,length);
-	 }	
+	if(str)
+	{
+		if(str.length >length){
+			 str = str.substring(0,length);
+		 }	
+	}else
+	{
+		str="";
+	}	 
+	return str;
+}
+
+function safeout(str)
+{
+	if(str)
+	{
+			
+	}else
+	{
+		str="";
+	}	 
 	return str;
 }
 

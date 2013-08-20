@@ -1,7 +1,7 @@
 package com.yijava.web;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,9 +118,20 @@ public class CustomController {
 							}
 						}
 					}
+					//得到用户收藏的关键字
+					String scribename = getUserScribeName(user.getUid());
 					
-					if(userCustom!=null)			
+					if(scribename!=null && !scribename.equals(""))
+					{
+						model.addAttribute("scribename", scribename);
+					}
+					
+					if(userCustom!=null)
+					{
 						model.addAttribute("customs", columns);
+						model.addAttribute("userCustom", userCustom);
+					}
+						
 					if(allcolumns!=null)			
 						model.addAttribute("allcolumns", allcolumns);
 				}
@@ -217,7 +228,7 @@ public class CustomController {
 	@ResponseBody
 	public Map<String,List<CncNew>> getNewByChannel(@RequestParam(value = "columnid", required = false)String columnid)
 	{	
-		Map<String,List<CncNew>> newmap=new HashMap<String,List<CncNew>>();
+		LinkedHashMap<String,List<CncNew>> newmap=new LinkedHashMap<String,List<CncNew>>();
 		String[] columns=columnid.split("-");
 		//根据栏目检索新闻
 		List<CncNew> news;
@@ -292,12 +303,10 @@ public class CustomController {
 	 */
 	@RequestMapping("/api/getscribename")
 	@ResponseBody
-	public String getUserScribeName(@RequestParam(value = "uid", required = false)String userId)
+	public String getUserScribeNameToJs(@RequestParam(value = "uid", required = false)String userId)
 	{
-		UpScribe upScribeMessage = new UpScribe(new UpColumnHeader("","","","","","",""),new UpScribeBody(userId,"2"));		
-		//upScribeMessage.setBody(new UpColumnHeader("","","","","","",""),new UpScribeBody("10000052","1"));
-		String scribename=httpService.getAllScribe(upScribeMessage);
-		return scribename;
+		
+		return getUserScribeName(userId);
 	}
 	
 	
@@ -320,5 +329,14 @@ public class CustomController {
             }
         }
         return user;
-	}	
+	}
+	
+	
+	public String getUserScribeName(String userId)
+	{
+		UpScribe upScribeMessage = new UpScribe(new UpColumnHeader("","","","","","",""),new UpScribeBody(userId,"2"));		
+		//upScribeMessage.setBody(new UpColumnHeader("","","","","","",""),new UpScribeBody("10000052","1"));
+		String scribename=httpService.getAllScribe(upScribeMessage);
+		return scribename;
+	}
 }

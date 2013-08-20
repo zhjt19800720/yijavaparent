@@ -99,6 +99,10 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 
  	<div class="focus_news clearfix mb">
  		<div id="scribenew">
+ 			<div class="focus_title" id="focus_title" style="display:none">
+ 				<h2>我的关注</h2>
+ 				<a href="http://search.cncnews.cn/search?" class="focus_title_tage">${scribename!""}</a>
+ 			</div>
      	</div>
     </div>
     
@@ -159,7 +163,7 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 
 //var islogin = false;
 var userId = 0;
-document.domain="cncnews.cn"
+//document.domain="cncnews.cn"
 
 
 function getCookie(name){
@@ -189,7 +193,7 @@ function delCookie(objName) {
 	 	   islogin(username);
     }else
     {
-    	login();
+    	//login();
     }
     
   });
@@ -309,12 +313,18 @@ backTop('gotopbtn');
 <!--setting start-->
 <div id="setting" class="popbox">
   <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改注册信息</a></span><h4>我的CNC</h4></div>
-  <div class="followTage" id="scribename"><strong>我的关注：</strong><span class="tage" >${scribename!""}</span>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。</div>
+  <div class="followTage" id="scribename"><strong>我的关注：</strong>
+  <#if scribename??>
+  	<span class="tage" >${scribename!""}</span>
+  	<#else>&nbsp;您目前还没有标签，添加播放器上方的“彩色”标签，完成您的关注。
+  </#if>
+  </div>
   <div class="followTage"><strong>区域新闻：</strong>
     <select id="selRegion" name="selRegion">
     	 
        <#list provinces as e>
-			<option value="${e!""}">${e!""}</option>
+			<option value="${e!""}" <#if userCustom??><#if (userCustom.region_name==e)> checked</#if></#if>
+			>${e!""}</option>
 		</#list>	
       </select>
     &nbsp;设置您的区域，获得身边新闻。</div>
@@ -377,7 +387,7 @@ backTop('gotopbtn');
 	
 	var style7sum=0;
 	var varscribename="";
-	
+	var usersetcolumns="";
 	
 </script>
 </body>
