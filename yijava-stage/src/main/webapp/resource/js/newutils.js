@@ -286,6 +286,16 @@ function covernewsarray(news)
 	var j=0;
 	var newsarray=new Array();
 	var columnidarray=usersetcolumns.split("-");
+	
+	for(var i=0;i<columnidarray.length;i++)
+	{
+		newsarray[i]=new Array(2);
+		newsarray[i][0] = columnidarray[i];
+		newsarray[i][1] = news[columnidarray[i]].slice(0);
+	}
+	//alert(news["124020810"]);
+	
+	/**
 	$.each(news,function(key,values)
 	{
 		newsarray[j]=new Array(2);
@@ -301,7 +311,7 @@ function covernewsarray(news)
 		}
 		j++;
 	}); 
-	
+	*/
 	
 	fillcolumnnewsbyarray( newsarray);
 }

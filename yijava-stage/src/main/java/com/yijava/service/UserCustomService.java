@@ -37,7 +37,7 @@ public class UserCustomService {
 		//userCustomDao.evict(oldentity);
 		try
 		{
-			userCustomDao.update(entity);
+			userCustomDao.updateUserCustom(entity);
 		}catch(Exception e)
 		{
 			logger.error(e.toString());

@@ -2,6 +2,7 @@ package com.yijava.web;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ public class CustomController {
 		
 		LogedUser user=getUserIdFromCookie(request);
 		logger.debug("cookieuser"+user.toString());
-		//user.setUid("b42752e55a1397348588d015a60eb8ee");
+		user.setUid("b42752e55a1397348588d015a60eb8ee");
 		//所有栏目
 		List<Channel>  channels = httpService.getAllChannel();					
 		List<Column> nosetAllcolumns=new ArrayList<Column>();	
@@ -94,9 +95,31 @@ public class CustomController {
 				{
 					//throw new RuntimeException("访问此页面需要先登陆");		
 					//用户已经收藏的栏目
+					
 					UserCustom userCustom=userCustomService.getUserCustomByUid(user.getUid());
 					List<Column> columns=null; 
 					List<Column> allcolumns=null;
+					
+					
+					LinkedList<Column> newcolumns=new LinkedList<Column>();
+					if(userCustom!=null && userCustom.getChannel_ids()!=null && userCustom.getChannel_ids()!="")
+					{
+						//用户已经收藏的栏目
+						
+						String[] ids=userCustom.getChannel_ids().split("-");
+						for(String id:ids)
+						{
+							for(Column colunm:nosetAllcolumns)
+							{
+								if(colunm.getColumn_id().equals(id))
+								{
+									newcolumns.add(colunm);
+									break;
+								}
+							}
+						}
+					}
+					
 					
 					//根据用户已经收藏的id得到栏目
 					if(userCustom!=null && userCustom.getChannel_ids()!=null && userCustom.getChannel_ids()!="")
@@ -128,6 +151,7 @@ public class CustomController {
 					
 					if(userCustom!=null)
 					{
+						model.addAttribute("newcolumns", newcolumns);
 						model.addAttribute("customs", columns);
 						model.addAttribute("userCustom", userCustom);
 					}

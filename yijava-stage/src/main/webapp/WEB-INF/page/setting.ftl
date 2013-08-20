@@ -163,7 +163,7 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 
 //var islogin = false;
 var userId = 0;
-//document.domain="cncnews.cn"
+document.domain="cncnews.cn"
 
 
 function getCookie(name){
@@ -329,7 +329,14 @@ backTop('gotopbtn');
       </select>
     &nbsp;设置您的区域，获得身边新闻。</div>
   <div class="followTage"> <strong>栏目定制：</strong></div>
-  <div class="myTageList" id="myTageList"><#if customs??><#list customs as c><span class="myTage"><a href="javascript:;" class="remove" data-column="${(c.column_id)!""}"></a>${(c.column_name)!""}</span></#list></#if></div>
+  <div class="myTageList" id="myTageList">
+  <#if newcolumns??>
+  <#list newcolumns as c>
+  <span class="myTage">
+  <a href="javascript:;" class="remove" data-column="${(c.column_id)!""}"></a>${(c.column_name)!""}</span>
+  </#list>
+  </#if>
+  </div>
 	<div id="addButton">
     <table>
      <#list channels as e>
