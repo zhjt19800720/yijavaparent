@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="resource/css/jquery-ui.css">
 <script language="javascript">
 
-document.domain="cncnews.cn"
+//document.domain="cncnews.cn"
 
 function getCookie(name){
  var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
@@ -41,7 +41,8 @@ $(document).ready(function(){
     {
     	initmedefault();
     }
-    
+    //初始化播放内容
+    initcurrplaycontent(0);
     
     initcurrdate(0);
 	initrecommend(0);

@@ -13,6 +13,16 @@ public class Result<T> {
 	public Result(){
 	}
 	
+	
+	
+	public Result(T data, Integer state) {
+		super();
+		this.data = data;
+		this.state = state;
+	}
+
+
+
 	public Result(Integer status,T data,ErrorCode error){
 		this.state = status;
 		this.data = data;

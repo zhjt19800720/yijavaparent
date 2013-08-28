@@ -45,6 +45,7 @@ function Response(msg){
 //初始化页面
 function initpage()
 {
+	//alert("dd");
 	if(userId==0)
 	{
 		alert("请先登录");
@@ -148,6 +149,7 @@ function getCustom()
 }
 function initcustom(date)
 {
+	
 	if(date=="")
 	{
 		//用户没有定制内容的设置
@@ -164,6 +166,7 @@ function initcustom(date)
 			initweather(region);
 			initregionnews(region);
 		}
+	
 		if(columnid)
 		{
 			initcloumnnews(columnid);
@@ -231,7 +234,7 @@ function fillregionnews(news)
 	var sum=0;
 	if(news.length>0)
 	{
-		for (x in news)
+		for (var x=0;x<news.length;x++)
 		{
 			content+="<div class=\"region_news_item\">";
 			content+="<dl>";
@@ -282,7 +285,7 @@ function fillcolumnnews(news)
 
 function covernewsarray(news)
 {
-	alert(usersetcolumns);
+	//alert(usersetcolumns);
 	var j=0;
 	var newsarray=new Array();
 	var columnidarray=usersetcolumns.split("-");
@@ -325,9 +328,15 @@ function fillcolumnnewsbyarray(news)
 		columnid=news[i][0];
 		values=news[i][1] ;
 		var stylename=getcolumnstyle(columnid);
-		var funname="fillnewby"+stylename;
-		var func = eval(funname);
-		func(columnid,values);
+		
+		if(stylename)
+		{
+			//alert(stylename);
+			var funname="fillnewby"+stylename;
+			var func = eval(funname);
+			func(columnid,values);
+		}
+		
 	}
 	
 	
@@ -408,41 +417,54 @@ function fillnewbyStyle1(columnid,news)//样式一适用：财经频道（国际
 	content+="<div class=\"left_gj_mj\">";
 	content+="<div class=\"gj_mj_left\">";
 	
-	
-	
 	if(news.length>=2)
 	{
 		content+="<h3><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
 		"<a href=\""+news[0].url+"\">"+news[0].title+"</a></span></h3>";
 		content+="<h3 class=\"mi_zp\"><a href=\""+news[1].url+"\"><img src=\""+news[1].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
 		"<a href=\""+news[1].url+"\">"+news[1].title+"</a></span></h3>";
-	}else
+	}
+	else
 	{
 		content+="<h3><a href=\""+news[0].url+"\"><img src=\""+news[0].image_set.image_url+"\" width=\"150\" height=\"90\" /></a><span>" +
 		"<a href=\""+news[0].url+"\">"+news[0].title+"</a></span></h3>";
 	}
 	
+	
 	content+="</div>";
+	
 	
 	if(news.length>=3)
 	{
-		content+="<div class=\"gj_mj_right\">";
+		content+="<div class=\"gj_mj_right\">";		
+		content+="<p><b><a href=\""+news[2].url+"\">"+news[2].title+"</a></b>";
 		
-		
-		content+="<p><b><a href=\""+news[2].url+"\">"+news[2].title+"</a></b><span>";
 		
 		if(news.length>=4)
 	    {
+			content+="<span>";
 			for(var j=0;j<3;j++)
 			{
 				if(news[j+3])
 				{
-					content+="<a href=\""+news[j+3].url+"\">"+news[j+3].title+"</a><br />";	
+					content+="<a href=\""+news[j+3].url+"\">"+news[j+3].title+"</a>";	
+					if(j<2)
+						content+="<br />";
 				}
 			}
-	    }		
+			content+="</span>";
+	    }	
+		
+		content+="</p>";
 		content+="</div>";
-	}	
+	}
+	
+	//content+="<div class=\"gj_mj_right\">";
+	//content+="<p><b><a href=\"#\">诚意不够</a></b><span><a href=\"#\">刻采取冻结菲劳申等项</a><br /><a href=\"#\">采取冻结菲劳申请等项撒的刻录机的制裁措施</a><br />" +
+	//		"<a href=\"#\">即刻采取冻结菲劳申请等3项制裁措施</a><br /><a href=\"#\">菲劳申请等3项制裁措施制裁措施。</a></span></p>";
+	
+	
+	
 	content+="</div>";
 	$('#newscolumn').append(content);
 }
@@ -602,7 +624,7 @@ function fillnewbyStyle5(columnid,news)//样式五适用：财经频道（公司
 	content+="</div>";
 	
 	content+="<div class=\"cjing_left_jr\">";	
-	for (x in news)
+	for(var x=0;x<news.length;x++)
 	{
 		if(x==0)
 		{
@@ -737,7 +759,7 @@ function fillnewbyStyle8(columnid,news)//样式八适用：新闻频道（精品
 	content+="<div class=\"jilu_xgang\">";
 	content+="<ul>";
 	
-	for ( x in news)
+	for(var x=0;x<news.length;x++)
 	{
 		if(x%2==0)
 		{
@@ -762,17 +784,20 @@ function fillnewbyStyle8(columnid,news)//样式八适用：新闻频道（精品
 
 function getcolumnstyle(columnid)
 {
+	//alert(columnid);
 	var stylename="";
-	for (x in colstyle)//数组中的每一个变量
+	for(var i=0;i<colstyle.length;i++)
+	//for (x in colstyle)//数组中的每一个变量
 	{
-		if (colstyle[x][0].in_array(columnid))
+		if (colstyle[i][0].in_array(columnid))
 		{
-			stylename=colstyle[x][1];
+			stylename=colstyle[i][1];
 			break;
 		}
 			
 			
 	}
+	//alert(stylename);
 	return stylename;	
 }
 
@@ -833,7 +858,7 @@ function initcolumnstyle()
 {
 	
 	var colstyle=new Array(); 
-	colstyle[0][0] = new Array('124020580','124020650','124020731');
+	colstyle[0][0] = new Array('124020580','124020650','124020731','124021172','124020653','124021172','124021209','124021210','124021204');
 	colstyle[0][1] = "style1";
 	colstyle[1][0] = new Array('124020581','124020810');
 	colstyle[1][1] = "style2";

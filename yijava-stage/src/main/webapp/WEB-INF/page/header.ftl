@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="resource/css/play.css">
 <script src="resource/js/jquery-1.7.2.js"></script>
 <script src="resource/js/common.js"></script>
+<script src="resource/js/json2.js"></script>
 <script type="text/javascript" src="resource/js/jquery.jplayer.js"></script>
 <script type="text/javascript" src="resource/js/jplayer.playlist.js"></script>
 <script>
@@ -31,12 +32,37 @@ $(function(){
 	});
 	$('#share').click(function(){
 		$('#shareBox').css({left:$(this).offset().left, top:$(this).offset().top + $(this).outerHeight()}).show();
+		var current = myPlaylist.current;
+  		var title=myPlaylist.playlist[current].id;
+  		
+  		
+  		var protocol=window.location.protocol;
+  		var host=window.location.host;
+  		var port=window.location.port;
+  		
+  		$("#htmlurl").val(window.location);
+  		$("#normalurl").val(protocol+"//"+host+"/stage/player?id="+title);
 		return false;
 	});
 	$('#shareBox .popClose').click(function(){
 		$('#shareBox').hide();
 	});
+	
+	 $("#btnhtmlurl").click(function(){  
+            var text = $("#htmlurl").html();  
+            window.clipboardData.setData('text',text); 
+            //window.clipboardData.setData('text',text);  
+            alert("成功到剪贴板");  
+        });  
+	 $("#btnnormalurl").click(function(){  
+            var text = $("#normalurl").html();  
+            window.clipboardData.setData('text',text); 
+            //window.clipboardData.setData('text',text);  
+            alert("成功到剪贴板");  
+        });  
 });
+
+
 </script>
 </head>
 

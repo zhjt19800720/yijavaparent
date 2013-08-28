@@ -268,10 +268,15 @@ $(function(){
 		$(this).addClass('have');
 	});
 	$('#myTageList .remove').live('click',function(e){
+		e = e || window.event;
+
 		var columnId = $(this).attr('data-column');
 		$(this).closest('.myTage').remove();
 		$('#addButton [data-column='+columnId+']').removeClass('have');
-		cancelBubble(e);
+
+		if (e.stopPropagation) e.stopPropagation();
+		else e.cancelBubble = true;
+
 		return false;
 	});
 	$('#myTageList .remove').live('mousedown',function(e){

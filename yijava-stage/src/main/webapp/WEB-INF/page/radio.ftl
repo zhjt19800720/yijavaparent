@@ -93,6 +93,65 @@
 </div>
 <script language="javascript">
 	
+	function initcurrplaycontent(pageNo)
+	{
+		var d = new Date();
+		var n = d.getTime();
+		if(pageNo==0)
+			var params = "pageSize=30&category_id=1&time="+n;
+		else
+			var params = "pageSize=30&category_id=1&pageNo="+pageNo+"&time="+n;
+			
+		//alert(params);
+		
+		
+		$.ajax({
+		  type: 'POST',
+		  url: "api/currentplaycontent",
+		  data: params,
+		  beforeSend:RequestPlayContent,
+		  success: ResponseContent,
+	  	  error: function () {//ajax请求错误的情况返回超时重试。
+            alert(error);
+          }
+		});
+	}
+	
+	function RequestPlayContent(){
+   		
+	}
+	function ResponseContent(msg){
+		
+		if(msg.state==1)
+		{
+			var news=msg.data;
+			
+			var pubtime,title,audiof,id;
+			for(var x=0;x<news.length;x++)
+			{
+				pubtime=getdate(news[x].pubdate);
+				title=news[x].title;
+				audiof=news[x].mp3;
+				id=news[x].id;
+				
+				
+				//添加进播放列表
+				myPlaylist.add({
+				id:id,
+				title:title,
+				pubdate:pubtime,				
+				mp3:audiof
+				}, false);
+				
+				
+			}
+			$("#jquery_jplayer_N").jPlayer("play");
+			
+		}
+	}
+	
+	
+	
 	function initcurrdate(pageNo)
 	{
 		var d = new Date();
@@ -403,7 +462,7 @@
 		},
 		
 	
-		swfPath: "js",
+		swfPath: "http://audio.cncnews.cn/resource/js/Jplayer.swf",
 		supplied: "webmv, ogv, m4v, oga, mp3",
 		smoothPlayBar: true,
 		keyEnabled: true,
@@ -411,21 +470,10 @@
 	});
 	
 	/*默认播放*/
-	/*myPlaylist.setPlaylist([
-			{
-				id:"1",
-				title:"上海现代制药股份有限公司关于重大对外投资事",	
-				pubdate:"6月30日23:56",			
-				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
-			},
-			{
-				id:"2",
-				title:"北京现代制药股份有限公司关于重大对外投资事",
-				pubdate:"6月30日23:56",				
-				mp3:"http://manage.yijava.com/radiofile/2013080123/20130801233346004.mp3"
-			}
+	myPlaylist.setPlaylist([
 			
-	]);*/
+			
+	]);
 	
 	 //监听事件开始
 	 //暂停
@@ -507,6 +555,16 @@
 			}, true);		
 	}
 	
+	function addplaylist(id,audiof,title,pubtime)
+	{
+		myPlaylist.add({
+				id:id,
+				title:title,
+				pubdate:pubtime,				
+				mp3:audiof
+			}, false);
+	}
+	
 	function getPlayingId()
 	{
 		var current = myPlaylist.current;
@@ -518,8 +576,8 @@
 <div class="shareBox" id="shareBox">
 	<span class="popClose"></span>
     <div class="shareTitle">分享给站外好友</div>
-    <div class="shareLine clearfix"><label>flash地址:</label><input name="" type="text"><button name="" type="button">复制</button></div>
-    <div class="shareLine clearfix"><label>html代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
-    <div class="shareLine clearfix"><label>通用代码:</label><input name="" type="text"><button name="" type="button">复制</button></div>
+    
+    <div class="shareLine clearfix"><label>html代码:</label><input name="" type="text" id="htmlurl"><button name="" type="button" id="btnhtmlurl">复制</button></div>
+    <div class="shareLine clearfix"><label>通用代码:</label><input name="" type="text"  id="normalurl"><button name="" type="button" id="btnnormalurl">复制</button></div>
 </div>
 <#include "footer.ftl">	

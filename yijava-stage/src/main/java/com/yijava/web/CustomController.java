@@ -67,7 +67,7 @@ public class CustomController {
 		
 		LogedUser user=getUserIdFromCookie(request);
 		logger.debug("cookieuser"+user.toString());
-		user.setUid("b42752e55a1397348588d015a60eb8ee");
+		//user.setUid("b42752e55a1397348588d015a60eb8ee");
 		//所有栏目
 		List<Channel>  channels = httpService.getAllChannel();					
 		List<Column> nosetAllcolumns=new ArrayList<Column>();	

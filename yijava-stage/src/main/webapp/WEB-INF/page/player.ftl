@@ -71,7 +71,7 @@ $(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
-	alert("dd");
+	
 	var myPlaylist = new jPlayerPlaylist({
 		jPlayer: "#jquery_jplayer_N",
 		cssSelectorAncestor: "#jp_container_N"
@@ -83,8 +83,8 @@ $(document).ready(function(){
 			//alert("ready!");
 		},
 		
-	
-		swfPath: "js",
+	swfPath: "http://audio.cncnews.cn/resource/js/Jplayer.swf",
+		//swfPath: "http://localhost:8080/stage/resource/js/Jplayer.swf",
 		supplied: "webmv, ogv, m4v, oga, mp3",
 		smoothPlayBar: true,
 		keyEnabled: true,
@@ -96,21 +96,7 @@ $(document).ready(function(){
 	// Audio mix playlist
 
 	
-		myPlaylist.setPlaylist([
-			{
-				id:"1",
-				title:"上海现代制药股份有限公司关于重大对外投资事",	
-				pubdate:"6月30日23:56",			
-				mp3:"http://manage.yijava.com/radiofile/2013080714/20130807142243434.mp3"
-			},
-			{
-				id:"2",
-				title:"北京现代制药股份有限公司关于重大对外投资事",
-				pubdate:"6月30日23:56",				
-				mp3:"http://manage.yijava.com/radiofile/2013080123/20130801233346004.mp3"
-			}
-			
-	]);
+		
 	 //监听事件开始
 	 //暂停
 	 $("#jquery_jplayer_N").bind($.jPlayer.event.pause, function(event) { 
@@ -121,7 +107,12 @@ $(document).ready(function(){
 	 //暂停
 	 $("#jquery_jplayer_N").bind($.jPlayer.event.play, function(event) { 
 	 		$("#player-title").html(""); 
-    	alert("play"); 
+    	
+  		var current = myPlaylist.current;
+  		var title=myPlaylist.playlist[current].title;
+  		var pubdate=myPlaylist.playlist[current].pubdate;
+  		$("#cnc-title").html(title); 
+  		$("#pubtime").html(pubdate); 
     
   	});	
   	//搜索
@@ -135,18 +126,18 @@ $(document).ready(function(){
   	$("#jquery_jplayer_N").bind($.jPlayer.event.seeked , function(event) { 
   		
   		
-	 		$("#player-title").html(""); 
+	 	$("#player-title").html(""); 
     	//alert("play"); 
   	});	
   	//错误
   	$("#jquery_jplayer_N").bind($.jPlayer.event.error , function(event) { 
-  		 alert("Error Event: type = " + event.jPlayer.error.type);
+  		 //alert("Error Event: type = " + event.jPlayer.error.type);
   		 switch(event.jPlayer.error.type) {
   		 	 case $.jPlayer.error.URL:
-  		 		  getNextMedia(); // A function you might create to move on to the next media item when an error occurs.
-      			break;
-      	 case $.jPlayer.error.NO_SOLUTION:
-      	  	break;
+  		 		  //getNextMedia(); // A function you might create to move on to the next media item when an error occurs.
+      				break;
+      	 	case $.jPlayer.error.NO_SOLUTION:
+      	  		break;
   		 	}
   	});
   	//播放完毕
@@ -159,11 +150,7 @@ $(document).ready(function(){
   	
   	//加载完毕	
   	$("#jquery_jplayer_N").bind($.jPlayer.event.loadeddata , function(event) { 
-  		var current = myPlaylist.current;
-  		var title=myPlaylist.playlist[current].title;
-  		var pubdate=myPlaylist.playlist[current].pubdate;
-  		$("#cnc-title").html(title); 
-  		$("#pubtime").html(pubdate); 
+  		
     	//alert("loadeddata"); 
   	});	
   	
@@ -171,7 +158,7 @@ $(document).ready(function(){
   	//得到下一首
   	function getNextMedia()
 		{
-			alert(myPlaylist.current);
+			//alert(myPlaylist.current);
 			//alert(myPlaylist.playlist[0].mp3);
 			
 			myPlaylist.next();
@@ -188,7 +175,29 @@ $(document).ready(function(){
 			}, true);		
 	}	
 	
+	
+	if(id)
+	{
+		myPlaylist.add({
+				id:id,
+				title:title,
+				pubdate:pubtime,				
+				mp3:audiof
+			}, true);		
+	
+	}
+	
 });
+
+
+<#if news??>
+	var id="${news.id!""}";
+	var title="${news.title!""}";
+	var audiof="${news.mp3!""}";
+	var pubdate="${news.pubdate!""}";
+</#if>
+
+
 
 </script>
 <div class="shareBox" id="shareBox">

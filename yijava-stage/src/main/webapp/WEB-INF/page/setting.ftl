@@ -68,7 +68,7 @@ document.write("<div class='time'>"+(getFullYear(today)+"").substring(0,4)+"-"+(
 <!--logo-->
 <div class="index_logo">
 <div class="logo_av">
-<p><a href="#"><img src="resource/img/cnn_011.jpg" width="191" height="36"alt="新华社电视 CNC网络互动媒体" title="新华社电视 CNC网络互动媒体" /></a></p>
+<p><a href="#"><img src="resource/img/cnn_011.jpg" width="191" height="36" alt="新华社电视 CNC网络互动媒体" title="新华社电视 CNC网络互动媒体" /></a></p>
         <ul>
         <li><a href="#">CNCWORLD</a></li>
         <li><a href="#">直播</a></li>
@@ -193,7 +193,9 @@ function delCookie(objName) {
 	 	   islogin(username);
     }else
     {
-    	//login();
+    	alert("请先登录");
+    	//window.location="http://www.cncnews.cn";
+    	login();
     }
     
   });
@@ -312,7 +314,7 @@ backTop('gotopbtn');
 
 <!--setting start-->
 <div id="setting" class="popbox">
-  <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改注册信息</a></span><h4>我的CNC</h4></div>
+  <div class="followTage poptitle"><span class="r"><a href="#" class="pop_close close"></a><a href="#">修改定制信息</a></span><h4>我的CNC</h4></div>
   <div class="followTage" id="scribename"><strong>我的关注：</strong>
   <#if scribename??>
   	<span class="tage" >${scribename!""}</span>

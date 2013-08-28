@@ -24,6 +24,17 @@ public class RadioNewDao extends HibernateSupportDao<RadioNew, Long>{
 		return query.list();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<RadioNew> searchCurrentPlayContent() {
+		
+		Query query = getSession().createQuery("select u from RadioNew u left join u.categorys gl  where gl.id=1 order by seq_num asc");
+		query.setFirstResult(0);  
+		query.setMaxResults(27);
+		
+		return query.list();
+	}
+	
 	/*public Page<RadioNew> searchRadioNewPage(PageRequest request,
 			List<PropertyFilter> filters,Long category_id) {
 		

@@ -11,6 +11,7 @@ import com.yijava.entity.RadioNew;
 import com.yijava.orm.core.Page;
 import com.yijava.orm.core.PageRequest;
 import com.yijava.orm.core.PropertyFilter;
+import com.yijava.orm.core.PageRequest.Sort;
 
 @Service
 public class RadioNewService {
@@ -23,19 +24,33 @@ public class RadioNewService {
 		
 		
 		if(!StringUtils.isEmpty(category_id) && !StringUtils.isEmpty(title))
-		{						
-			String hql="select u from RadioNew u left join u.categorys gl  where gl.id=?1 and u.title like:title";			
+		{	
+			
+			String hql="select u from RadioNew u left join u.categorys gl  where gl.id=?1 and u.title like:title";		
+			if(category_id.equals("1"))
+			{
+				hql+=" and rownum<=27 ";
+			}
+			hql+=" order by u.seq_num asc";
 			return radioNewDao.findPage(request,hql,Long.parseLong(category_id),title + "%");			
 		}else if(!StringUtils.isEmpty(category_id) && StringUtils.isEmpty(title))
 		{
-			String hql="select u from RadioNew u left join u.categorys gl  where gl.id=?1";			
+			String hql="select u from RadioNew u left join u.categorys gl  where gl.id=?1";	
+			if(category_id.equals("1"))
+			{
+				hql+=" and rownum<=27";
+			}
+			hql+=" order by u.seq_num asc";
 			return radioNewDao.findPage(request,hql,Long.parseLong(category_id));	
 		}else if(StringUtils.isEmpty(category_id) && !StringUtils.isEmpty(title))
 		{
-			String hql="select u from RadioNew u left join u.categorys gl  where u.title like:title";			
+			String hql="select u from RadioNew u left join u.categorys gl  where u.title like:title";	
+			hql+=" order by u.seq_num asc";
 			return radioNewDao.findPage(request,hql,title + "%");	
 		}else
 		{
+			request.setOrderBy("seq_num");
+			request.setOrderDir(Sort.ASC);
 			return radioNewDao.findPage(request, filters);
 		}
 		
@@ -57,5 +72,13 @@ public class RadioNewService {
 		return radioNewDao.searchRadioTop5();
 	}
 	
+	public List<RadioNew> searchCurrentPlayContent() {
+		return radioNewDao.searchCurrentPlayContent();
+	}
+	
+	public RadioNew getRadioNew(Long id)
+	{
+		return radioNewDao.get(id);
+	}
 	
 }

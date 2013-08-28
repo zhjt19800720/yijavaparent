@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Hospital">
+    <select id="select"  parameterType="int" resultType="dms.yijava.entity.Hospital">
+        select id, from tb_hospital where id= #{id}
+    </select>
+    <select id="selectAll"  parameterType="int" resultType="dms.yijava.entity.Hospital">
+        select * from tb_hospital
+    </select>
+    
+    <insert id="insert" parameterType="dms.yijava.entity.Hospital">     
+    	  insert into tb_hospital (id,name) values(#{id},#{name})
+    </insert>
+    <delete id="delete" parameterType="dms.yijava.entity.Hospital">
+   	 delete from tb_hospital where id= #{id} and name=#{name}
+    </delete>
+    <delete id="deleteByPrimaryKey" parameterType="int">
+   		 delete from tb_hospital where id= #{id} 
+    </delete>
+    
+    <update id="update" parameterType="dms.yijava.entity.Hospital">
+    	update tb_hospital set name=#{name} where id=#{id}
+    </update>
+</mapper>

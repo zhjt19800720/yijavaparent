@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import com.yijava.common.utils.CollectionUtils;
 import com.yijava.common.utils.ReflectionUtils;
+import com.yijava.orm.core.JsonPage;
 import com.yijava.orm.core.Page;
 import com.yijava.orm.core.PageRequest;
 import com.yijava.orm.core.PageRequest.Sort;
@@ -232,6 +233,41 @@ public class HibernateSupportDao<T,PK extends Serializable> extends BasicHiberna
 		return (T) criteria.uniqueResult();
 	}
 
+	
+	public JsonPage<T> findPageForJson(PageRequest request,List<PropertyFilter> filters) {
+		Criteria c = createCriteria(filters);
+		return findPageForJson(request,c);
+	}
+	
+	/**
+	 * 根据分页参数与Criteria获取分页对象
+	 * 
+	 * @param request 分页请求参数
+	 * @param c Criteria对象
+	 * 
+	 * @return {@link Page}
+	 */
+	public JsonPage<T> findPageForJson(PageRequest request, Criteria c) {
+
+		JsonPage<T> page = new JsonPage<T>();
+
+		if (request == null) {
+			return page;
+		}
+
+		if (request.isCountTotal()) {
+			long totalCount = countCriteriaResult(c);
+			page.setTotal(totalCount);
+		}
+
+		setPageRequestToCriteria(c, request);
+
+		List result = c.list();
+		page.setRows(result);
+
+		return page;
+	}
+	
 	/**
 	 * 通过{@link PropertyFilter}和分页请求参数获取分页对象
 	 * 

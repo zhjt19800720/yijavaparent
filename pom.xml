@@ -714,5 +714,7 @@
 		<module>yijava-orm</module>
 		<module>yijava-stage</module>
 		<module>yijava-manage</module>
+		<module>yijava-dms</module>
+		<module>yijava-orm-mybatis</module>
 	</modules>
 </project>
