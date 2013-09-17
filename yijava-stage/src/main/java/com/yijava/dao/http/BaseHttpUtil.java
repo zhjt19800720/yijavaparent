@@ -44,7 +44,7 @@ public class BaseHttpUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(BaseHttpUtil.class);
 	
-	@Autowired
+	//@Autowired
 	private ObjectMapper jacksonObjectMapper;
 
 	

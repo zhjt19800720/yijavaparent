@@ -57,11 +57,14 @@
  
  
     
-    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    <!--  >bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
         <property name="objectMapper" ref="jacksonObjectMapper"></property>
-    </bean>
+    </bean-->
     
-    
+    <bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		 <property name="objectMapper" ref="jacksonObjectMapper"></property>
+		</bean>
     
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:defaultContentType="text/html" p:order="2"
 	p:ignoreAcceptHeader="true">
@@ -88,7 +91,11 @@
 		</property>
 		<property name="defaultViews">
 			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+			<!-- 	<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+					<property name="objectMapper" ref="jacksonObjectMapper"></property>
+				</bean> -->
+					<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 					<property name="objectMapper" ref="jacksonObjectMapper"></property>
 				</bean>
 			</list>
